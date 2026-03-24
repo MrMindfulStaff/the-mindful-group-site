@@ -183,7 +183,7 @@ function HtmlContent() {
             <img
               src="/images/tmg-logo.png"
               alt="The Mindful Group"
-              className="h-32 md:h-44 w-auto drop-shadow-[0_0_30px_rgba(26,122,92,0.3)]"
+              className="h-[180px] md:h-[248px] w-auto drop-shadow-[0_0_30px_rgba(26,122,92,0.3)]"
             />
           </div>
           <p className="text-white/60 text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
