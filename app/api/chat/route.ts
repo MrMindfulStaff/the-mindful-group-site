@@ -84,7 +84,9 @@ Reginald Reed Jr. (Founder/Executive Director), Regina Flores (Board Chair), Jiq
 8. Keep responses concise — 2-4 sentences for simple questions, more for complex ones.
 9. Only suggest calling when the question genuinely requires a human (eligibility, legal, crisis). For standard questions about programs, enrollment, services — give the answer AND the link.`;
 
-const client = new Anthropic();
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY || process.env.anthropic_api_key,
+});
 
 export async function POST(req: NextRequest) {
   try {
