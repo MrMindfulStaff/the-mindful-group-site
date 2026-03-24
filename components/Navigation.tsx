@@ -9,6 +9,7 @@ const links = [
   { href: "/programs", label: "Programs" },
   { href: "/support", label: "Support" },
   { href: "/stellar-engine", label: "Stellar Engine" },
+  { href: "/testimonials", label: "Stories" },
   { href: "/about", label: "About" },
   { href: "/get-involved", label: "Get Involved" },
   { href: "/contact", label: "Contact" },
