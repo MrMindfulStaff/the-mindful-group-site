@@ -108,10 +108,11 @@ export async function POST(req: NextRequest) {
       response.content[0].type === "text" ? response.content[0].text : "";
 
     return Response.json({ message: text });
-  } catch (error) {
-    console.error("Chat API error:", error);
+  } catch (error: unknown) {
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.error("Chat API error:", errMsg);
     return Response.json(
-      { error: "Something went wrong. Please call us at 414-600-3745." },
+      { error: "Something went wrong. Please call us at 414-600-3745.", debug: errMsg },
       { status: 500 }
     );
   }
