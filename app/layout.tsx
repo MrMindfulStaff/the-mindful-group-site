@@ -1,0 +1,51 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "The Mindful Group | Community First. Opportunity Always.",
+  description:
+    "Milwaukee's zero-tuition workforce training nonprofit. CNA/CBRF, Construction, and Career Development programs with wraparound support. 525+ trained. 90% graduation rate. 85% job placement.",
+  keywords: [
+    "The Mindful Group",
+    "workforce development",
+    "Milwaukee",
+    "CNA training",
+    "CBRF training",
+    "construction training",
+    "zero tuition",
+    "career development",
+    "53216",
+    "job training Milwaukee",
+  ],
+  openGraph: {
+    title: "The Mindful Group | Community First. Opportunity Always.",
+    description:
+      "Milwaukee's zero-tuition workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
+    type: "website",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className={inter.variable}>
+      <body className="antialiased">
+        <Navigation />
+        <main>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

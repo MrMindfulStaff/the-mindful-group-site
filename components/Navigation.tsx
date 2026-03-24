@@ -1,0 +1,117 @@
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/programs", label: "Programs" },
+  { href: "/support", label: "Support" },
+  { href: "/about", label: "About" },
+  { href: "/get-involved", label: "Get Involved" },
+  { href: "/employment", label: "Employment" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Navigation() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-obsidian/90 backdrop-blur-md border-b border-gold/10">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Link
+          href="/"
+          className="flex items-center gap-3 text-xl font-heading tracking-wide text-ivory hover:text-gold transition-colors"
+        >
+          <span className="text-gold font-heading text-2xl">TMG</span>
+          <span className="text-silver text-sm hidden sm:inline">
+            The Mindful Group
+          </span>
+        </Link>
+
+        {/* Desktop */}
+        <div className="hidden lg:flex items-center gap-8">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={`text-sm transition-colors tracking-wide uppercase gold-underline ${
+                isActive(l.href)
+                  ? "text-gold"
+                  : "text-silver hover:text-gold"
+              }`}
+            >
+              {l.label}
+            </Link>
+          ))}
+          <a
+            href="https://www.themindfulgroupinc.org/book-online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-2 bg-gold text-obsidian font-semibold text-xs uppercase tracking-wider hover:bg-gold-light transition-colors"
+          >
+            Enroll Now
+          </a>
+        </div>
+
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="lg:hidden text-silver hover:text-gold"
+          aria-label="Toggle menu"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {open ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden bg-obsidian-light border-t border-gold/10 overflow-hidden"
+          >
+            <div className="px-6 py-4 space-y-3">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={`block tracking-wide uppercase text-sm transition-colors ${
+                    isActive(l.href) ? "text-gold" : "text-silver hover:text-gold"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <a
+                href="https://www.themindfulgroupinc.org/book-online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block mt-4 px-6 py-3 bg-gold text-obsidian font-semibold text-xs uppercase tracking-wider text-center hover:bg-gold-light transition-colors"
+              >
+                Enroll Now
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+}
