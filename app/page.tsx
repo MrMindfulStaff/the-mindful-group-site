@@ -189,7 +189,7 @@ function FallbackHome() {
       </section>
 
       {/* Programs */}
-      <section className="py-2">
+      <section className="py-1">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -205,7 +205,7 @@ function FallbackHome() {
             </p>
           </AnimatedSection>
 
-          <StaggerContainer className="grid md:grid-cols-3 gap-8">
+          <StaggerContainer className="grid md:grid-cols-3 gap-4">
             {programs.map((p) => (
               <StaggerItem key={p.title}>
                 <Link href={p.href} className="block h-full">
@@ -231,7 +231,7 @@ function FallbackHome() {
             ))}
           </StaggerContainer>
 
-          <AnimatedSection delay={0.3} className="text-center mt-12">
+          <AnimatedSection delay={0.3} className="text-center mt-6">
             <Link
               href="/programs"
               className="inline-block px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider hover:bg-primary hover:text-white transition-colors rounded-md font-semibold"
@@ -243,7 +243,7 @@ function FallbackHome() {
       </section>
 
       {/* Support Services */}
-      <section className="py-2 bg-surface">
+      <section className="py-1 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -279,7 +279,7 @@ function FallbackHome() {
       </section>
 
       {/* Testimonial Preview */}
-      <section className="py-2">
+      <section className="py-1">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="bg-white border border-border-light rounded-xl p-8 md:p-12 shadow-sm">
@@ -305,7 +305,7 @@ function FallbackHome() {
       </section>
 
       {/* Quote */}
-      <section className="bg-primary py-2">
+      <section className="bg-primary py-1">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="border-l-4 border-accent pl-8 md:pl-12">
@@ -324,9 +324,9 @@ function FallbackHome() {
       </section>
 
       {/* Dual CTA */}
-      <section className="py-2">
+      <section className="py-1">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4">
             <AnimatedSection direction="left">
               <div className="bg-white border border-border-light hover:shadow-lg p-8 md:p-12 transition-all duration-300 h-full rounded-lg">
                 <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
