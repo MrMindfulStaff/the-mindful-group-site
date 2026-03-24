@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import StellarEngineDiagram from "@/components/StellarEngineDiagram";
+import StellarEngine3D from "@/components/StellarEngine3D";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -140,6 +141,22 @@ export default function StellarEnginePage() {
               <StellarEngineDiagram />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 3D Visualization */}
+      <section className="py-12 bg-secondary">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-white/60 text-xs uppercase tracking-[0.3em] mb-4">
+            Interactive Visualization
+          </p>
+          <h2 className="text-center text-2xl font-heading text-white mb-8">
+            The Closed-Loop <span className="text-accent">in Motion</span>
+          </h2>
+          <StellarEngine3D />
+          <p className="text-center text-white/40 text-xs mt-4">
+            Particles represent people flowing through the system. Orange nodes mark surplus generation.
+          </p>
         </div>
       </section>
 

@@ -8,6 +8,7 @@ import AnimatedSection, {
   StaggerItem,
 } from "@/components/AnimatedSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import Scene3DWrapper from "@/components/Scene3DWrapper";
 
 const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
@@ -74,20 +75,13 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-28 pb-20 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden">
-        {/* Subtle pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
+      <section className="relative pt-28 pb-20 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
+        {/* 3D Scene */}
+        <Scene3DWrapper scene="hero" />
+        {/* Gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent z-[1]" />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
