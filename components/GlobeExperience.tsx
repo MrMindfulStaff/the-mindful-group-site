@@ -178,6 +178,14 @@ function HtmlContent() {
       {/* Section 1: Hero */}
       <div className="w-screen h-screen flex items-center">
         <div className="max-w-3xl mx-auto px-8 md:px-16">
+          {/* Prominent Logo */}
+          <div className="mb-8">
+            <img
+              src="/images/tmg-logo.png"
+              alt="The Mindful Group"
+              className="h-20 md:h-28 w-auto drop-shadow-[0_0_30px_rgba(26,122,92,0.3)]"
+            />
+          </div>
           <p className="text-white/60 text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
             Reverse Engineering Poverty
           </p>
