@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -33,6 +34,14 @@ export default function CNACBRFPage() {
           >
             Book Orientation
           </a>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/cna-training.jpg" alt="CNA and CBRF training in action" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

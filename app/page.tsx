@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import AnimatedSection, {
   StaggerContainer,
@@ -176,13 +177,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Photo Strip - Stock Photography Placeholder */}
+      {/* Photo Strip */}
       <section className="bg-surface py-4">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-4 gap-4">
-            {["Students in a classroom setting", "Hands-on construction training", "Healthcare worker with patient", "Graduation celebration"].map((alt, i) => (
-              <div key={i} className="aspect-[4/3] bg-surface-alt rounded-lg flex items-center justify-center">
-                <p className="text-text-light text-xs text-center px-4">{alt}</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { src: "/images/cna-training.jpg", alt: "CNA and CBRF training session" },
+              { src: "/images/construction-training.jpg", alt: "Hands-on construction training" },
+              { src: "/images/community-csr.jpg", alt: "Community engagement and outreach" },
+              { src: "/images/volunteers.jpg", alt: "Volunteers supporting the mission" },
+            ].map((img, i) => (
+              <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                <Image src={img.src} alt={img.alt} fill className="object-cover" />
               </div>
             ))}
           </div>
@@ -317,7 +323,7 @@ export default function Home() {
                 the confidence to build a life.
               </p>
               <p className="text-accent text-sm uppercase tracking-[0.2em] font-semibold">
-                Reginald Reed Jr. — Founder &amp; Executive Director
+                <a href="https://reginald-reed-site.vercel.app" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Reginald Reed Jr.</a> — Founder &amp; Executive Director
               </p>
             </div>
           </AnimatedSection>

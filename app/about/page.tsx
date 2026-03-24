@@ -116,7 +116,13 @@ export default function AboutPage() {
               <div key={m.name} className="border border-border-light hover:border-primary/30 p-8 transition-all duration-300 bg-white rounded-lg">
                 <div className="grid md:grid-cols-4 gap-6">
                   <div className="md:col-span-1">
-                    <h3 className="text-xl font-heading text-text">{m.name}</h3>
+                    <h3 className="text-xl font-heading text-text">
+                      {m.name === "Reginald Reed Jr." ? (
+                        <a href="https://reginald-reed-site.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{m.name}</a>
+                      ) : (
+                        m.name
+                      )}
+                    </h3>
                     <p className="text-primary text-sm mt-1">{m.role}</p>
                     <p className="text-text-light/60 text-xs mt-2 uppercase tracking-wider">{m.expertise}</p>
                   </div>

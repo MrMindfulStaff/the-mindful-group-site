@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,6 +17,14 @@ export default function MentalHealthPage() {
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Mental Health <span className="text-primary">Counseling</span></h1>
           <p className="text-text-light text-lg max-w-3xl mb-10">Nurturing your mental well-being. Personalized counseling in a safe, confidential environment to support your journey.</p>
           <a href="https://www.themindfulgroupinc.org/service-page/mental-health-counseling" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</a>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/mental-health.jpg" alt="Mental health counseling session" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,6 +15,14 @@ export default function TransportationPage() {
           <Link href="/support" className="text-primary text-sm uppercase tracking-wider hover:text-primary-light transition-colors mb-6 inline-block">&larr; All Support Services</Link>
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Transportation <span className="text-primary">Assistance</span></h1>
           <p className="text-text-light text-lg max-w-3xl">The Mindful Way Transportation Assistance ensures no student misses training because they can&apos;t get there.</p>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/transportation.jpg" alt="Transportation assistance for students" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

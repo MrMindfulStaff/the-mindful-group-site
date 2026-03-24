@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,6 +15,14 @@ export default function HousingPage() {
           <Link href="/support" className="text-primary text-sm uppercase tracking-wider hover:text-primary-light transition-colors mb-6 inline-block">&larr; All Support Services</Link>
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Housing <span className="text-primary">Support</span></h1>
           <p className="text-text-light text-lg max-w-3xl">The Mindful Way Housing Support provides emergency shelter, temporary housing, and a pathway to homeownership.</p>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/housing.jpg" alt="Housing support and homeownership pathway" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

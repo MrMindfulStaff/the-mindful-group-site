@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,6 +19,15 @@ export default function GetInvolvedPage() {
           <p className="text-text-light text-lg max-w-3xl">
             Every contribution powers zero-tuition training, wraparound support, and direct job placement for Milwaukee&apos;s underserved communities. Your support creates measurable, lasting impact.
           </p>
+        </div>
+      </section>
+
+      {/* Photo Banner */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/volunteers.jpg" alt="Volunteers supporting the community" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

@@ -450,7 +450,7 @@ export default function StellarEnginePage() {
               unsustainable.
             </p>
             <p className="text-primary text-sm uppercase tracking-[0.2em]">
-              Reginald Reed Jr. — Systems Architect
+              <a href="https://reginald-reed-site.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Reginald Reed Jr.</a> — Systems Architect
             </p>
           </div>
 

@@ -29,24 +29,24 @@ export default function ContactPage() {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-text-light text-xs uppercase tracking-wider block mb-2">First Name</label>
-                    <input type="text" className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
+                    <input type="text" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
                   </div>
                   <div>
                     <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Last Name</label>
-                    <input type="text" className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
+                    <input type="text" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
                   </div>
                 </div>
                 <div>
                   <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Email</label>
-                  <input type="email" className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
+                  <input type="email" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
                 </div>
                 <div>
                   <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Phone</label>
-                  <input type="tel" className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
+                  <input type="tel" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
                 </div>
                 <div>
                   <label className="text-text-light text-xs uppercase tracking-wider block mb-2">I Am A</label>
-                  <select className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors appearance-none">
+                  <select className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors appearance-none">
                     <option value="">Select one...</option>
                     <option value="student">Prospective Student</option>
                     <option value="employer">Employer / Hiring Partner</option>
@@ -58,9 +58,9 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Message</label>
-                  <textarea rows={5} className="w-full bg-white border border-border-light px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors resize-none" />
+                  <textarea rows={5} className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors resize-none" />
                 </div>
-                <button type="submit" className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors">
+                <button type="submit" className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">
                   Send Message
                 </button>
               </form>
@@ -85,7 +85,7 @@ export default function ContactPage() {
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Email Us</h3>
                   <a href="mailto:Info@TheMindfulGroupInc.Org" className="text-text-light text-sm hover:text-primary transition-colors">Info@TheMindfulGroupInc.Org</a>
                 </div>
-                <div className="border border-border-light p-6">
+                <div className="bg-white border border-border-light rounded-lg p-6">
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Ready to Enroll?</h3>
                   <p className="text-text-light text-sm leading-relaxed mb-4">
                     Skip the form — book an orientation directly to learn about our programs.
@@ -94,13 +94,13 @@ export default function ContactPage() {
                     href="https://www.themindfulgroupinc.org/book-online"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider hover:bg-accent-light transition-colors"
+                    className="inline-block px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
                   >
                     Book Orientation
                   </a>
                 </div>
 
-                <div className="border border-border-light p-6">
+                <div className="bg-white border border-border-light rounded-lg p-6">
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">File a Complaint</h3>
                   <p className="text-text-light text-sm leading-relaxed mb-4">
                     We care about your experience. If something went wrong, let us know.

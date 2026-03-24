@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,6 +24,14 @@ export default function ConstructionPage() {
             The Mindful Way Building Trades Training. A 9-week program featuring 5 weeks of hands-on remodeling training on real Milwaukee job sites.
           </p>
           <a href="https://www.themindfulgroupinc.org/service-page/construction-training-orientation" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</a>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/construction-training.jpg" alt="Construction training on a job site" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

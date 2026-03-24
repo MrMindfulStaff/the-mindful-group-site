@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -105,6 +106,16 @@ export default function ProgramsPage() {
             program includes child care assistance, transportation, housing
             help, and direct employment placement.
           </p>
+        </div>
+      </section>
+
+      {/* Photo Banner */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/community-csr.jpg" alt="Community engagement and program impact" fill className="object-cover" />
+            <div className="absolute inset-0 bg-primary/20" />
+          </div>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,6 +19,15 @@ export default function EmploymentPage() {
           <p className="text-text-light text-lg max-w-3xl">
             Mindful Staffing partners with businesses across multiple industries to connect trained, job-ready individuals with employers who need them.
           </p>
+        </div>
+      </section>
+
+      {/* Photo Banner */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/employment.jpg" alt="Employment and job placement services" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

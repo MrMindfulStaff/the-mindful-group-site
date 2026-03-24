@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,6 +17,14 @@ export default function CareerDevelopmentPage() {
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Career <span className="text-primary">Development</span></h1>
           <p className="text-text-light text-lg max-w-3xl mb-10">Empowering you for success in your career journey. Personalized coaching in resume building, interview techniques, and networking strategies.</p>
           <a href="https://www.themindfulgroupinc.org/service-page/career-development-assistance" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request a Session</a>
+        </div>
+      </section>
+
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/career-dev.jpg" alt="Career development coaching session" fill className="object-cover" />
+          </div>
         </div>
       </section>
 

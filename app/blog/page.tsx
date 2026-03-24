@@ -1,9 +1,12 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog | The Mindful Group",
   description: "Insights on workforce development, community building, and economic empowerment from The Mindful Group.",
 };
+
+const WIX_BLOG_URL = "https://www.themindfulgroupinc.org/blog";
 
 const posts = [
   {
@@ -47,23 +50,55 @@ export default function BlogPage() {
         </div>
       </section>
 
+      {/* Hero Image */}
+      <section className="pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
+            <Image src="/images/community-csr.jpg" alt="Community engagement and impact" fill className="object-cover" />
+          </div>
+        </div>
+      </section>
+
       <section className="pb-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             {posts.map((post) => (
-              <article key={post.title} className="border border-border-light hover:border-primary/30 p-8 transition-all duration-300 group">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5">{post.tag}</span>
-                  <span className="text-text-light/50 text-xs">{post.date}</span>
-                </div>
-                <h2 className="text-xl font-heading text-text group-hover:text-primary transition-colors mb-3 leading-tight">
-                  {post.title}
-                </h2>
-                <p className="text-text-light text-sm leading-relaxed">
-                  {post.excerpt}
-                </p>
-              </article>
+              <a
+                key={post.title}
+                href={WIX_BLOG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <article className="bg-white border border-border-light hover:border-primary/30 rounded-lg p-8 transition-all duration-300 group h-full cursor-pointer">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5">{post.tag}</span>
+                    <span className="text-text-light/50 text-xs">{post.date}</span>
+                  </div>
+                  <h2 className="text-xl font-heading text-text group-hover:text-primary transition-colors mb-3 leading-tight">
+                    {post.title}
+                  </h2>
+                  <p className="text-text-light text-sm leading-relaxed mb-4">
+                    {post.excerpt}
+                  </p>
+                  <span className="text-primary text-sm uppercase tracking-wider font-semibold group-hover:text-primary-light transition-colors">
+                    Read More &rarr;
+                  </span>
+                </article>
+              </a>
             ))}
+          </div>
+
+          {/* CTA to Wix Blog */}
+          <div className="text-center mt-12">
+            <a
+              href={WIX_BLOG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
+            >
+              Read on Our Blog
+            </a>
           </div>
         </div>
       </section>
