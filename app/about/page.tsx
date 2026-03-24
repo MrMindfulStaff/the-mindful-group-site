@@ -56,30 +56,30 @@ export default function AboutPage() {
       {/* Mission */}
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">About Us</p>
-          <h1 className="text-4xl md:text-6xl font-heading text-ivory leading-tight mb-8">
-            Building Futures, <span className="text-gold">Not Just Services</span>
+          <p className="font-semibold text-primary text-sm uppercase tracking-[0.3em] mb-6">About Us</p>
+          <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
+            Building Futures, <span className="text-primary">Not Just Services</span>
           </h1>
-          <p className="text-silver text-lg max-w-3xl">
+          <p className="text-text-light text-lg max-w-3xl">
             Founded in 2019, The Mindful Group is a 501(c)(3) nonprofit dedicated to fostering economic growth in Milwaukee&apos;s underserved communities through workforce training, holistic support, and direct employment pathways.
           </p>
         </div>
       </section>
 
       {/* Story */}
-      <section className="bg-obsidian-light py-24">
+      <section className="bg-surface py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16">
             <div>
-              <h2 className="text-2xl md:text-3xl font-heading text-ivory mb-6">Our Story</h2>
-              <div className="space-y-4 text-silver leading-relaxed">
+              <h2 className="text-2xl md:text-3xl font-heading text-text mb-6">Our Story</h2>
+              <div className="space-y-4 text-text-light leading-relaxed">
                 <p>The Mindful Group was born from a simple observation: traditional workforce development programs treat training as the finish line, when it&apos;s actually just the starting point.</p>
                 <p>We built something different — an integrated model that combines career training with the wraparound support people actually need: child care, transportation, housing, and mental health services. When you remove the barriers, people don&apos;t just complete training — they launch careers.</p>
                 <p>Since 2019, we&apos;ve trained 525+ people with a 90% graduation rate and 85% job placement. We charge zero tuition. We partner with community leaders, schools, and businesses. And we&apos;re part of a larger ecosystem — House Reed — engineered specifically to reverse urban poverty.</p>
               </div>
             </div>
             <div>
-              <h3 className="text-ivory text-sm uppercase tracking-wider mb-6">By The Numbers</h3>
+              <h3 className="font-semibold text-text text-sm uppercase tracking-wider mb-6">By The Numbers</h3>
               <div className="space-y-4">
                 {[
                   { stat: "525+", label: "People Trained" },
@@ -89,9 +89,9 @@ export default function AboutPage() {
                   { stat: "2019", label: "Year Founded" },
                   { stat: "5+", label: "Programs Offered" },
                 ].map((s) => (
-                  <div key={s.label} className="flex items-center gap-4 border-b border-gold/10 pb-3">
-                    <span className="text-gold text-2xl font-heading w-20">{s.stat}</span>
-                    <span className="text-silver text-sm">{s.label}</span>
+                  <div key={s.label} className="flex items-center gap-4 border-b border-border-light pb-3">
+                    <span className="text-primary text-2xl font-heading w-20">{s.stat}</span>
+                    <span className="text-text-light text-sm">{s.label}</span>
                   </div>
                 ))}
               </div>
@@ -103,25 +103,25 @@ export default function AboutPage() {
       {/* Board */}
       <section id="board" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">Leadership</p>
-          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-4">
-            Board of <span className="text-gold">Directors</span>
+          <p className="font-semibold text-primary text-sm uppercase tracking-[0.3em] mb-6">Leadership</p>
+          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-4">
+            Board of <span className="text-primary">Directors</span>
           </h2>
-          <p className="text-silver text-lg max-w-3xl mb-16">
+          <p className="text-text-light text-lg max-w-3xl mb-16">
             Diverse. Experienced. Passionate. Professionals spanning multiple industries, ages, ethnicities, and backgrounds — united by a commitment to community impact.
           </p>
 
           <div className="space-y-6">
             {boardMembers.map((m) => (
-              <div key={m.name} className="border border-gold/10 hover:border-gold/30 p-8 transition-all duration-300">
+              <div key={m.name} className="border border-border-light hover:border-primary/30 p-8 transition-all duration-300 bg-white rounded-lg">
                 <div className="grid md:grid-cols-4 gap-6">
                   <div className="md:col-span-1">
-                    <h3 className="text-xl font-heading text-ivory">{m.name}</h3>
-                    <p className="text-gold text-sm mt-1">{m.role}</p>
-                    <p className="text-silver/60 text-xs mt-2 uppercase tracking-wider">{m.expertise}</p>
+                    <h3 className="text-xl font-heading text-text">{m.name}</h3>
+                    <p className="text-primary text-sm mt-1">{m.role}</p>
+                    <p className="text-text-light/60 text-xs mt-2 uppercase tracking-wider">{m.expertise}</p>
                   </div>
                   <div className="md:col-span-3">
-                    <p className="text-silver leading-relaxed">{m.bio}</p>
+                    <p className="text-text-light leading-relaxed">{m.bio}</p>
                   </div>
                 </div>
               </div>
@@ -131,13 +131,13 @@ export default function AboutPage() {
       </section>
 
       {/* Partners */}
-      <section className="bg-obsidian-light py-24">
+      <section className="bg-surface py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">The Ecosystem</p>
-          <h2 className="text-3xl md:text-4xl font-heading text-ivory leading-tight mb-8">
-            Part of <span className="text-gold">House Reed</span>
+          <p className="font-semibold text-primary text-sm uppercase tracking-[0.3em] mb-6">The Ecosystem</p>
+          <h2 className="text-3xl md:text-4xl font-heading text-text leading-tight mb-8">
+            Part of <span className="text-primary">House Reed</span>
           </h2>
-          <p className="text-silver text-lg max-w-3xl mb-12">
+          <p className="text-text-light text-lg max-w-3xl mb-12">
             The Mindful Group is the training engine of House Reed — an integrated ecosystem of enterprises engineered to reverse urban poverty in Milwaukee.
           </p>
           <div className="grid md:grid-cols-5 gap-4">
@@ -148,10 +148,10 @@ export default function AboutPage() {
               { name: "Nana's Cozy Corner", role: "Childcare", type: "Childcare" },
               { name: "Cozy Cruisers", role: "Transportation", type: "Transport" },
             ].map((e) => (
-              <div key={e.name} className="border border-gold/10 p-6 text-center">
-                <p className="text-ivory text-sm font-heading mb-1">{e.name}</p>
-                <p className="text-silver text-xs mb-2">{e.role}</p>
-                <span className="text-[10px] uppercase tracking-[0.2em] border border-gold/20 text-gold/60 px-2 py-0.5">{e.type}</span>
+              <div key={e.name} className="border border-border-light p-6 text-center bg-white rounded-lg">
+                <p className="text-text text-sm font-heading mb-1">{e.name}</p>
+                <p className="text-text-light text-xs mb-2">{e.role}</p>
+                <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5">{e.type}</span>
               </div>
             ))}
           </div>

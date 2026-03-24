@@ -38,11 +38,11 @@ export default function SupportPage() {
     <>
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">Wraparound Support</p>
-          <h1 className="text-4xl md:text-6xl font-heading text-ivory leading-tight mb-8">
-            We Remove <span className="text-gold">Every Barrier</span>
+          <p className="font-semibold text-primary text-sm uppercase tracking-[0.3em] mb-6">Wraparound Support</p>
+          <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
+            We Remove <span className="text-primary">Every Barrier</span>
           </h1>
-          <p className="text-silver text-lg max-w-3xl">
+          <p className="text-text-light text-lg max-w-3xl">
             Training alone isn&apos;t enough. We provide child care, transportation, housing, and re-entry support so nothing stands between our students and their careers. This is what makes The Mindful Group different.
           </p>
         </div>
@@ -52,16 +52,16 @@ export default function SupportPage() {
         <div className="max-w-7xl mx-auto px-6 space-y-8">
           {services.map((s) => (
             <Link key={s.title} href={s.href} className="block">
-              <div className="border border-gold/10 hover:border-gold/30 p-8 md:p-12 transition-all duration-300 group">
+              <div className="border border-border-light hover:border-primary/30 p-8 md:p-12 transition-all duration-300 group bg-white rounded-lg">
                 <div className="grid md:grid-cols-3 gap-8">
                   <div className="md:col-span-2">
-                    <h2 className="text-2xl md:text-3xl font-heading text-ivory group-hover:text-gold transition-colors mb-4">{s.title}</h2>
-                    <p className="text-silver leading-relaxed">{s.description}</p>
+                    <h2 className="text-2xl md:text-3xl font-heading text-text group-hover:text-primary transition-colors mb-4">{s.title}</h2>
+                    <p className="text-text-light leading-relaxed">{s.description}</p>
                   </div>
-                  <div className="md:border-l md:border-gold/10 md:pl-8">
-                    <h3 className="text-ivory text-sm uppercase tracking-wider mb-3">How It Works</h3>
-                    <p className="text-silver text-sm leading-relaxed">{s.how}</p>
-                    <p className="text-gold text-sm uppercase tracking-wider mt-4 group-hover:text-gold-light transition-colors">Learn More &rarr;</p>
+                  <div className="md:border-l md:border-border-light md:pl-8">
+                    <h3 className="text-text text-sm uppercase tracking-wider mb-3">How It Works</h3>
+                    <p className="text-text-light text-sm leading-relaxed">{s.how}</p>
+                    <p className="text-primary text-sm uppercase tracking-wider mt-4 group-hover:text-primary-light transition-colors">Learn More &rarr;</p>
                   </div>
                 </div>
               </div>
@@ -70,11 +70,11 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="bg-obsidian-light py-24">
+      <section className="bg-surface py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-heading text-ivory mb-6">Need <span className="text-gold">Support?</span></h2>
-          <p className="text-silver text-lg mb-10">Contact us to discuss your situation. We&apos;ll work with you to find the right resources.</p>
-          <Link href="/contact" className="inline-block px-8 py-4 bg-gold text-obsidian font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors">Contact Us</Link>
+          <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">Need <span className="text-primary">Support?</span></h2>
+          <p className="text-text-light text-lg mb-10">Contact us to discuss your situation. We&apos;ll work with you to find the right resources.</p>
+          <Link href="/contact" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md">Contact Us</Link>
         </div>
       </section>
     </>

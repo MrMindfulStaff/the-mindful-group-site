@@ -37,11 +37,11 @@ export default function BlogPage() {
     <>
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">Blog</p>
-          <h1 className="text-4xl md:text-6xl font-heading text-ivory leading-tight mb-8">
-            Insights &amp; <span className="text-gold">Updates</span>
+          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">Blog</p>
+          <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
+            Insights &amp; <span className="text-primary">Updates</span>
           </h1>
-          <p className="text-silver text-lg max-w-3xl">
+          <p className="text-text-light text-lg max-w-3xl">
             Perspectives on workforce development, community building, and economic empowerment from Milwaukee&apos;s frontlines.
           </p>
         </div>
@@ -51,15 +51,15 @@ export default function BlogPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             {posts.map((post) => (
-              <article key={post.title} className="border border-gold/10 hover:border-gold/30 p-8 transition-all duration-300 group">
+              <article key={post.title} className="border border-border-light hover:border-primary/30 p-8 transition-all duration-300 group">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-[10px] uppercase tracking-[0.2em] border border-gold/20 text-gold/60 px-2 py-0.5">{post.tag}</span>
-                  <span className="text-silver/50 text-xs">{post.date}</span>
+                  <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5">{post.tag}</span>
+                  <span className="text-text-light/50 text-xs">{post.date}</span>
                 </div>
-                <h2 className="text-xl font-heading text-ivory group-hover:text-gold transition-colors mb-3 leading-tight">
+                <h2 className="text-xl font-heading text-text group-hover:text-primary transition-colors mb-3 leading-tight">
                   {post.title}
                 </h2>
-                <p className="text-silver text-sm leading-relaxed">
+                <p className="text-text-light text-sm leading-relaxed">
                   {post.excerpt}
                 </p>
               </article>

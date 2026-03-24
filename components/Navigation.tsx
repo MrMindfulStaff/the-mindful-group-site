@@ -24,14 +24,14 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-obsidian/90 backdrop-blur-md border-b border-gold/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border-light shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-3 text-xl font-heading tracking-wide text-ivory hover:text-gold transition-colors"
+          className="flex items-center gap-3 text-xl font-heading tracking-wide text-secondary hover:text-primary transition-colors"
         >
-          <span className="text-gold font-heading text-2xl">TMG</span>
-          <span className="text-silver text-sm hidden sm:inline">
+          <span className="text-primary font-heading text-2xl">TMG</span>
+          <span className="text-text-light text-sm hidden sm:inline">
             The Mindful Group
           </span>
         </Link>
@@ -42,10 +42,10 @@ export default function Navigation() {
             <Link
               key={l.href}
               href={l.href}
-              className={`text-sm transition-colors tracking-wide uppercase gold-underline ${
+              className={`text-sm transition-colors tracking-wide uppercase nav-underline ${
                 isActive(l.href)
-                  ? "text-gold"
-                  : "text-silver hover:text-gold"
+                  ? "text-primary"
+                  : "text-text-light hover:text-primary"
               }`}
             >
               {l.label}
@@ -55,7 +55,7 @@ export default function Navigation() {
             href="https://www.themindfulgroupinc.org/book-online"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-2 bg-gold text-obsidian font-semibold text-xs uppercase tracking-wider hover:bg-gold-light transition-colors"
+            className="px-6 py-2 bg-accent text-white font-semibold text-xs uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md"
           >
             Enroll Now
           </a>
@@ -64,7 +64,7 @@ export default function Navigation() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="lg:hidden text-silver hover:text-gold"
+          className="lg:hidden text-text-light hover:text-primary"
           aria-label="Toggle menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@ export default function Navigation() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden bg-obsidian-light border-t border-gold/10 overflow-hidden"
+            className="lg:hidden bg-white border-t border-border-light overflow-hidden"
           >
             <div className="px-6 py-4 space-y-3">
               {links.map((l) => (
@@ -94,7 +94,7 @@ export default function Navigation() {
                   href={l.href}
                   onClick={() => setOpen(false)}
                   className={`block tracking-wide uppercase text-sm transition-colors ${
-                    isActive(l.href) ? "text-gold" : "text-silver hover:text-gold"
+                    isActive(l.href) ? "text-primary" : "text-text-light hover:text-primary"
                   }`}
                 >
                   {l.label}
@@ -104,7 +104,7 @@ export default function Navigation() {
                 href="https://www.themindfulgroupinc.org/book-online"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block mt-4 px-6 py-3 bg-gold text-obsidian font-semibold text-xs uppercase tracking-wider text-center hover:bg-gold-light transition-colors"
+                className="block mt-4 px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider text-center hover:bg-accent-light transition-colors rounded-md"
               >
                 Enroll Now
               </a>

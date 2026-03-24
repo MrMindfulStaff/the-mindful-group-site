@@ -94,13 +94,13 @@ export default function ProgramsPage() {
     <>
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-primary font-semibold text-sm uppercase tracking-[0.3em] mb-6">
             Training Programs
           </p>
-          <h1 className="text-4xl md:text-6xl font-heading text-ivory leading-tight mb-8">
-            Zero Tuition. <span className="text-gold">Real Careers.</span>
+          <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
+            Zero Tuition. <span className="text-primary">Real Careers.</span>
           </h1>
-          <p className="text-silver text-lg max-w-3xl">
+          <p className="text-text-light text-lg max-w-3xl">
             Industry-recognized training with full wraparound support. Every
             program includes child care assistance, transportation, housing
             help, and direct employment placement.
@@ -113,20 +113,20 @@ export default function ProgramsPage() {
           {programs.map((p) => (
             <div
               key={p.title}
-              className="border border-gold/10 hover:border-gold/30 transition-all duration-300"
+              className="bg-white border border-border-light hover:border-primary/30 rounded-lg transition-all duration-300"
             >
               <div className="p-8 md:p-12">
                 <div className="grid md:grid-cols-5 gap-8 md:gap-12">
                   <div className="md:col-span-3">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-[10px] uppercase tracking-[0.2em] border border-gold/20 text-gold/60 px-2 py-0.5">
+                      <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5 rounded-md">
                         {p.tag}
                       </span>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-heading text-ivory mb-4">
+                    <h2 className="text-2xl md:text-3xl font-heading text-text mb-4">
                       {p.title}
                     </h2>
-                    <p className="text-silver leading-relaxed mb-6">
+                    <p className="text-text-light leading-relaxed mb-6">
                       {p.description}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
@@ -134,31 +134,31 @@ export default function ProgramsPage() {
                         href={p.bookingUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-8 py-4 bg-gold text-obsidian font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors text-center"
+                        className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors text-center"
                       >
                         Book Orientation
                       </a>
                       <Link
                         href={p.href}
-                        className="px-8 py-4 border border-gold/40 text-gold text-sm uppercase tracking-wider hover:bg-gold/10 transition-colors text-center"
+                        className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors text-center"
                       >
                         Learn More
                       </Link>
                     </div>
                   </div>
                   <div className="md:col-span-2">
-                    <h3 className="text-ivory text-sm uppercase tracking-wider mb-4">
+                    <h3 className="text-text text-sm uppercase tracking-wider mb-4">
                       What&apos;s Included
                     </h3>
                     <ul className="space-y-3">
                       {p.details.map((d, i) => (
                         <li key={i} className="flex items-start gap-3">
-                          <span className="text-gold mt-1 shrink-0">
+                          <span className="text-primary mt-1 shrink-0">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                           </span>
-                          <span className="text-silver text-sm">{d}</span>
+                          <span className="text-text-light text-sm">{d}</span>
                         </li>
                       ))}
                     </ul>
@@ -171,12 +171,12 @@ export default function ProgramsPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-obsidian-light py-24">
+      <section className="bg-surface py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-heading text-ivory mb-6">
-            Ready to <span className="text-gold">Get Started?</span>
+          <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">
+            Ready to <span className="text-primary">Get Started?</span>
           </h2>
-          <p className="text-silver text-lg mb-10 max-w-2xl mx-auto">
+          <p className="text-text-light text-lg mb-10 max-w-2xl mx-auto">
             Attend an orientation session — no commitment required. Learn about
             our programs, meet the team, and see if it&apos;s the right fit.
           </p>
@@ -184,7 +184,7 @@ export default function ProgramsPage() {
             href="https://www.themindfulgroupinc.org/book-online"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-gold text-obsidian font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors"
+            className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
           >
             Book an Orientation
           </a>

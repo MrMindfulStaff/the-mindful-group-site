@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #C8A35F;
-  --color-gold-light: #D4B577;
-  --color-obsidian: #0A0A0A;
-  --color-obsidian-light: #1A1A1A;
-  --color-slate: #2A2A2A;
-  --color-silver: #B0B0B0;
-  --color-ivory: #F5F0E8;
-  --color-ivory-dark: #E8E0D0;
-  --color-sage: #7A9E7E;
-  --color-sage-light: #93B396;
+  /* Steady Growth Palette */
+  --color-primary: #1A7A5C;
+  --color-primary-light: #22936F;
+  --color-secondary: #1B3A5C;
+  --color-accent: #E07C3E;
+  --color-accent-light: #E8944F;
+  --color-bg: #FAFBFC;
+  --color-surface: #EFF5F0;
+  --color-surface-alt: #E8F0EA;
+  --color-text: #1F2937;
+  --color-text-light: #6B7280;
+  --color-text-inv: #FFFFFF;
+  --color-border: #D1D5DB;
+  --color-border-light: #E5E7EB;
+  --color-white: #FFFFFF;
+
   --font-heading: "Georgia", serif;
   --font-body: "Inter", system-ui, sans-serif;
 }
@@ -21,8 +27,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-obsidian);
-  color: var(--color-ivory);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -30,30 +36,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  background-color: var(--color-gold);
-  color: var(--color-obsidian);
+  background-color: var(--color-primary);
+  color: white;
 }
 
 *:focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-.gold-underline {
+.nav-underline {
   position: relative;
   display: inline-block;
 }
-.gold-underline::after {
+.nav-underline::after {
   content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--color-gold);
+  background-color: var(--color-primary);
   transition: width 0.3s ease;
 }
-.gold-underline:hover::after {
+.nav-underline:hover::after {
   width: 100%;
 }
 
@@ -63,15 +69,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .animate-count {
   animation: countUp 0.6s ease-out forwards;
-}
-
-@keyframes shimmer {
-  0% { opacity: 0.03; }
-  50% { opacity: 0.07; }
-  100% { opacity: 0.03; }
-}
-.hero-shimmer {
-  animation: shimmer 8s ease-in-out infinite;
 }
 
 main {
