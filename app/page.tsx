@@ -189,7 +189,7 @@ function FallbackHome() {
       </section>
 
       {/* Programs */}
-      <section className="py-24">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -198,7 +198,7 @@ function FallbackHome() {
             <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-6">
               Your Career <span className="text-primary">Starts Here</span>
             </h2>
-            <p className="text-text-light text-lg max-w-3xl mb-16">
+            <p className="text-text-light text-lg max-w-3xl mb-10">
               Industry-recognized training programs with zero tuition, hands-on
               experience, and direct employment pipelines. Every program
               includes full wraparound support.
@@ -243,7 +243,7 @@ function FallbackHome() {
       </section>
 
       {/* Support Services */}
-      <section className="py-24 bg-surface">
+      <section className="py-16 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -252,7 +252,7 @@ function FallbackHome() {
             <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-6">
               We Remove <span className="text-primary">Every Barrier</span>
             </h2>
-            <p className="text-text-light text-lg max-w-3xl mb-16">
+            <p className="text-text-light text-lg max-w-3xl mb-10">
               Training is only part of the equation. We provide child care,
               transportation, housing, and re-entry support so nothing stands
               between you and your career.
@@ -279,7 +279,7 @@ function FallbackHome() {
       </section>
 
       {/* Testimonial Preview */}
-      <section className="py-24">
+      <section className="py-16">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="bg-white border border-border-light rounded-xl p-8 md:p-12 shadow-sm">
@@ -305,7 +305,7 @@ function FallbackHome() {
       </section>
 
       {/* Quote */}
-      <section className="bg-primary py-20">
+      <section className="bg-primary py-14">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="border-l-4 border-accent pl-8 md:pl-12">
@@ -324,7 +324,7 @@ function FallbackHome() {
       </section>
 
       {/* Dual CTA */}
-      <section className="py-24">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <AnimatedSection direction="left">
