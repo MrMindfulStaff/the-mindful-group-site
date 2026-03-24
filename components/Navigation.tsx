@@ -35,9 +35,9 @@ export default function Navigation() {
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
-            width={50}
-            height={27}
-            className="h-7 w-auto"
+            width={120}
+            height={65}
+            className="h-12 w-auto"
             priority
           />
           <span className="text-text font-heading text-sm hidden sm:inline">
