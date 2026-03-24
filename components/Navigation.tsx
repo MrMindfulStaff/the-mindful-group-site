@@ -27,17 +27,17 @@ export default function Navigation() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border-light shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         <Link
           href="/"
-          className="hover:opacity-90 transition-opacity mb-2"
+          className="hover:opacity-90 transition-opacity"
         >
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
-            width={180}
-            height={97}
-            className="h-16 w-auto"
+            width={120}
+            height={65}
+            className="h-12 w-auto"
             priority
           />
         </Link>
@@ -70,7 +70,7 @@ export default function Navigation() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="lg:hidden absolute right-6 top-6 text-text-light hover:text-primary"
+          className="lg:hidden text-text-light hover:text-primary"
           aria-label="Toggle menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
