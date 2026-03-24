@@ -95,7 +95,7 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6"
             >
-              Milwaukee&apos;s Workforce Training Nonprofit
+              Reverse Engineering Poverty
             </motion.p>
 
             <motion.h1
