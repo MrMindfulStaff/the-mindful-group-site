@@ -168,6 +168,17 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 1.0 }}
           >
+            <Link href="/stellar-engine" className="block mb-6 group">
+              <div className="border border-gold/20 hover:border-gold/40 p-4 transition-all duration-300 flex items-center justify-between">
+                <div>
+                  <p className="text-gold text-xs uppercase tracking-[0.3em] mb-1">Proven Model</p>
+                  <p className="text-ivory font-heading text-lg group-hover:text-gold transition-colors">
+                    The Birthplace of the Stellar Engine
+                  </p>
+                </div>
+                <span className="text-gold text-sm group-hover:text-gold-light transition-colors">&rarr;</span>
+              </div>
+            </Link>
             <div className="grid grid-cols-2 gap-6">
               {metrics.map((m, i) => (
                 <div
