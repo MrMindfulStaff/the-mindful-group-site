@@ -171,7 +171,7 @@ function FallbackHome() {
       </section>
 
       {/* Photo Strip */}
-      <section className="bg-surface py-2">
+      <section className="bg-surface py-1">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -189,7 +189,7 @@ function FallbackHome() {
       </section>
 
       {/* Programs */}
-      <section className="py-3">
+      <section className="py-2">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -243,7 +243,7 @@ function FallbackHome() {
       </section>
 
       {/* Support Services */}
-      <section className="py-3 bg-surface">
+      <section className="py-2 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -279,7 +279,7 @@ function FallbackHome() {
       </section>
 
       {/* Testimonial Preview */}
-      <section className="py-3">
+      <section className="py-2">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="bg-white border border-border-light rounded-xl p-8 md:p-12 shadow-sm">
@@ -305,7 +305,7 @@ function FallbackHome() {
       </section>
 
       {/* Quote */}
-      <section className="bg-primary py-3">
+      <section className="bg-primary py-2">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="border-l-4 border-accent pl-8 md:pl-12">
@@ -324,7 +324,7 @@ function FallbackHome() {
       </section>
 
       {/* Dual CTA */}
-      <section className="py-3">
+      <section className="py-2">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <AnimatedSection direction="left">
