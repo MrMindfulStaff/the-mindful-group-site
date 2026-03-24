@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact | The Mindful Group",
@@ -25,45 +26,7 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-5 gap-12">
             {/* Form */}
             <div className="md:col-span-3">
-              <form className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="text-text-light text-xs uppercase tracking-wider block mb-2">First Name</label>
-                    <input type="text" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
-                  </div>
-                  <div>
-                    <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Last Name</label>
-                    <input type="text" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Email</label>
-                  <input type="email" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
-                </div>
-                <div>
-                  <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Phone</label>
-                  <input type="tel" className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors" />
-                </div>
-                <div>
-                  <label className="text-text-light text-xs uppercase tracking-wider block mb-2">I Am A</label>
-                  <select className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors appearance-none">
-                    <option value="">Select one...</option>
-                    <option value="student">Prospective Student</option>
-                    <option value="employer">Employer / Hiring Partner</option>
-                    <option value="funder">Funder / Donor</option>
-                    <option value="volunteer">Volunteer</option>
-                    <option value="partner">Community Partner</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-text-light text-xs uppercase tracking-wider block mb-2">Message</label>
-                  <textarea rows={5} className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors resize-none" />
-                </div>
-                <button type="submit" className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">
-                  Send Message
-                </button>
-              </form>
+              <ContactForm />
             </div>
 
             {/* Info */}

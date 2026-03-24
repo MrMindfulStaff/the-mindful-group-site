@@ -1,6 +1,20 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 
+// Simple in-memory rate limiter
+const requests = new Map<string, number[]>();
+const RATE_LIMIT = 20; // max requests
+const RATE_WINDOW = 60 * 1000; // per minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = requests.get(ip)?.filter((t) => now - t < RATE_WINDOW) || [];
+  requests.set(ip, timestamps);
+  if (timestamps.length >= RATE_LIMIT) return true;
+  timestamps.push(now);
+  return false;
+}
+
 const SYSTEM_PROMPT = `You are the AI assistant for The Mindful Group, a 501(c)(3) nonprofit workforce training organization in Milwaukee, Wisconsin. You help two audiences: prospective students and partners/funders.
 
 Your tone is warm, clear, and encouraging — like a helpful staff member at the front desk. Not corporate. Not overly casual. You are knowledgeable, patient, and direct.
@@ -92,10 +106,29 @@ const client = new Anthropic({
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    if (isRateLimited(ip)) {
+      return Response.json(
+        { error: "Too many requests. Please try again shortly or call us at 414-600-3745." },
+        { status: 429 }
+      );
+    }
+
     const { messages } = await req.json();
 
     if (!messages || !Array.isArray(messages)) {
       return Response.json({ error: "Messages required" }, { status: 400 });
+    }
+
+    // Validate message structure and length
+    const MAX_MSG_LEN = 2000;
+    for (const msg of messages) {
+      if (!msg.role || !msg.content || typeof msg.content !== "string") {
+        return Response.json({ error: "Invalid message format" }, { status: 400 });
+      }
+      if (msg.content.length > MAX_MSG_LEN) {
+        return Response.json({ error: "Message too long" }, { status: 400 });
+      }
     }
 
     // Limit conversation history to last 20 messages
@@ -109,14 +142,16 @@ export async function POST(req: NextRequest) {
     });
 
     const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
+      response.content.length > 0 && response.content[0].type === "text"
+        ? response.content[0].text
+        : "";
 
     return Response.json({ message: text });
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("Chat API error:", errMsg);
     return Response.json(
-      { error: "Something went wrong. Please call us at 414-600-3745.", debug: errMsg },
+      { error: "Something went wrong. Please call us at 414-600-3745." },
       { status: 500 }
     );
   }
