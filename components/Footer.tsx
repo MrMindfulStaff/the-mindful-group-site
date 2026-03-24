@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,9 +7,18 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
-            <h3 className="text-white font-heading text-lg mb-4">
-              The Mindful Group
-            </h3>
+            <div className="flex items-center gap-3 mb-4">
+              <Image
+                src="/images/tmg-logo.png"
+                alt="The Mindful Group"
+                width={40}
+                height={22}
+                className="h-6 w-auto brightness-0 invert"
+              />
+              <h3 className="text-white font-heading text-lg">
+                The Mindful Group
+              </h3>
+            </div>
             <p className="text-white/70 text-sm leading-relaxed mb-4">
               Community First. Opportunity Always.
               <br />

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,10 +30,17 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-3 text-xl font-heading tracking-wide text-secondary hover:text-primary transition-colors"
+          className="flex items-center gap-2 hover:opacity-90 transition-opacity"
         >
-          <span className="text-primary font-heading text-2xl">TMG</span>
-          <span className="text-text-light text-sm hidden sm:inline">
+          <Image
+            src="/images/tmg-logo.png"
+            alt="The Mindful Group"
+            width={50}
+            height={27}
+            className="h-7 w-auto"
+            priority
+          />
+          <span className="text-text font-heading text-sm hidden sm:inline">
             The Mindful Group
           </span>
         </Link>
