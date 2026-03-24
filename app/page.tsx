@@ -76,8 +76,7 @@ function FallbackHome() {
     <>
       {/* Hero */}
       <section className="relative pt-28 pb-20 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
-        {/* 3D Scene */}
-        <Scene3DWrapper scene="hero" />
+        {/* 3D Scene (removed — globe experience handles this) */}
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent z-[1]" />
 
