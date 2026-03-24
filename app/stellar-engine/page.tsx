@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import StellarEngineDiagram from "@/components/StellarEngineDiagram";
 import StellarEngine3D from "@/components/StellarEngine3D";
+import StellarEngineExperience from "@/components/StellarEngineExperience";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -109,7 +110,7 @@ const differentiators = [
   },
 ];
 
-export default function StellarEnginePage() {
+function FallbackContent() {
   return (
     <>
       {/* Hero with Diagram */}
@@ -498,5 +499,11 @@ export default function StellarEnginePage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function StellarEnginePage() {
+  return (
+    <StellarEngineExperience fallback={<FallbackContent />} />
   );
 }

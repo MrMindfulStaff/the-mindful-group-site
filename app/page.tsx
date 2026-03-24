@@ -8,7 +8,7 @@ import AnimatedSection, {
   StaggerItem,
 } from "@/components/AnimatedSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import Scene3DWrapper from "@/components/Scene3DWrapper";
+import HomeExperience from "@/components/HomeExperience";
 
 const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
@@ -71,7 +71,7 @@ const supportServices = [
   },
 ];
 
-export default function Home() {
+function FallbackHome() {
   return (
     <>
       {/* Hero */}
@@ -378,5 +378,11 @@ export default function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <HomeExperience fallback={<FallbackHome />} />
   );
 }
