@@ -75,12 +75,12 @@ function FallbackHome() {
   return (
     <>
       {/* Hero */}
-      <section className="relative pt-28 pb-20 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
+      <section className="relative pt-32 pb-12 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
         {/* 3D Scene (removed — globe experience handles this) */}
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent z-[1]" />
 
-        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-8 md:py-12 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -189,7 +189,7 @@ function FallbackHome() {
       </section>
 
       {/* Programs */}
-      <section className="py-10">
+      <section className="py-6">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -243,7 +243,7 @@ function FallbackHome() {
       </section>
 
       {/* Support Services */}
-      <section className="py-10 bg-surface">
+      <section className="py-6 bg-surface">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
             <p className="text-primary text-sm uppercase tracking-[0.3em] mb-4 font-semibold">
@@ -279,7 +279,7 @@ function FallbackHome() {
       </section>
 
       {/* Testimonial Preview */}
-      <section className="py-10">
+      <section className="py-6">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="bg-white border border-border-light rounded-xl p-8 md:p-12 shadow-sm">
@@ -305,7 +305,7 @@ function FallbackHome() {
       </section>
 
       {/* Quote */}
-      <section className="bg-primary py-10">
+      <section className="bg-primary py-6">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <div className="border-l-4 border-accent pl-8 md:pl-12">
@@ -324,7 +324,7 @@ function FallbackHome() {
       </section>
 
       {/* Dual CTA */}
-      <section className="py-10">
+      <section className="py-6">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <AnimatedSection direction="left">
