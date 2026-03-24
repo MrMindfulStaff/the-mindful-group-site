@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import StellarEngineDiagram from "@/components/StellarEngineDiagram";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -110,28 +111,35 @@ const differentiators = [
 export default function StellarEnginePage() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero with Diagram */}
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
-            System Architecture
-          </p>
-          <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
-            The Stellar <span className="text-primary">Engine</span>
-          </h1>
-          <p className="text-text-light text-lg md:text-xl max-w-4xl leading-relaxed mb-10">
-            A mathematically designed, self-sustaining workforce development
-            model engineered to reverse poverty through earned revenue — not
-            perpetual grant dependency. It is not a program. It is
-            infrastructure.
-          </p>
-          <p className="text-text-light max-w-3xl leading-relaxed">
-            Built on a closed-loop economic architecture where participant
-            outcomes generate the revenue that funds the next cohort — creating
-            a self-reinforcing cycle that grows stronger as it scales. Proven
-            over 9 years in Milwaukee&apos;s 53206 zip code, one of the most
-            economically distressed communities in the United States.
-          </p>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div>
+              <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6 font-semibold">
+                System Architecture
+              </p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-text leading-tight mb-8">
+                The Stellar <span className="text-primary">Engine</span>
+              </h1>
+              <p className="text-text-light text-lg md:text-xl leading-relaxed mb-8">
+                A mathematically designed, self-sustaining workforce development
+                model engineered to reverse poverty through earned revenue — not
+                perpetual grant dependency. It is not a program. It is
+                infrastructure.
+              </p>
+              <p className="text-text-light leading-relaxed">
+                Built on a closed-loop economic architecture where participant
+                outcomes generate the revenue that funds the next cohort — creating
+                a self-reinforcing cycle that grows stronger as it scales. Proven
+                over 9 years in Milwaukee&apos;s 53206 zip code, one of the most
+                economically distressed communities in the United States.
+              </p>
+            </div>
+            <div className="lg:pt-8">
+              <StellarEngineDiagram />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -148,7 +156,7 @@ export default function StellarEnginePage() {
             ].map((m) => (
               <div
                 key={m.label}
-                className="border border-border-light p-6 text-center"
+                className="bg-white border border-border-light rounded-lg p-6 text-center"
               >
                 <p className="text-2xl md:text-3xl font-heading text-primary mb-2">
                   {m.stat}
@@ -189,7 +197,7 @@ export default function StellarEnginePage() {
             ].map((p) => (
               <div
                 key={p.title}
-                className="border border-border-light p-8"
+                className="bg-white border border-border-light rounded-lg p-8"
               >
                 <h3 className="text-xl font-heading text-text mb-4">
                   {p.title}
@@ -213,7 +221,7 @@ export default function StellarEnginePage() {
             Two Engines. <span className="text-primary">One Architecture.</span>
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="border border-border-light p-8 md:p-12">
+            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
               <p className="text-primary text-xs uppercase tracking-[0.2em] mb-2">
                 Sub-Model
               </p>
@@ -237,7 +245,7 @@ export default function StellarEnginePage() {
                 </p>
               </div>
             </div>
-            <div className="border border-border-light p-8 md:p-12">
+            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
               <p className="text-primary text-xs uppercase tracking-[0.2em] mb-2">
                 Sub-Model
               </p>
@@ -337,7 +345,7 @@ export default function StellarEnginePage() {
             {surplusAllocation.map((a) => (
               <div
                 key={a.category}
-                className="border border-border-light p-8 flex gap-6"
+                className="bg-white border border-border-light rounded-lg p-8 flex gap-6"
               >
                 <div className="shrink-0">
                   <p className="text-3xl font-heading text-primary">
@@ -372,7 +380,7 @@ export default function StellarEnginePage() {
             {differentiators.map((d) => (
               <div
                 key={d.title}
-                className="border border-border-light hover:border-primary/30 p-8 transition-all duration-300"
+                className="bg-white border border-border-light hover:border-primary/30 rounded-lg p-8 transition-all duration-300"
               >
                 <div className="grid md:grid-cols-3 gap-6">
                   <h3 className="text-xl font-heading text-text md:col-span-1">
@@ -399,7 +407,7 @@ export default function StellarEnginePage() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="border border-border-light p-8 md:p-12">
+            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
               <p className="text-primary text-xs uppercase tracking-[0.2em] mb-4">
                 Phase 1
               </p>
@@ -413,7 +421,7 @@ export default function StellarEnginePage() {
                 Phase 2.
               </p>
             </div>
-            <div className="border border-border-light p-8 md:p-12">
+            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
               <p className="text-primary text-xs uppercase tracking-[0.2em] mb-4">
                 Phase 2
               </p>
@@ -458,13 +466,13 @@ export default function StellarEnginePage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/programs"
-                className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors"
+                className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
               >
                 Explore Programs
               </Link>
               <Link
                 href="/get-involved"
-                className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider hover:bg-primary/10 transition-colors"
+                className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors"
               >
                 Partner With Us
               </Link>
