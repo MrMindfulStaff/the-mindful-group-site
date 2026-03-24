@@ -8,6 +8,50 @@ interface Message {
   content: string;
 }
 
+function renderMessageContent(text: string, isUser: boolean) {
+  // Convert markdown links [text](url) and bare URLs into clickable links
+  const parts = text.split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s)]+)/g);
+  return parts.map((part, i) => {
+    // Markdown link: [text](url)
+    const mdMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+    if (mdMatch) {
+      return (
+        <a
+          key={i}
+          href={mdMatch[2]}
+          target={mdMatch[2].startsWith("http") ? "_blank" : undefined}
+          rel={mdMatch[2].startsWith("http") ? "noopener noreferrer" : undefined}
+          className={`underline font-semibold ${isUser ? "text-white" : "text-primary"}`}
+        >
+          {mdMatch[1]}
+        </a>
+      );
+    }
+    // Bare URL
+    if (part.match(/^https?:\/\//)) {
+      const label = part.includes("book-online")
+        ? "Book an Orientation"
+        : part.includes("service-page")
+          ? "Book Here"
+          : part.includes("participant-complaints")
+            ? "File a Complaint"
+            : "Visit Link";
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`underline font-semibold ${isUser ? "text-white" : "text-primary"}`}
+        >
+          {label}
+        </a>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -241,7 +285,7 @@ export default function ChatWidget() {
                         : "bg-surface text-text rounded-bl-sm"
                     }`}
                   >
-                    {msg.content}
+                    {renderMessageContent(msg.content, msg.role === "user")}
                   </div>
                 </div>
               ))}
