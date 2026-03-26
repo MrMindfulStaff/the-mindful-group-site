@@ -23,13 +23,14 @@ const TEAL_LIGHT  = "#93B396";
 const ORANGE      = "#E07C3E";
 const ORANGE_LIGHT= "#E8944F";
 const NAVY        = "#1B3A5C";
-const STEEL       = "#6a7a85";
-const STEEL_DARK  = "#3a4a55";
+const STEEL       = "#b0bec5";
+const STEEL_DARK  = "#78909c";
+const SILVER      = "#d0d8dd";
 const COPPER      = "#b87333";
 const HOT         = "#ff6633";
 const HOLO_CYAN   = "#00e5ff";
 const HOLO_GREEN  = "#39ff8e";
-const BG          = "#060d14";
+const BG          = "#111d2a";
 
 // ─── Ring geometry constants ───
 const RING_RADIUS = 8;       // Major radius of the torus
@@ -103,33 +104,33 @@ function getStationAngle(index: number): number {
 function AcceleratorRing() {
   return (
     <group>
-      {/* Main torus — solid translucent */}
+      {/* Main torus — solid translucent silver */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[RING_RADIUS, TUBE_RADIUS, 24, 120]} />
         <meshStandardMaterial
-          color={STEEL_DARK}
-          metalness={0.9}
-          roughness={0.2}
+          color={SILVER}
+          metalness={0.95}
+          roughness={0.12}
           transparent
-          opacity={0.15}
+          opacity={0.18}
         />
       </mesh>
-      {/* Wireframe overlay */}
+      {/* Wireframe overlay — bright silver */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[RING_RADIUS, TUBE_RADIUS + 0.02, 12, 120]} />
-        <meshBasicMaterial color={STEEL} wireframe transparent opacity={0.06} />
+        <meshBasicMaterial color={SILVER} wireframe transparent opacity={0.12} />
       </mesh>
       {/* Inner guide ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[RING_RADIUS, TUBE_RADIUS * 0.3, 16, 120]} />
-        <meshBasicMaterial color={TEAL} transparent opacity={0.04} />
+        <meshBasicMaterial color={TEAL} transparent opacity={0.06} />
       </mesh>
-      {/* Outer containment ring */}
+      {/* Outer containment ring — silver wireframe */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[RING_RADIUS, TUBE_RADIUS + 0.15, 6, 120]} />
-        <meshBasicMaterial color={NAVY} wireframe transparent opacity={0.03} />
+        <meshBasicMaterial color={SILVER} wireframe transparent opacity={0.05} />
       </mesh>
-      {/* Segment dividers — structural ribs */}
+      {/* Segment dividers — structural ribs, silver */}
       {Array.from({ length: 28 }).map((_, i) => {
         const angle = (i / 28) * Math.PI * 2;
         const x = Math.cos(angle) * RING_RADIUS;
@@ -137,7 +138,7 @@ function AcceleratorRing() {
         return (
           <mesh key={i} position={[x, 0, z]} rotation={[0, -angle + Math.PI / 2, 0]}>
             <torusGeometry args={[TUBE_RADIUS + 0.1, 0.015, 8, 16]} />
-            <meshStandardMaterial color={STEEL} metalness={0.8} roughness={0.3} transparent opacity={0.12} />
+            <meshStandardMaterial color={SILVER} metalness={0.9} roughness={0.15} transparent opacity={0.15} />
           </mesh>
         );
       })}
@@ -225,6 +226,69 @@ function SurplusParticles() {
       <sphereGeometry args={[1, 6, 6]} />
       <meshBasicMaterial color={ORANGE} transparent opacity={0.4} />
     </instancedMesh>
+  );
+}
+
+/* ── Inner tube particles — circling INSIDE the torus tube ── */
+function InnerTubeParticles() {
+  const count = 400;
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  const particles = useMemo(() =>
+    Array.from({ length: count }, (_, i) => ({
+      // Position along the major ring
+      ringAngle: (i / count) * Math.PI * 2,
+      // Position around the tube cross-section
+      tubeAngle: Math.random() * Math.PI * 2,
+      // How far from tube center (0 = center, 1 = wall)
+      tubeR: 0.15 + Math.random() * 0.35,
+      // Speed along the ring
+      ringSpeed: 0.25 + Math.random() * 0.2,
+      // Speed around the tube cross-section
+      tubeSpeed: 0.8 + Math.random() * 1.2,
+      size: 0.008 + Math.random() * 0.014,
+      bright: Math.random() > 0.7, // 30% are bright accents
+    })), []);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    particles.forEach((p, i) => {
+      // Current position along the ring
+      const rA = p.ringAngle + t * p.ringSpeed;
+      // Current position in tube cross-section
+      const tA = p.tubeAngle + t * p.tubeSpeed;
+
+      // Center of the tube at this ring position
+      const cx = Math.cos(rA) * RING_RADIUS;
+      const cz = Math.sin(rA) * RING_RADIUS;
+
+      // Offset within the tube cross-section
+      // The tube's local axes: radial (outward from ring center) and vertical (y)
+      const radialDir = [Math.cos(rA), 0, Math.sin(rA)];
+      const tubeOffsetR = Math.cos(tA) * p.tubeR * TUBE_RADIUS;
+      const tubeOffsetY = Math.sin(tA) * p.tubeR * TUBE_RADIUS;
+
+      const x = cx + radialDir[0] * tubeOffsetR;
+      const y = tubeOffsetY;
+      const z = cz + radialDir[2] * tubeOffsetR;
+
+      dummy.position.set(x, y, z);
+      const pulse = 1 + Math.sin(t * 4 + p.ringAngle * 3) * 0.25;
+      dummy.scale.setScalar(p.size * pulse);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+    });
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <>
+      <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+        <sphereGeometry args={[1, 6, 6]} />
+        <meshBasicMaterial color={HOLO_CYAN} transparent opacity={0.35} />
+      </instancedMesh>
+    </>
   );
 }
 
@@ -743,6 +807,8 @@ function CameraController({ activeStep }: { activeStep: number | null }) {
 function CentralCore() {
   const coreRef = useRef<THREE.Group>(null!);
   const outerRef = useRef<THREE.Mesh>(null!);
+  const glowRef = useRef<THREE.Mesh>(null!);
+  const pulseRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -751,6 +817,20 @@ function CentralCore() {
       outerRef.current.rotation.x = t * 0.08;
       outerRef.current.rotation.z = t * 0.05;
     }
+    // Pulsing glow
+    if (glowRef.current) {
+      const scale = 1 + Math.sin(t * 1.5) * 0.15;
+      glowRef.current.scale.setScalar(scale);
+      (glowRef.current.material as THREE.MeshBasicMaterial).opacity =
+        0.12 + Math.sin(t * 2) * 0.04;
+    }
+    // Outer pulse ring
+    if (pulseRef.current) {
+      const scale = 1.2 + Math.sin(t * 0.8) * 0.3;
+      pulseRef.current.scale.setScalar(scale);
+      (pulseRef.current.material as THREE.MeshBasicMaterial).opacity =
+        0.06 + Math.sin(t * 1.2) * 0.03;
+    }
   });
 
   return (
@@ -758,26 +838,56 @@ function CentralCore() {
       {/* Outer wireframe sphere */}
       <mesh ref={outerRef}>
         <icosahedronGeometry args={[2.5, 1]} />
-        <meshBasicMaterial color={NAVY} wireframe transparent opacity={0.04} />
+        <meshBasicMaterial color={SILVER} wireframe transparent opacity={0.05} />
+      </mesh>
+      {/* Large pulsing glow sphere — soft ambient */}
+      <mesh ref={pulseRef}>
+        <sphereGeometry args={[2, 16, 16]} />
+        <meshBasicMaterial color={TEAL} transparent opacity={0.06} />
       </mesh>
       {/* Inner core */}
       <group ref={coreRef}>
         <Float speed={1} floatIntensity={0.2}>
+          {/* Main dodecahedron — bright wireframe */}
           <mesh>
             <dodecahedronGeometry args={[0.8, 0]} />
-            <meshBasicMaterial color={TEAL} wireframe transparent opacity={0.15} />
+            <meshBasicMaterial color={HOLO_CYAN} wireframe transparent opacity={0.45} />
           </mesh>
+          {/* Solid inner glow */}
           <mesh>
-            <dodecahedronGeometry args={[0.6, 0]} />
-            <meshBasicMaterial color={ORANGE} transparent opacity={0.06} />
+            <dodecahedronGeometry args={[0.65, 0]} />
+            <meshBasicMaterial color={TEAL} transparent opacity={0.2} />
+          </mesh>
+          {/* Hot center */}
+          <mesh>
+            <dodecahedronGeometry args={[0.4, 0]} />
+            <meshBasicMaterial color={ORANGE} transparent opacity={0.15} />
+          </mesh>
+          {/* Bright core point */}
+          <mesh>
+            <sphereGeometry args={[0.2, 12, 12]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.12} />
           </mesh>
         </Float>
       </group>
+      {/* Glow halo */}
+      <mesh ref={glowRef}>
+        <sphereGeometry args={[1.2, 16, 16]} />
+        <meshBasicMaterial color={TEAL} transparent opacity={0.1} />
+      </mesh>
       {/* Vertical energy column */}
       <mesh>
-        <cylinderGeometry args={[0.02, 0.02, 4, 4]} />
-        <meshBasicMaterial color={TEAL} transparent opacity={0.08} />
+        <cylinderGeometry args={[0.03, 0.03, 5, 6]} />
+        <meshBasicMaterial color={HOLO_CYAN} transparent opacity={0.1} />
       </mesh>
+      {/* Second energy column — thinner, brighter */}
+      <mesh>
+        <cylinderGeometry args={[0.008, 0.008, 5.5, 4]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.06} />
+      </mesh>
+      {/* Core point light — strong glow */}
+      <pointLight intensity={3} color={TEAL} distance={6} />
+      <pointLight intensity={1.5} color={HOLO_CYAN} distance={4} />
     </group>
   );
 }
@@ -810,14 +920,15 @@ function BasePlatform() {
 function Scene({ activeStep }: { activeStep: number | null }) {
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.15} color="#4a6a8a" />
-      <directionalLight position={[10, 15, 5]} intensity={0.4} color="#ffffff" />
-      <directionalLight position={[-5, -3, 8]} intensity={0.15} color="#ff8844" />
-      <pointLight position={[0, 1.5, 0]} intensity={1} color={TEAL} distance={8} />
+      {/* Lighting — brighter scene */}
+      <ambientLight intensity={0.3} color="#6a8aaa" />
+      <directionalLight position={[10, 15, 5]} intensity={0.7} color="#ffffff" />
+      <directionalLight position={[-5, -3, 8]} intensity={0.25} color="#ff8844" />
+      <directionalLight position={[0, -5, -10]} intensity={0.15} color="#4488ff" />
+      <pointLight position={[0, 1.5, 0]} intensity={2} color={TEAL} distance={10} />
       {STEPS.map((step, i) => {
         const [x, , z] = getStationPosition(i);
-        return <pointLight key={i} position={[x, 3, z]} intensity={activeStep === i ? 1.5 : 0.1} color={step.color} distance={4} />;
+        return <pointLight key={i} position={[x, 3, z]} intensity={activeStep === i ? 2 : 0.15} color={step.color} distance={5} />;
       })}
 
       <CameraController activeStep={activeStep} />
@@ -826,6 +937,7 @@ function Scene({ activeStep }: { activeStep: number | null }) {
       <AcceleratorRing />
       <EnergyParticles />
       <SurplusParticles />
+      <InnerTubeParticles />
       <CentralCore />
       <BasePlatform />
 
@@ -856,7 +968,7 @@ export default function StellarEngineTurbine() {
   const activeData = activeStep !== null ? STEPS[activeStep] : null;
 
   return (
-    <div className="h-screen w-screen bg-[#060d14] flex">
+    <div className="h-screen w-screen bg-[#111d2a] flex">
       {/* Compact sidebar */}
       <div className="w-56 lg:w-64 shrink-0 bg-black/50 backdrop-blur-md border-r border-white/[0.03] flex flex-col overflow-y-auto">
         {/* Header */}
