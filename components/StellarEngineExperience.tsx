@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense, lazy } from "react";
 
-const StellarEngineOrbit = lazy(() => import("./StellarEngineOrbit"));
+const StellarEngineTurbine = lazy(() => import("./StellarEngineTurbine"));
 
 function useCanRender3D() {
   const [canRender, setCanRender] = useState<boolean | null>(null);
@@ -35,7 +35,7 @@ export default function StellarEngineExperience({ fallback }: { fallback: React.
 
   return (
     <Suspense fallback={<>{fallback}</>}>
-      <StellarEngineOrbit />
+      <StellarEngineTurbine />
     </Suspense>
   );
 }
