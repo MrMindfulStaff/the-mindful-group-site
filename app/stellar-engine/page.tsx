@@ -11,99 +11,102 @@ import Link from "next/link";
 /* ═══════════════════════════════════════════════════════════════
    THE STELLAR ENGINE — Architectural Cutaway Torus
 
-   Full-color, architectural-drawing style.
-   7 colored torus segments, cutaway reveals internal flow,
-   holographic dioramas above each station.
-   Sidebar + click navigation + orbit controls.
+   Full torus visible. ALL 7 sections permanently cutaway.
+   Holographic dioramas float above every station.
+   Click to rotate. Scroll for detail text below.
    ═══════════════════════════════════════════════════════════════ */
 
-// Brand palette
 const TEAL = "#1A7A5C";
-const TEAL_LIGHT = "#22936F";
-const TEAL_PALE = "#93B396";
+const TEAL_L = "#22936F";
+const TEAL_P = "#93B396";
 const ORANGE = "#E07C3E";
-const ORANGE_WARM = "#E8944F";
+const ORANGE_W = "#E8944F";
 const NAVY = "#1B3A5C";
-const NAVY_LIGHT = "#2A5580";
+const NAVY_L = "#2A5580";
 const COPPER = "#b87333";
 const BG = "#f5f2ec";
-const BG_DARK = "#e8e4dc";
+const BG_D = "#e8e4dc";
 const LINE = "#c0b8a8";
 
-const RING_R = 6;
-const TUBE_R = 0.7;
+const R = 5; // ring radius — smaller so it fits on screen
+const TR = 0.55; // tube radius
 const N = 7;
 
-// Step data
 const STEPS = [
   { id: "recruit", num: "01", title: "RECRUIT", sub: "Intake Accelerator", color: TEAL, glow: "#00d4aa",
     desc: "Zero-tuition enrollment from underserved communities. Court & probation partnerships. Walk-in orientations every other Tuesday at 11:30 AM.",
+    long: "The Stellar Engine begins where the need is greatest. We recruit directly from Milwaukee's most underserved zip codes — 53206, 53216, 53210 — through community partnerships, court referrals, and walk-in orientations. There are no prerequisites. No tuition. No barriers to entry. Every other Tuesday at 11:30 AM, anyone can walk in and begin. This is the intake accelerator — the widest possible funnel feeding into the most focused pipeline.",
     tags: ["Zero tuition", "Community outreach", "Court partnerships", "Walk-in orientations"] },
-  { id: "train", num: "02", title: "TRAIN", sub: "Compression Chamber", color: TEAL_LIGHT, glow: "#00c896",
+  { id: "train", num: "02", title: "TRAIN", sub: "Compression Chamber", color: TEAL_L, glow: "#00c896",
     desc: "Accelerated certification programs: CNA/CBRF, Construction, Phlebotomy. Industry-recognized credentials from day one.",
-    tags: ["CNA/CBRF", "Construction", "Phlebotomy", "Career workshops"] },
+    long: "Once enrolled, participants enter accelerated, high-density training cohorts. CNA/CBRF healthcare certification. Construction trades. Phlebotomy. Career development workshops. These are not remedial programs — they are compression chambers that pack months of traditional training into focused weeks. Every hour is designed to move participants closer to a credential that employers actually recognize and hire for.",
+    tags: ["CNA/CBRF Healthcare", "Construction & Trades", "Phlebotomy", "Career workshops"] },
   { id: "certify", num: "03", title: "CERTIFY", sub: "Ignition Core", color: ORANGE, glow: "#ff9050",
-    desc: "90% graduation rate. State-recognized credentials — not participation certificates. Potential becomes power.",
-    tags: ["State credentials", "90% grad rate", "Employer-validated", "Industry-standard"] },
+    desc: "90% graduation rate. State-recognized credentials — not participation certificates.",
+    long: "This is the ignition point. Participants earn real, state-recognized certifications — not participation trophies. Our 90% graduation rate proves the model works. These credentials are validated by employers, recognized by the state, and immediately employable. This is where potential combusts into power. The certification is the spark that ignites the entire economic engine that follows.",
+    tags: ["State credentials", "90% graduation rate", "Employer-validated", "Industry-standard"] },
   { id: "place", num: "04", title: "PLACE", sub: "Extraction Turbine", color: COPPER, glow: "#e0a060",
-    desc: "The staffing arm places graduates with employers. 85% placement rate. Every hire generates workforce revenue.",
-    tags: ["85% placement", "Staffing revenue", "Employer network", "Career tracking"] },
-  { id: "surplus", num: "05", title: "SURPLUS", sub: "Thrust Output", color: ORANGE_WARM, glow: "#ffa040",
-    desc: "Revenue exceeds operating costs. Not profit — thrust. The force that propels the system without grant dependency.",
+    desc: "The staffing arm places graduates with employers. 85% placement rate. Every hire generates revenue.",
+    long: "The Mindful Group's staffing arm places certified graduates directly with employers. This is not a referral — it is a placement. 85% of graduates are placed in jobs. Every single placement generates workforce revenue through the staffing relationship. The extraction turbine converts human potential into economic output — not extracting from the participant, but extracting value from the market on their behalf.",
+    tags: ["85% job placement", "Staffing arm revenue", "Employer network", "Career tracking"] },
+  { id: "surplus", num: "05", title: "SURPLUS", sub: "Thrust Output", color: ORANGE_W, glow: "#ffa040",
+    desc: "Revenue exceeds operating costs. Not profit — thrust.",
+    long: "When placement revenue exceeds the cost of training and support, the system generates surplus. This is not profit in the traditional sense — it is thrust. It is the economic force that propels the entire system forward without dependency on grants, donations, or government funding cycles. The surplus is the proof that the model is not charity — it is infrastructure. Self-sustaining infrastructure.",
     tags: ["Revenue > costs", "Grant-independent", "System fuel", "Revenue floor"] },
-  { id: "reinvest", num: "06", title: "REINVEST", sub: "Return Manifold", color: NAVY_LIGHT, glow: "#4090d0",
-    desc: "Surplus cycles back. 30% supportive services, 20% non-WIOA access, 30% expansion, 20% reserves.",
+  { id: "reinvest", num: "06", title: "REINVEST", sub: "Return Manifold", color: NAVY_L, glow: "#4090d0",
+    desc: "Surplus cycles back. 30% services, 20% non-WIOA, 30% expansion, 20% reserves.",
+    long: "The surplus does not leave the system. It cycles back through four allocation channels: 30% funds supportive services (childcare, transportation, housing). 20% opens access for non-WIOA-eligible participants who would otherwise be excluded. 30% funds geographic and programmatic expansion. 20% builds operational reserves for stability. This is the return manifold — the mechanism that makes the loop closed.",
     tags: ["30% → Services", "20% → Access", "30% → Expansion", "20% → Reserves"] },
   { id: "scale", num: "07", title: "SCALE", sub: "Amplification Ring", color: NAVY, glow: "#3070b0",
-    desc: "Cost per participant decreases. Surplus per cycle increases. More powerful at volume. Proven in Milwaukee's 53206.",
+    desc: "Cost per participant decreases. Surplus per cycle increases. Proven in 53206.",
+    long: "At scale, the Stellar Engine does not just sustain — it accelerates. Cost per participant decreases as fixed costs spread across more cohorts. Surplus per cycle increases as the staffing arm's employer network grows. The engine becomes more powerful at volume, not less. This is not theoretical — it has been proven over 9 years in Milwaukee's 53206, one of the most challenging zip codes in America. The model is replication-ready.",
     tags: ["Lower unit cost", "Growing surplus", "Replication-ready", "Proven in 53206"] },
 ];
 
-function angle(i: number) { return (i / N) * Math.PI * 2 - Math.PI / 2; }
-function pos(i: number): [number, number, number] {
-  const a = angle(i);
-  return [Math.cos(a) * RING_R, 0, Math.sin(a) * RING_R];
+function ang(i: number) { return (i / N) * Math.PI * 2 - Math.PI / 2; }
+function spos(i: number): [number, number, number] {
+  const a = ang(i); return [Math.cos(a) * R, 0, Math.sin(a) * R];
 }
 
 /* ═══════════════════════════════════════
-   TORUS SEGMENTS
+   TORUS — ALL segments cutaway
    ═══════════════════════════════════════ */
-function Segments({ active }: { active: number | null }) {
+function Torus({ active, onSelect }: { active: number | null; onSelect: (i: number) => void }) {
   return (
     <group>
       {STEPS.map((s, i) => {
-        const gap = 0.04;
-        const arc = (Math.PI * 2) / N - gap * 2;
-        const start = angle(i) - arc / 2;
-        const isActive = active === i;
-        const showArc = isActive ? arc * 0.6 : arc;
+        const gap = 0.06;
+        const fullArc = (Math.PI * 2) / N;
+        const showArc = fullArc - gap * 2;
+        const cutArc = showArc * 0.55; // permanent cutaway at 55%
+        const start = ang(i) - showArc / 2;
+        const isOn = active === i;
         return (
           <group key={s.id}>
-            <mesh rotation={[0, -start, 0]}>
-              <torusGeometry args={[RING_R, TUBE_R, 24, 40, showArc]} />
+            {/* Outer shell — only 55% of arc shown (cutaway) */}
+            <mesh rotation={[0, -start, 0]} onClick={(e) => { e.stopPropagation(); onSelect(i); }}>
+              <torusGeometry args={[R, TR, 20, 32, cutArc]} />
               <meshStandardMaterial
                 color={s.color}
                 emissive={s.color}
-                emissiveIntensity={isActive ? 0.35 : 0.06}
-                roughness={0.4}
+                emissiveIntensity={isOn ? 0.4 : 0.08}
+                roughness={0.35}
                 metalness={0.15}
                 side={THREE.DoubleSide}
               />
             </mesh>
-            {/* Cutaway internals */}
-            {isActive && (
-              <group rotation={[0, -start, 0]}>
-                <mesh>
-                  <torusGeometry args={[RING_R, TUBE_R * 0.38, 16, 40, showArc]} />
-                  <meshStandardMaterial color="#0d1e30" emissive={s.glow} emissiveIntensity={0.12} roughness={0.5} metalness={0.3} side={THREE.DoubleSide} />
-                </mesh>
-                <mesh>
-                  <torusGeometry args={[RING_R, TUBE_R * 0.14, 10, 40, showArc]} />
-                  <meshBasicMaterial color={s.glow} transparent opacity={0.3} side={THREE.DoubleSide} />
-                </mesh>
-                <CutDisc a={start + showArc} color={s.color} glow={s.glow} />
-              </group>
-            )}
+            {/* Inner channel — visible in the cutaway gap */}
+            <mesh rotation={[0, -start, 0]}>
+              <torusGeometry args={[R, TR * 0.35, 14, 32, showArc]} />
+              <meshStandardMaterial color="#0d1e30" emissive={s.glow} emissiveIntensity={isOn ? 0.2 : 0.06} roughness={0.5} metalness={0.3} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Energy core — glowing inner tube */}
+            <mesh rotation={[0, -start, 0]}>
+              <torusGeometry args={[R, TR * 0.12, 8, 32, showArc]} />
+              <meshBasicMaterial color={s.glow} transparent opacity={isOn ? 0.35 : 0.12} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Cut edge disc */}
+            <CutFace a={start + cutArc} color={s.color} glow={s.glow} on={isOn} />
           </group>
         );
       })}
@@ -111,50 +114,48 @@ function Segments({ active }: { active: number | null }) {
   );
 }
 
-function CutDisc({ a, color, glow }: { a: number; color: string; glow: string }) {
-  const x = Math.cos(-a) * RING_R, z = Math.sin(-a) * RING_R;
+function CutFace({ a, color, glow, on }: { a: number; color: string; glow: string; on: boolean }) {
+  const x = Math.cos(-a) * R, z = Math.sin(-a) * R;
   return (
     <group position={[x, 0, z]} rotation={[0, -a + Math.PI / 2, 0]}>
       <mesh rotation={[0, Math.PI / 2, 0]}>
-        <ringGeometry args={[TUBE_R * 0.38, TUBE_R, 32]} />
-        <meshStandardMaterial color={color} roughness={0.4} metalness={0.15} side={THREE.DoubleSide} />
+        <ringGeometry args={[TR * 0.35, TR, 32]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={on ? 0.15 : 0.03} roughness={0.35} metalness={0.15} side={THREE.DoubleSide} />
       </mesh>
       <mesh rotation={[0, Math.PI / 2, 0]}>
-        <ringGeometry args={[TUBE_R * 0.14, TUBE_R * 0.38, 32]} />
+        <ringGeometry args={[TR * 0.12, TR * 0.35, 32]} />
         <meshStandardMaterial color="#0d1e30" roughness={0.5} side={THREE.DoubleSide} />
       </mesh>
       <mesh rotation={[0, Math.PI / 2, 0]}>
-        <circleGeometry args={[TUBE_R * 0.14, 24]} />
-        <meshBasicMaterial color={glow} transparent opacity={0.45} side={THREE.DoubleSide} />
+        <circleGeometry args={[TR * 0.12, 24]} />
+        <meshBasicMaterial color={glow} transparent opacity={on ? 0.5 : 0.2} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
 }
 
 /* ═══════════════════════════════════════
-   FLOW PARTICLES
+   PARTICLES + ARROWS
    ═══════════════════════════════════════ */
 function Particles() {
-  const count = 350;
+  const ct = 300;
   const ref = useRef<THREE.InstancedMesh>(null!);
   const o = useMemo(() => new THREE.Object3D(), []);
-  const data = useMemo(() => Array.from({ length: count }, (_, i) => ({
-    a: (i / count) * Math.PI * 2,
-    sp: 0.1 + Math.random() * 0.06,
-    ta: Math.random() * Math.PI * 2,
-    tr: Math.random() * TUBE_R * 0.3,
-    sz: 0.012 + Math.random() * 0.018,
+  const d = useMemo(() => Array.from({ length: ct }, (_, i) => ({
+    a: (i / ct) * Math.PI * 2, sp: 0.08 + Math.random() * 0.05,
+    ta: Math.random() * Math.PI * 2, tr: Math.random() * TR * 0.28,
+    sz: 0.01 + Math.random() * 0.014,
   })), []);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    data.forEach((p, i) => {
+    d.forEach((p, i) => {
       const a = p.a + t * p.sp;
-      const cx = Math.cos(a) * RING_R, cz = Math.sin(a) * RING_R;
+      const cx = Math.cos(a) * R, cz = Math.sin(a) * R;
       const ox = Math.cos(p.ta) * p.tr, oy = Math.sin(p.ta) * p.tr;
-      const nx = -Math.sin(a), nz = Math.cos(a);
-      o.position.set(cx + nx * ox, oy, cz + nz * ox);
-      o.scale.setScalar(p.sz * (0.8 + Math.sin(t * 2 + p.a * 3) * 0.2));
+      const nx = -Math.sin(a);
+      o.position.set(cx + nx * ox, oy, cz + Math.cos(a) * ox);
+      o.scale.setScalar(p.sz);
       o.updateMatrix();
       ref.current.setMatrixAt(i, o.matrix);
     });
@@ -162,22 +163,19 @@ function Particles() {
   });
 
   return (
-    <instancedMesh ref={ref} args={[undefined, undefined, count]}>
-      <sphereGeometry args={[1, 6, 6]} />
-      <meshBasicMaterial color={TEAL_PALE} transparent opacity={0.4} />
+    <instancedMesh ref={ref} args={[undefined, undefined, ct]}>
+      <sphereGeometry args={[1, 5, 5]} />
+      <meshBasicMaterial color={TEAL_P} transparent opacity={0.35} />
     </instancedMesh>
   );
 }
 
-/* ═══════════════════════════════════════
-   FLOW ARROWS
-   ═══════════════════════════════════════ */
 function Arrows() {
   const ref = useRef<THREE.Group>(null!);
   useFrame(({ clock }) => {
     if (!ref.current) return;
     ref.current.children.forEach((c, i) => {
-      ((c as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = 0.18 + Math.sin(clock.elapsedTime * 1.5 + i * 0.5) * 0.1;
+      ((c as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = 0.15 + Math.sin(clock.elapsedTime * 1.5 + i * 0.5) * 0.08;
     });
   });
   return (
@@ -185,9 +183,9 @@ function Arrows() {
       {Array.from({ length: 14 }, (_, i) => {
         const a = (i / 14) * Math.PI * 2;
         return (
-          <mesh key={i} position={[Math.cos(a) * RING_R, TUBE_R + 0.05, Math.sin(a) * RING_R]} rotation={[Math.PI / 2, 0, -(a + Math.PI / 2)]}>
-            <coneGeometry args={[0.05, 0.12, 3]} />
-            <meshBasicMaterial color={ORANGE} transparent opacity={0.2} />
+          <mesh key={i} position={[Math.cos(a) * R, TR + 0.04, Math.sin(a) * R]} rotation={[Math.PI / 2, 0, -(a + Math.PI / 2)]}>
+            <coneGeometry args={[0.04, 0.1, 3]} />
+            <meshBasicMaterial color={ORANGE} transparent opacity={0.15} />
           </mesh>
         );
       })}
@@ -196,22 +194,18 @@ function Arrows() {
 }
 
 /* ═══════════════════════════════════════
-   LABELS
+   LABELS under each station
    ═══════════════════════════════════════ */
-function Labels({ active }: { active: number | null }) {
+function StepLabels({ active }: { active: number | null }) {
   return (
     <group>
       {STEPS.map((s, i) => {
-        const [x, , z] = pos(i);
+        const [x, , z] = spos(i);
         const on = active === i;
         return (
-          <group key={i} position={[x, -TUBE_R - 0.3, z]}>
-            <Text position={[0, 0, 0]} fontSize={on ? 0.15 : 0.1} color={on ? s.color : "#aaa"} anchorX="center" anchorY="middle">
-              {s.num}
-            </Text>
-            <Text position={[0, -0.14, 0]} fontSize={on ? 0.07 : 0.05} color={on ? "#444" : "#bbb"} anchorX="center" anchorY="middle">
-              {s.title}
-            </Text>
+          <group key={i} position={[x, -TR - 0.25, z]}>
+            <Text position={[0, 0, 0]} fontSize={on ? 0.14 : 0.09} color={on ? s.color : "#aaa"} anchorX="center" anchorY="middle">{s.num}</Text>
+            <Text position={[0, -0.13, 0]} fontSize={on ? 0.065 : 0.045} color={on ? "#444" : "#bbb"} anchorX="center" anchorY="middle">{s.title}</Text>
           </group>
         );
       })}
@@ -220,420 +214,279 @@ function Labels({ active }: { active: number | null }) {
 }
 
 /* ═══════════════════════════════════════
-   CENTRAL CORE
+   CORE
    ═══════════════════════════════════════ */
 function Core() {
   const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.elapsedTime * 0.08; });
+  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.elapsedTime * 0.06; });
   return (
     <group>
       <group ref={ref}>
-        <Float speed={1.2} rotationIntensity={0.1} floatIntensity={0.15}>
-          <mesh>
-            <dodecahedronGeometry args={[0.7, 0]} />
-            <meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={1.5} wireframe transparent opacity={0.5} />
-          </mesh>
-          <mesh>
-            <dodecahedronGeometry args={[0.4, 0]} />
-            <meshBasicMaterial color={TEAL} transparent opacity={0.1} />
-          </mesh>
-          <mesh>
-            <sphereGeometry args={[0.25, 16, 16]} />
-            <meshBasicMaterial color="#f0ede8" transparent opacity={0.08} />
-          </mesh>
+        <Float speed={1} rotationIntensity={0.08} floatIntensity={0.1}>
+          <mesh><dodecahedronGeometry args={[0.55, 0]} /><meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={1.2} wireframe transparent opacity={0.45} /></mesh>
+          <mesh><dodecahedronGeometry args={[0.32, 0]} /><meshBasicMaterial color={TEAL} transparent opacity={0.08} /></mesh>
+          <mesh><sphereGeometry args={[0.18, 12, 12]} /><meshBasicMaterial color="#fff" transparent opacity={0.06} /></mesh>
         </Float>
       </group>
-      <mesh>
-        <sphereGeometry args={[1.2, 16, 16]} />
-        <meshBasicMaterial color={TEAL} transparent opacity={0.04} />
-      </mesh>
-      <pointLight intensity={3} color={TEAL} distance={8} />
+      <mesh><sphereGeometry args={[0.9, 16, 16]} /><meshBasicMaterial color={TEAL} transparent opacity={0.03} /></mesh>
+      <pointLight intensity={2.5} color={TEAL} distance={7} />
     </group>
   );
 }
 
 /* ═══════════════════════════════════════
-   HOLOGRAM CONTAINER
+   HOLOGRAPHIC SCENES — always visible
    ═══════════════════════════════════════ */
-function HoloWrap({ index, active, children }: { index: number; active: boolean; children: React.ReactNode }) {
-  const [x, , z] = pos(index);
+const SKIN = ["#8d5524", "#c68642", "#e0ac69", "#6b3a1f", "#c68642"];
+const SHRT = [TEAL, TEAL_L, ORANGE, NAVY_L, COPPER];
+
+function Fig({ x, z, si, ci, h = 0.14 }: { x: number; z: number; si: number; ci: number; h?: number }) {
+  return (
+    <group position={[x, 0, z]}>
+      <mesh position={[0, h + 0.03, 0]}><sphereGeometry args={[0.02, 7, 7]} /><meshStandardMaterial color={SKIN[si % 5]} roughness={0.7} /></mesh>
+      <mesh position={[0, h / 2, 0]}><capsuleGeometry args={[0.016, h * 0.45, 3, 6]} /><meshStandardMaterial color={SHRT[ci % 5]} roughness={0.6} /></mesh>
+      <mesh position={[0, 0.025, 0]}><capsuleGeometry args={[0.01, 0.03, 3, 5]} /><meshStandardMaterial color="#2a3040" roughness={0.8} /></mesh>
+    </group>
+  );
+}
+
+function H01() {
+  const r = useRef<THREE.Group>(null!);
+  useFrame(({ clock }) => { if (r.current) r.current.rotation.y = clock.elapsedTime * 0.12; });
+  return (<group ref={r}>
+    <mesh position={[0, 0.2, 0]}><torusGeometry args={[0.28, 0.03, 8, 20, Math.PI]} /><meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={0.5} roughness={0.3} metalness={0.4} /></mesh>
+    <mesh position={[0, 0.2, 0]}><circleGeometry args={[0.24, 14, 0, Math.PI]} /><meshBasicMaterial color="#00e8aa" transparent opacity={0.12} side={THREE.DoubleSide} /></mesh>
+    {[-0.4, -0.26, -0.13, 0.01].map((xo, i) => <Fig key={i} x={xo} z={i * 0.09 - 0.1} si={i} ci={i} h={0.12 + i * 0.015} />)}
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.001, 0]}><boxGeometry args={[0.65, 0.12, 0.004]} /><meshStandardMaterial color="#888" roughness={0.9} /></mesh>
+  </group>);
+}
+
+function H02() {
+  return (<group>
+    <mesh position={[0, 0.28, -0.16]}><boxGeometry args={[0.4, 0.24, 0.008]} /><meshStandardMaterial color="#e8e8e0" roughness={0.4} /></mesh>
+    {[0.3, 0.26, 0.22].map((y, i) => <mesh key={i} position={[0, y, -0.155]}><boxGeometry args={[0.3 - i * 0.04, 0.005, 0.004]} /><meshStandardMaterial color={TEAL_L} roughness={0.5} /></mesh>)}
+    <Fig x={0.14} z={-0.1} si={0} ci={3} h={0.16} />
+    {[[-0.14, 0.06], [0, 0.06], [0.14, 0.06], [-0.07, 0.16], [0.07, 0.16]].map(([dx, dz], i) => (
+      <group key={i} position={[dx!, 0, dz!]}>
+        <mesh position={[0, 0.05, 0]}><boxGeometry args={[0.065, 0.004, 0.04]} /><meshStandardMaterial color="#8a7050" roughness={0.8} /></mesh>
+        <Fig x={0} z={0.02} si={i + 1} ci={i} h={0.08} />
+      </group>
+    ))}
+  </group>);
+}
+
+function H03() {
+  const r = useRef<THREE.Group>(null!);
+  useFrame(({ clock }) => { if (r.current) r.current.rotation.y = Math.sin(clock.elapsedTime * 0.25) * 0.15; });
+  return (<group ref={r}>
+    <mesh position={[0, 0.015, 0]}><cylinderGeometry args={[0.28, 0.32, 0.03, 24]} /><meshStandardMaterial color="#8a7050" roughness={0.7} /></mesh>
+    <group position={[0, 0.03, 0]}>
+      <mesh position={[0, 0.21, 0]}><boxGeometry args={[0.05, 0.004, 0.05]} /><meshStandardMaterial color="#1a1a2a" /></mesh>
+      <mesh position={[0, 0.18, 0]}><sphereGeometry args={[0.024, 8, 8]} /><meshStandardMaterial color="#8d5524" roughness={0.7} /></mesh>
+      <mesh position={[0, 0.08, 0]}><capsuleGeometry args={[0.022, 0.11, 4, 7]} /><meshStandardMaterial color="#1a1a3a" roughness={0.5} /></mesh>
+      <mesh position={[0.05, 0.12, 0.015]} rotation={[0, 0, -0.3]}><boxGeometry args={[0.065, 0.048, 0.002]} /><meshStandardMaterial color="#f5f0e8" roughness={0.4} /></mesh>
+      <mesh position={[0.05, 0.125, 0.017]} rotation={[0, 0, -0.3]}><boxGeometry args={[0.025, 0.004, 0.002]} /><meshStandardMaterial color={ORANGE} emissive={ORANGE} emissiveIntensity={0.4} /></mesh>
+    </group>
+    {[-0.16, -0.06, 0.06, 0.16].map((x, i) => <group key={i} position={[x, 0.03, 0.2]}>
+      <mesh position={[0, 0.06, 0]}><sphereGeometry args={[0.014, 5, 5]} /><meshStandardMaterial color="#555" /></mesh>
+      <mesh position={[0, 0.03, 0]}><capsuleGeometry args={[0.01, 0.03, 3, 5]} /><meshStandardMaterial color="#444" /></mesh>
+    </group>)}
+  </group>);
+}
+
+function H04() {
+  return (<group>
+    <mesh position={[0, 0.065, 0]}><boxGeometry args={[0.28, 0.006, 0.16]} /><meshStandardMaterial color="#6a5035" roughness={0.7} /></mesh>
+    {[[-0.12, -0.06], [0.12, -0.06], [-0.12, 0.06], [0.12, 0.06]].map(([x, z], i) => <mesh key={i} position={[x!, 0.032, z!]}><boxGeometry args={[0.006, 0.065, 0.006]} /><meshStandardMaterial color="#555" /></mesh>)}
+    <Fig x={-0.11} z={-0.06} si={1} ci={3} h={0.15} />
+    <Fig x={0.11} z={-0.06} si={0} ci={0} h={0.14} />
+    <mesh position={[0, 0.115, -0.03]} rotation={[0, 0, Math.PI / 2]}><capsuleGeometry args={[0.007, 0.05, 3, 5]} /><meshStandardMaterial color="#c68642" roughness={0.7} /></mesh>
+    <mesh position={[0, 0.072, 0.015]}><boxGeometry args={[0.048, 0.002, 0.065]} /><meshStandardMaterial color="#f5f0e8" roughness={0.4} /></mesh>
+  </group>);
+}
+
+function H05() {
+  const r = useRef<THREE.Group>(null!);
+  useFrame(({ clock }) => { if (r.current) r.current.rotation.y = Math.sin(clock.elapsedTime * 0.18) * 0.12; });
+  const bars = [0.05, 0.08, 0.1, 0.14, 0.18, 0.24, 0.3];
+  const op = 0.12;
+  return (<group ref={r}>
+    <mesh position={[0, 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]}><boxGeometry args={[0.4, 0.008, 0.004]} /><meshStandardMaterial color="#666" /></mesh>
+    <mesh position={[-0.19, 0.16, 0]}><boxGeometry args={[0.004, 0.32, 0.008]} /><meshStandardMaterial color="#666" /></mesh>
+    {bars.map((h, i) => <mesh key={i} position={[-0.14 + i * 0.052, h / 2, 0]}><boxGeometry args={[0.032, h, 0.032]} /><meshStandardMaterial color={h > op ? ORANGE : TEAL_L} emissive={h > op ? ORANGE : TEAL_L} emissiveIntensity={h > op ? 0.25 : 0.08} roughness={0.4} /></mesh>)}
+    <mesh position={[0, op, 0.015]}><boxGeometry args={[0.4, 0.002, 0.002]} /><meshBasicMaterial color="#ff4444" transparent opacity={0.5} /></mesh>
+    <Text position={[0.17, op + 0.015, 0.015]} fontSize={0.014} color="#ff6666" anchorX="left">Op Cost</Text>
+  </group>);
+}
+
+function H06() {
+  const ch = [
+    { l: "Services", p: "30%", c: TEAL, x: -0.4, h: 0.24 },
+    { l: "Access", p: "20%", c: TEAL_L, x: -0.13, h: 0.2 },
+    { l: "Expansion", p: "30%", c: ORANGE, x: 0.13, h: 0.28 },
+    { l: "Reserves", p: "20%", c: NAVY, x: 0.4, h: 0.16 },
+  ];
+  return (<group>
+    <mesh position={[0, -0.04, 0]}><cylinderGeometry args={[0.032, 0.032, 0.12, 7]} /><meshStandardMaterial color={ORANGE_W} emissive={ORANGE_W} emissiveIntensity={0.25} roughness={0.4} /></mesh>
+    <mesh position={[0, 0.03, 0]}><sphereGeometry args={[0.04, 10, 10]} /><meshStandardMaterial color={ORANGE_W} emissive={ORANGE_W} emissiveIntensity={0.35} roughness={0.3} metalness={0.3} /></mesh>
+    {ch.map((c, i) => <group key={i}>
+      <mesh position={[c.x * 0.45, 0.03 + c.h / 2, 0]} rotation={[0, 0, -c.x * 0.4]}><cylinderGeometry args={[0.01, 0.012, c.h, 5]} /><meshStandardMaterial color={c.c} emissive={c.c} emissiveIntensity={0.15} roughness={0.5} /></mesh>
+      <mesh position={[c.x, 0.03 + c.h, 0]}><cylinderGeometry args={[0.032, 0.024, 0.048, 7]} /><meshStandardMaterial color={c.c} emissive={c.c} emissiveIntensity={0.15} roughness={0.4} metalness={0.2} /></mesh>
+      <Text position={[c.x, 0.03 + c.h + 0.05, 0]} fontSize={0.015} color={c.c} anchorX="center">{c.p}</Text>
+      <Text position={[c.x, 0.03 + c.h + 0.035, 0]} fontSize={0.01} color="#888" anchorX="center">{c.l}</Text>
+    </group>)}
+  </group>);
+}
+
+function H07() {
+  const r = useRef<THREE.Group>(null!);
+  useFrame(({ clock }) => { if (r.current) r.current.rotation.y = clock.elapsedTime * 0.18; });
+  return (<group ref={r}>
+    <mesh><torusGeometry args={[0.16, 0.024, 10, 24]} /><meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={0.45} roughness={0.3} metalness={0.4} /></mesh>
+    {[0.26, 0.34, 0.4].map((rv, i) => <mesh key={i} rotation={[Math.PI / 2, 0, (i + 1) * 0.3]}>
+      <torusGeometry args={[rv, 0.012 - i * 0.002, 7, 20]} />
+      <meshStandardMaterial color={[TEAL_L, ORANGE, NAVY][i]} emissive={[TEAL_L, ORANGE, NAVY][i]} emissiveIntensity={0.25 - i * 0.06} roughness={0.4} transparent opacity={0.65 - i * 0.12} />
+    </mesh>)}
+    <mesh><sphereGeometry args={[0.05, 10, 10]} /><meshBasicMaterial color={TEAL_P} transparent opacity={0.12} /></mesh>
+  </group>);
+}
+
+const HOLOS = [H01, H02, H03, H04, H05, H06, H07];
+
+/* ═══════════════════════════════════════
+   HOLOGRAM CONTAINER — always visible
+   ═══════════════════════════════════════ */
+function HoloPod({ index, active }: { index: number; active: boolean }) {
+  const [x, , z] = spos(index);
   const s = STEPS[index];
   const ref = useRef<THREE.Group>(null!);
+  const H = HOLOS[index];
 
   useFrame(() => {
     if (!ref.current) return;
-    const ty = active ? 2.2 : 1.5;
-    const ts = active ? 1.5 : 0.7;
-    ref.current.position.y += (ty - ref.current.position.y) * 0.04;
+    const ts = active ? 1.4 : 0.85;
     const cs = ref.current.scale.x;
     ref.current.scale.setScalar(cs + (ts - cs) * 0.04);
   });
 
   return (
-    <group position={[x, 1.5, z]}>
+    <group position={[x, TR + 0.6, z]}>
       <group ref={ref}>
-        {/* Pedestal disc */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
-          <circleGeometry args={[0.45, 24]} />
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.04, 0]}>
+          <circleGeometry args={[0.35, 20]} />
           <meshBasicMaterial color={s.glow} transparent opacity={active ? 0.06 : 0.02} side={THREE.DoubleSide} />
         </mesh>
-        {/* Projection beam */}
-        <mesh position={[0, -0.5, 0]}>
-          <cylinderGeometry args={[0.005, 0.08, 1, 6]} />
-          <meshBasicMaterial color={s.glow} transparent opacity={active ? 0.1 : 0.02} />
+        <mesh position={[0, -0.35, 0]}>
+          <cylinderGeometry args={[0.004, 0.06, 0.65, 5]} />
+          <meshBasicMaterial color={s.glow} transparent opacity={active ? 0.08 : 0.02} />
         </mesh>
-        {children}
-        {active && <pointLight intensity={1} color={s.glow} distance={3} />}
+        <H />
+        {active && <pointLight intensity={0.8} color={s.glow} distance={2.5} />}
       </group>
     </group>
   );
 }
 
 /* ═══════════════════════════════════════
-   7 HOLOGRAPHIC SCENES
+   BACKGROUND — architectural drawing
    ═══════════════════════════════════════ */
-
-// Skin + shirt helpers
-const SKIN = ["#8d5524", "#c68642", "#e0ac69", "#6b3a1f", "#c68642"];
-const SHIRTS = [TEAL, TEAL_LIGHT, ORANGE, NAVY_LIGHT, COPPER];
-
-function Person({ x, z, skinI, shirtI, h = 0.17 }: { x: number; z: number; skinI: number; shirtI: number; h?: number }) {
-  return (
-    <group position={[x, 0, z]}>
-      <mesh position={[0, h + 0.04, 0]}><sphereGeometry args={[0.025, 8, 8]} /><meshStandardMaterial color={SKIN[skinI % 5]} roughness={0.7} /></mesh>
-      <mesh position={[0, h / 2 + 0.01, 0]}><capsuleGeometry args={[0.02, h * 0.5, 4, 8]} /><meshStandardMaterial color={SHIRTS[shirtI % 5]} roughness={0.6} /></mesh>
-      <mesh position={[0, 0.03, 0]}><capsuleGeometry args={[0.012, 0.04, 4, 6]} /><meshStandardMaterial color="#2a3040" roughness={0.8} /></mesh>
-    </group>
-  );
-}
-
-/* 01 — People entering a portal */
-function Holo01() {
-  const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.elapsedTime * 0.15; });
-  return (
-    <group ref={ref}>
-      {/* Portal arch */}
-      <mesh position={[0, 0.25, 0]}>
-        <torusGeometry args={[0.35, 0.04, 8, 24, Math.PI]} />
-        <meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={0.6} roughness={0.3} metalness={0.5} />
-      </mesh>
-      <mesh position={[0, 0.25, 0]}>
-        <circleGeometry args={[0.3, 16, 0, Math.PI]} />
-        <meshBasicMaterial color="#00e8aa" transparent opacity={0.15} side={THREE.DoubleSide} />
-      </mesh>
-      {/* Queue of people */}
-      {[-0.5, -0.32, -0.16, 0.02].map((xo, i) => (
-        <Person key={i} x={xo} z={i * 0.12 - 0.15} skinI={i} shirtI={i} h={0.15 + i * 0.02} />
-      ))}
-      {/* Path */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.001, 0]}>
-        <boxGeometry args={[0.8, 0.15, 0.005]} />
-        <meshStandardMaterial color="#888" roughness={0.9} />
-      </mesh>
-    </group>
-  );
-}
-
-/* 02 — Classroom */
-function Holo02() {
+function Bg() {
   return (
     <group>
-      {/* Whiteboard */}
-      <mesh position={[0, 0.35, -0.2]}>
-        <boxGeometry args={[0.5, 0.3, 0.01]} />
-        <meshStandardMaterial color="#e8e8e0" roughness={0.4} />
+      <SkyGrad />
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+        <circleGeometry args={[22, 48]} />
+        <meshStandardMaterial color={BG_D} roughness={0.95} />
       </mesh>
-      {[0.38, 0.34, 0.30].map((y, i) => (
-        <mesh key={i} position={[0, y, -0.19]}>
-          <boxGeometry args={[0.35 - i * 0.05, 0.006, 0.005]} />
-          <meshStandardMaterial color={TEAL_LIGHT} roughness={0.5} />
+      {Array.from({ length: 14 }, (_, i) => (
+        <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.99, 0]}>
+          <ringGeometry args={[(i + 1) * 1.5 - 0.006, (i + 1) * 1.5 + 0.006, 64]} />
+          <meshBasicMaterial color={LINE} transparent opacity={0.04 - i * 0.002} side={THREE.DoubleSide} />
         </mesh>
       ))}
-      {/* Instructor */}
-      <Person x={0.18} z={-0.12} skinI={0} shirtI={3} h={0.2} />
-      {/* Students at desks */}
-      {[[-0.18, 0.08], [0, 0.08], [0.18, 0.08], [-0.1, 0.2], [0.08, 0.2]].map(([dx, dz], i) => (
-        <group key={i} position={[dx!, 0, dz!]}>
-          <mesh position={[0, 0.06, 0]}><boxGeometry args={[0.08, 0.005, 0.05]} /><meshStandardMaterial color="#8a7050" roughness={0.8} /></mesh>
-          <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.005, 0.06, 0.005]} /><meshStandardMaterial color="#666" roughness={0.8} /></mesh>
-          <Person x={0} z={0.025} skinI={i + 1} shirtI={i} h={0.1} />
-        </group>
-      ))}
-    </group>
-  );
-}
-
-/* 03 — Graduate with certificate */
-function Holo03() {
-  const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = Math.sin(clock.elapsedTime * 0.3) * 0.2; });
-  return (
-    <group ref={ref}>
-      {/* Stage */}
-      <mesh position={[0, 0.02, 0]}>
-        <cylinderGeometry args={[0.35, 0.4, 0.04, 32]} />
-        <meshStandardMaterial color="#8a7050" roughness={0.7} />
-      </mesh>
-      {/* Graduate */}
-      <group position={[0, 0.04, 0]}>
-        <mesh position={[0, 0.26, 0]}><boxGeometry args={[0.06, 0.005, 0.06]} /><meshStandardMaterial color="#1a1a2a" roughness={0.5} /></mesh>
-        <mesh position={[0, 0.245, 0]}><cylinderGeometry args={[0.02, 0.02, 0.02, 8]} /><meshStandardMaterial color="#1a1a2a" roughness={0.5} /></mesh>
-        <mesh position={[0, 0.22, 0]}><sphereGeometry args={[0.03, 10, 10]} /><meshStandardMaterial color="#8d5524" roughness={0.7} /></mesh>
-        <mesh position={[0, 0.1, 0]}><capsuleGeometry args={[0.028, 0.14, 4, 8]} /><meshStandardMaterial color="#1a1a3a" roughness={0.5} /></mesh>
-        {/* Certificate */}
-        <mesh position={[0.06, 0.15, 0.02]} rotation={[0, 0, -0.3]}>
-          <boxGeometry args={[0.08, 0.06, 0.002]} />
-          <meshStandardMaterial color="#f5f0e8" roughness={0.4} />
-        </mesh>
-        <mesh position={[0.06, 0.155, 0.022]} rotation={[0, 0, -0.3]}>
-          <boxGeometry args={[0.03, 0.005, 0.002]} />
-          <meshStandardMaterial color={ORANGE} emissive={ORANGE} emissiveIntensity={0.5} roughness={0.4} />
-        </mesh>
-      </group>
-      {/* Audience */}
-      {[-0.2, -0.08, 0.08, 0.2].map((x, i) => (
-        <group key={i} position={[x, 0.04, 0.25]}>
-          <mesh position={[0, 0.08, 0]}><sphereGeometry args={[0.018, 6, 6]} /><meshStandardMaterial color="#555" roughness={0.8} /></mesh>
-          <mesh position={[0, 0.04, 0]}><capsuleGeometry args={[0.012, 0.04, 4, 6]} /><meshStandardMaterial color="#444" roughness={0.8} /></mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-/* 04 — Handshake / Job placement */
-function Holo04() {
-  return (
-    <group>
-      {/* Desk */}
-      <mesh position={[0, 0.08, 0]}><boxGeometry args={[0.35, 0.008, 0.2]} /><meshStandardMaterial color="#6a5035" roughness={0.7} /></mesh>
-      {[[-0.16, -0.08], [0.16, -0.08], [-0.16, 0.08], [0.16, 0.08]].map(([x, z], i) => (
-        <mesh key={i} position={[x!, 0.04, z!]}><boxGeometry args={[0.008, 0.08, 0.008]} /><meshStandardMaterial color="#555" roughness={0.8} /></mesh>
-      ))}
-      {/* Employer + Graduate */}
-      <Person x={-0.14} z={-0.08} skinI={1} shirtI={3} h={0.18} />
-      <Person x={0.14} z={-0.08} skinI={0} shirtI={0} h={0.17} />
-      {/* Handshake */}
-      <mesh position={[0, 0.14, -0.04]} rotation={[0, 0, Math.PI / 2]}>
-        <capsuleGeometry args={[0.008, 0.06, 4, 6]} />
-        <meshStandardMaterial color="#c68642" roughness={0.7} />
-      </mesh>
-      {/* Contract */}
-      <mesh position={[0, 0.088, 0.02]}><boxGeometry args={[0.06, 0.002, 0.08]} /><meshStandardMaterial color="#f5f0e8" roughness={0.4} /></mesh>
-    </group>
-  );
-}
-
-/* 05 — Revenue chart */
-function Holo05() {
-  const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = Math.sin(clock.elapsedTime * 0.2) * 0.15; });
-  const bars = [0.06, 0.1, 0.12, 0.18, 0.22, 0.3, 0.38];
-  const opLine = 0.15;
-  return (
-    <group ref={ref}>
-      {/* Axes */}
-      <mesh position={[0, 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}><boxGeometry args={[0.5, 0.01, 0.005]} /><meshStandardMaterial color="#666" roughness={0.8} /></mesh>
-      <mesh position={[-0.24, 0.2, 0]}><boxGeometry args={[0.005, 0.4, 0.01]} /><meshStandardMaterial color="#666" roughness={0.8} /></mesh>
-      {/* Bars */}
-      {bars.map((h, i) => (
-        <mesh key={i} position={[-0.18 + i * 0.065, h / 2, 0]}>
-          <boxGeometry args={[0.04, h, 0.04]} />
-          <meshStandardMaterial color={h > opLine ? ORANGE : TEAL_LIGHT} emissive={h > opLine ? ORANGE : TEAL_LIGHT} emissiveIntensity={h > opLine ? 0.3 : 0.1} roughness={0.4} />
-        </mesh>
-      ))}
-      {/* Op cost line */}
-      <mesh position={[0, opLine, 0.02]}><boxGeometry args={[0.5, 0.003, 0.002]} /><meshBasicMaterial color="#ff4444" transparent opacity={0.6} /></mesh>
-      <Text position={[0.22, opLine + 0.02, 0.02]} fontSize={0.018} color="#ff6666" anchorX="left">Op Cost</Text>
-      <Text position={[0.22, 0.35, 0.02]} fontSize={0.018} color={ORANGE} anchorX="left">Revenue</Text>
-    </group>
-  );
-}
-
-/* 06 — Reinvest splitter */
-function Holo06() {
-  const ch = [
-    { label: "Services", pct: "30%", color: TEAL, x: -0.5, h: 0.3 },
-    { label: "Access", pct: "20%", color: TEAL_LIGHT, x: -0.17, h: 0.25 },
-    { label: "Expansion", pct: "30%", color: ORANGE, x: 0.17, h: 0.35 },
-    { label: "Reserves", pct: "20%", color: NAVY, x: 0.5, h: 0.2 },
-  ];
-  return (
-    <group>
-      <mesh position={[0, -0.05, 0]}><cylinderGeometry args={[0.04, 0.04, 0.15, 8]} /><meshStandardMaterial color={ORANGE_WARM} emissive={ORANGE_WARM} emissiveIntensity={0.3} roughness={0.4} /></mesh>
-      <mesh position={[0, 0.04, 0]}><sphereGeometry args={[0.05, 12, 12]} /><meshStandardMaterial color={ORANGE_WARM} emissive={ORANGE_WARM} emissiveIntensity={0.4} roughness={0.3} metalness={0.3} /></mesh>
-      {ch.map((c, i) => (
-        <group key={i}>
-          <mesh position={[c.x * 0.5, 0.04 + c.h / 2, 0]} rotation={[0, 0, -c.x * 0.5]}>
-            <cylinderGeometry args={[0.012, 0.015, c.h, 6]} />
-            <meshStandardMaterial color={c.color} emissive={c.color} emissiveIntensity={0.2} roughness={0.5} />
-          </mesh>
-          <mesh position={[c.x, 0.04 + c.h, 0]}>
-            <cylinderGeometry args={[0.04, 0.03, 0.06, 8]} />
-            <meshStandardMaterial color={c.color} emissive={c.color} emissiveIntensity={0.2} roughness={0.4} metalness={0.2} />
-          </mesh>
-          <Text position={[c.x, 0.04 + c.h + 0.06, 0]} fontSize={0.018} color={c.color} anchorX="center">{c.pct}</Text>
-          <Text position={[c.x, 0.04 + c.h + 0.04, 0]} fontSize={0.012} color="#888" anchorX="center">{c.label}</Text>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-/* 07 — Replicating rings */
-function Holo07() {
-  const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.elapsedTime * 0.2; });
-  return (
-    <group ref={ref}>
-      <mesh><torusGeometry args={[0.2, 0.03, 12, 32]} /><meshStandardMaterial color={TEAL} emissive={TEAL} emissiveIntensity={0.5} roughness={0.3} metalness={0.4} /></mesh>
-      {[0.32, 0.42, 0.5].map((r, i) => (
-        <mesh key={i} rotation={[Math.PI / 2, 0, (i + 1) * 0.3]}>
-          <torusGeometry args={[r, 0.015 - i * 0.003, 8, 24]} />
-          <meshStandardMaterial color={[TEAL_LIGHT, ORANGE, NAVY][i]} emissive={[TEAL_LIGHT, ORANGE, NAVY][i]} emissiveIntensity={0.3 - i * 0.08} roughness={0.4} transparent opacity={0.7 - i * 0.15} />
-        </mesh>
-      ))}
-      {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((a, i) => (
-        <mesh key={i} position={[Math.cos(a) * 0.26, 0, Math.sin(a) * 0.26]} rotation={[0, 0, a]}>
-          <boxGeometry args={[0.003, 0.12, 0.003]} />
-          <meshBasicMaterial color={TEAL_PALE} transparent opacity={0.25} />
-        </mesh>
-      ))}
-      <mesh><sphereGeometry args={[0.06, 12, 12]} /><meshBasicMaterial color={TEAL_PALE} transparent opacity={0.15} /></mesh>
-    </group>
-  );
-}
-
-const HOLOS = [Holo01, Holo02, Holo03, Holo04, Holo05, Holo06, Holo07];
-
-/* ═══════════════════════════════════════
-   ARCHITECTURAL BACKGROUND
-   ═══════════════════════════════════════ */
-function Background() {
-  const ref = useRef<THREE.Group>(null!);
-  useFrame(({ clock }) => { if (ref.current) ref.current.rotation.y = clock.elapsedTime * 0.003; });
-  return (
-    <group ref={ref}>
-      <Sky />
-      {/* Ground */}
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.5, 0]}>
-        <circleGeometry args={[25, 64]} />
-        <meshStandardMaterial color={BG_DARK} roughness={0.95} />
-      </mesh>
-      {/* Concentric grid */}
-      {Array.from({ length: 18 }, (_, i) => (
-        <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.49, 0]}>
-          <ringGeometry args={[(i + 1) * 1.5 - 0.008, (i + 1) * 1.5 + 0.008, 80]} />
-          <meshBasicMaterial color={LINE} transparent opacity={0.05 - i * 0.002} side={THREE.DoubleSide} />
-        </mesh>
-      ))}
-      {/* Radial lines */}
-      {Array.from({ length: 24 }, (_, i) => {
-        const a = (i / 24) * Math.PI * 2;
-        return (
-          <mesh key={i} position={[Math.cos(a) * 12, -2.49, Math.sin(a) * 12]} rotation={[-Math.PI / 2, 0, -a + Math.PI / 2]}>
-            <boxGeometry args={[0.005, 24, 0.003]} />
-            <meshBasicMaterial color={LINE} transparent opacity={0.025} side={THREE.DoubleSide} />
-          </mesh>
-        );
-      })}
-      {/* Subtle floating shapes */}
-      {Array.from({ length: 10 }, (_, i) => {
-        const a = (i / 10) * Math.PI * 2;
-        const colors = [TEAL, NAVY, ORANGE];
-        return (
-          <Float key={i} speed={0.3 + (i % 3) * 0.2} floatIntensity={0.2}>
-            <mesh position={[Math.cos(a) * (14 + (i % 3) * 2), -1 + (i % 4) * 1.5, Math.sin(a) * (14 + (i % 3) * 2)]}>
-              <octahedronGeometry args={[0.15 + (i % 3) * 0.08, 0]} />
-              <meshStandardMaterial color={colors[i % 3]} transparent opacity={0.04} roughness={0.6} />
-            </mesh>
-          </Float>
-        );
+      {Array.from({ length: 16 }, (_, i) => {
+        const a = (i / 16) * Math.PI * 2;
+        return <mesh key={i} position={[Math.cos(a) * 10, -1.99, Math.sin(a) * 10]} rotation={[-Math.PI / 2, 0, -a + Math.PI / 2]}>
+          <boxGeometry args={[0.004, 20, 0.002]} /><meshBasicMaterial color={LINE} transparent opacity={0.02} side={THREE.DoubleSide} />
+        </mesh>;
       })}
     </group>
   );
 }
 
-function Sky() {
+function SkyGrad() {
   const ref = useRef<THREE.Mesh>(null!);
   useEffect(() => {
     if (!ref.current) return;
     const geo = ref.current.geometry;
     const p = geo.getAttribute("position");
     const c = new Float32Array(p.count * 3);
-    const lo = new THREE.Color(BG_DARK);
-    const mid = new THREE.Color("#d0ccc0");
-    const hi = new THREE.Color("#b8c8d8");
+    const lo = new THREE.Color(BG_D), mid = new THREE.Color("#d0ccc0"), hi = new THREE.Color("#b8c8d8");
     for (let i = 0; i < p.count; i++) {
-      const t = (p.getY(i) / 30 + 1) / 2;
+      const t = (p.getY(i) / 25 + 1) / 2;
       const col = new THREE.Color();
-      if (t < 0.4) col.lerpColors(lo, mid, t / 0.4);
-      else col.lerpColors(mid, hi, (t - 0.4) / 0.6);
+      t < 0.4 ? col.lerpColors(lo, mid, t / 0.4) : col.lerpColors(mid, hi, (t - 0.4) / 0.6);
       c[i * 3] = col.r; c[i * 3 + 1] = col.g; c[i * 3 + 2] = col.b;
     }
     geo.setAttribute("color", new THREE.BufferAttribute(c, 3));
   }, []);
-  return <mesh ref={ref}><sphereGeometry args={[30, 32, 24]} /><meshBasicMaterial vertexColors side={THREE.BackSide} /></mesh>;
+  return <mesh ref={ref}><sphereGeometry args={[25, 28, 20]} /><meshBasicMaterial vertexColors side={THREE.BackSide} /></mesh>;
 }
 
 /* ═══════════════════════════════════════
-   CAMERA
+   CAMERA — zoomed out to show full torus
    ═══════════════════════════════════════ */
 function Cam({ active }: { active: number | null }) {
   const { camera } = useThree();
-  const tgt = useRef(new THREE.Vector3(5, 4, 9));
+  const tgt = useRef(new THREE.Vector3(0, 8, 12));
 
   useEffect(() => {
     if (active !== null) {
-      const a = angle(active);
-      const [x, , z] = pos(active);
-      tgt.current.set(x + Math.cos(a) * 4.5, 2.5, z + Math.sin(a) * 4.5);
+      const a = ang(active);
+      const [x, , z] = spos(active);
+      tgt.current.set(x + Math.cos(a) * 3.5, 4, z + Math.sin(a) * 3.5);
     } else {
-      tgt.current.set(5, 4, 9);
+      tgt.current.set(0, 8, 12);
     }
   }, [active]);
 
-  useFrame(() => { camera.position.lerp(tgt.current, 0.025); });
+  useFrame(() => { camera.position.lerp(tgt.current, 0.025); camera.lookAt(0, 0, 0); });
   return null;
 }
 
 /* ═══════════════════════════════════════
-   SCENE
+   3D SCENE
    ═══════════════════════════════════════ */
-function Scene({ active, onClick }: { active: number | null; onClick: (i: number) => void }) {
+function Scene({ active, onSelect }: { active: number | null; onSelect: (i: number) => void }) {
   return (
     <>
-      <Environment preset="studio" background={false} environmentIntensity={0.4} />
-      <fogExp2 attach="fog" args={[BG_DARK, 0.018]} />
-
-      <ambientLight intensity={0.5} color="#c8c0b8" />
-      <directionalLight position={[12, 18, 8]} intensity={1.0} color="#f8f0e0" castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-      <directionalLight position={[-8, 12, -5]} intensity={0.3} color="#c0d0e0" />
-      <hemisphereLight color="#d0d8e0" groundColor="#c8c0a8" intensity={0.3} />
+      <Environment preset="studio" background={false} environmentIntensity={0.35} />
+      <fogExp2 attach="fog" args={[BG_D, 0.015]} />
+      <ambientLight intensity={0.45} color="#c8c0b8" />
+      <directionalLight position={[10, 16, 8]} intensity={0.9} color="#f8f0e0" />
+      <directionalLight position={[-6, 10, -4]} intensity={0.25} color="#c0d0e0" />
+      <hemisphereLight color="#d0d8e0" groundColor="#c8c0a8" intensity={0.25} />
 
       <Cam active={active} />
-      <OrbitControls enableZoom enablePan={false} minDistance={5} maxDistance={20} enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI * 0.75} minPolarAngle={Math.PI * 0.15} />
+      <OrbitControls enableZoom enablePan={false} minDistance={8} maxDistance={22} enableDamping dampingFactor={0.05} maxPolarAngle={Math.PI * 0.7} minPolarAngle={Math.PI * 0.1} target={[0, 0, 0]} />
 
-      <Background />
-      <Segments active={active} />
+      <Bg />
+      <Torus active={active} onSelect={onSelect} />
       <Particles />
       <Arrows />
-      <Labels active={active} />
+      <StepLabels active={active} />
       <Core />
 
-      {HOLOS.map((H, i) => (
-        <HoloWrap key={i} index={i} active={active === i}><H /></HoloWrap>
-      ))}
+      {STEPS.map((_, i) => <HoloPod key={i} index={i} active={active === i} />)}
 
       {STEPS.map((s, i) => {
-        const [x, , z] = pos(i);
-        return <pointLight key={i} position={[x, 2, z]} intensity={active === i ? 2 : 0.08} color={s.color} distance={4} />;
+        const [x, , z] = spos(i);
+        return <pointLight key={i} position={[x, 1.5, z]} intensity={active === i ? 1.5 : 0.05} color={s.color} distance={3.5} />;
       })}
 
       <EffectComposer>
-        <Bloom intensity={0.25} luminanceThreshold={0.6} luminanceSmoothing={0.3} mipmapBlur />
-        <Vignette offset={0.25} darkness={0.4} />
+        <Bloom intensity={0.2} luminanceThreshold={0.6} luminanceSmoothing={0.3} mipmapBlur />
+        <Vignette offset={0.2} darkness={0.35} />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       </EffectComposer>
     </>
@@ -641,80 +494,132 @@ function Scene({ active, onClick }: { active: number | null; onClick: (i: number
 }
 
 /* ═══════════════════════════════════════
-   PAGE
+   PAGE LAYOUT
+   Sidebar | Canvas (top) + Scroll text (below)
    ═══════════════════════════════════════ */
 export default function StellarEnginePage() {
   const [active, setActive] = useState<number | null>(null);
   const toggle = useCallback((i: number) => setActive(p => p === i ? null : i), []);
-  const data = active !== null ? STEPS[active] : null;
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleSelect = useCallback((i: number) => {
+    toggle(i);
+    // Scroll to text section
+    setTimeout(() => {
+      sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 600);
+  }, [toggle]);
 
   return (
     <div className="fixed inset-0 z-[9999] flex" style={{ backgroundColor: BG }}>
-      {/* Sidebar */}
-      <div className="w-56 lg:w-64 shrink-0 bg-white/80 backdrop-blur-md border-r border-[#d0c8b8] flex flex-col overflow-y-auto">
-        <Link href="/" className="flex items-center gap-2 px-5 py-3 border-b border-[#d0c8b8] text-[#888] text-[10px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors">
+      {/* ── Sidebar ── */}
+      <div className="w-52 lg:w-60 shrink-0 bg-white/80 backdrop-blur-md border-r border-[#d0c8b8] flex flex-col overflow-y-auto">
+        <Link href="/" className="flex items-center gap-2 px-4 py-2.5 border-b border-[#d0c8b8] text-[#888] text-[10px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors">
           <span>←</span> Back to Site
         </Link>
-        <div className="p-5 border-b border-[#d0c8b8]">
-          <p className="text-[#E07C3E] text-[9px] uppercase tracking-[0.5em] mb-1.5 font-semibold">System Architecture</p>
-          <h1 className="text-lg font-heading text-[#1B3A5C] leading-tight">The Stellar <span className="text-[#E07C3E]">Engine</span></h1>
-          <p className="text-[#aaa] text-[10px] mt-1.5">Click segments to inspect. Drag to orbit.</p>
+        <div className="p-4 border-b border-[#d0c8b8]">
+          <p className="text-[#E07C3E] text-[8px] uppercase tracking-[0.5em] mb-1 font-semibold">System Architecture</p>
+          <h1 className="text-base font-heading text-[#1B3A5C] leading-tight">The Stellar <span className="text-[#E07C3E]">Engine</span></h1>
+          <p className="text-[#aaa] text-[9px] mt-1">Click to inspect. Drag to orbit. Scroll for details.</p>
         </div>
-        <div className="flex-1 py-1">
+        <div className="flex-1 py-0.5">
           {STEPS.map((s, i) => (
-            <button key={s.id} onClick={() => toggle(i)}
-              className={`w-full text-left px-5 py-3 transition-all duration-300 border-l-2 ${active === i ? "bg-[#f0ebe0] border-l-current" : "border-l-transparent hover:bg-[#f8f5f0]"}`}
+            <button key={s.id} onClick={() => handleSelect(i)}
+              className={`w-full text-left px-4 py-2.5 transition-all duration-300 border-l-2 ${active === i ? "bg-[#f0ebe0] border-l-current" : "border-l-transparent hover:bg-[#f8f5f0]"}`}
               style={{ borderColor: active === i ? s.color : "transparent" }}>
-              <div className="flex items-baseline gap-2">
-                <span className="text-[11px] font-heading" style={{ color: active === i ? s.color : "#bbb" }}>{s.num}</span>
-                <span className={`text-[11px] tracking-wider ${active === i ? "text-[#1B3A5C]" : "text-[#888]"}`}>{s.title}</span>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-[10px] font-heading" style={{ color: active === i ? s.color : "#bbb" }}>{s.num}</span>
+                <span className={`text-[10px] tracking-wider ${active === i ? "text-[#1B3A5C]" : "text-[#888]"}`}>{s.title}</span>
               </div>
-              <p className="text-[#c0b8a8] text-[9px] mt-0.5">{s.sub}</p>
+              <p className="text-[#c0b8a8] text-[8px] mt-0.5">{s.sub}</p>
             </button>
           ))}
         </div>
-        <div className="p-5 border-t border-[#d0c8b8] space-y-2">
-          <Link href="/programs" className="block text-center px-4 py-2 bg-[#E07C3E] text-white text-[10px] uppercase tracking-wider font-semibold hover:bg-[#E8944F] transition-colors rounded-md">Explore Programs</Link>
-          <Link href="/get-involved" className="block text-center px-4 py-2 border border-[#d0c8b8] text-[#888] text-[10px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors rounded-md">Partner With Us</Link>
+        <div className="p-4 border-t border-[#d0c8b8] space-y-1.5">
+          <Link href="/programs" className="block text-center px-3 py-1.5 bg-[#E07C3E] text-white text-[9px] uppercase tracking-wider font-semibold hover:bg-[#E8944F] transition-colors rounded-md">Explore Programs</Link>
+          <Link href="/get-involved" className="block text-center px-3 py-1.5 border border-[#d0c8b8] text-[#888] text-[9px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors rounded-md">Partner With Us</Link>
         </div>
       </div>
 
-      {/* Canvas */}
-      <div className="flex-1 relative">
-        <Canvas shadows camera={{ position: [5, 4, 9], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }}
-          onCreated={({ gl }) => { gl.setClearColor(new THREE.Color(BG)); gl.outputColorSpace = THREE.SRGBColorSpace; }}>
-          <Scene active={active} onClick={toggle} />
-        </Canvas>
+      {/* ── Main content ── */}
+      <div className="flex-1 flex flex-col overflow-y-auto">
+        {/* 3D Canvas — top portion */}
+        <div className="h-[65vh] min-h-[450px] shrink-0 relative">
+          <Canvas camera={{ position: [0, 8, 12], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }}
+            onCreated={({ gl }) => { gl.setClearColor(new THREE.Color(BG)); gl.outputColorSpace = THREE.SRGBColorSpace; }}>
+            <Scene active={active} onSelect={handleSelect} />
+          </Canvas>
+          {active !== null && (
+            <button onClick={() => setActive(null)} className="absolute top-3 right-3 px-2.5 py-1 bg-white/80 border border-[#d0c8b8] rounded text-[#888] text-[9px] uppercase tracking-wider hover:bg-white transition-colors">
+              Reset View
+            </button>
+          )}
+        </div>
 
-        {data && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#f5f2ec] via-[#f5f2ec]/90 to-transparent pt-16 pb-6 px-8">
-            <div className="max-w-xl">
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-heading text-xl" style={{ color: data.color }}>{data.num}</span>
-                <h2 className="text-sm font-heading text-[#1B3A5C] tracking-wider">{data.title}</h2>
-                <span className="text-[#c0b8a8] text-[10px] uppercase tracking-wider">— {data.sub}</span>
-              </div>
-              <p className="text-[#777] text-xs leading-relaxed mb-3 max-w-md">{data.desc}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {data.tags.map(t => (
-                  <span key={t} className="px-2 py-0.5 bg-white border border-[#d0c8b8] rounded text-[#888] text-[10px]">{t}</span>
-                ))}
+        {/* ── Scrollable text sections ── */}
+        <div style={{ backgroundColor: BG }}>
+          {/* Intro */}
+          <div className="max-w-3xl mx-auto px-8 py-12 border-t border-[#d0c8b8]">
+            <p className="text-[#E07C3E] text-[10px] uppercase tracking-[0.4em] mb-3 font-semibold">How It Works</p>
+            <h2 className="text-2xl font-heading text-[#1B3A5C] leading-tight mb-4">The Closed-Loop System</h2>
+            <p className="text-[#777] text-sm leading-relaxed">
+              The Stellar Engine is a self-sustaining workforce development model where participant outcomes
+              generate the revenue that funds the next cohort. It is not a program — it is infrastructure.
+              Each step feeds the next. Surplus cycles back. The loop never opens.
+            </p>
+          </div>
+
+          {/* Step sections */}
+          {STEPS.map((s, i) => (
+            <div
+              key={s.id}
+              ref={el => { sectionRefs.current[i] = el; }}
+              className={`border-t border-[#d0c8b8] ${i % 2 === 0 ? "bg-white/40" : ""}`}
+            >
+              <div className="max-w-3xl mx-auto px-8 py-10">
+                <div className="flex items-baseline gap-3 mb-3">
+                  <span className="text-xl font-heading" style={{ color: s.color }}>{s.num}</span>
+                  <h3 className="text-lg font-heading text-[#1B3A5C] tracking-wider">{s.title}</h3>
+                  <span className="text-[#c0b8a8] text-[10px] uppercase tracking-wider">— {s.sub}</span>
+                </div>
+                <p className="text-[#666] text-sm leading-relaxed mb-4">{s.long}</p>
+                <div className="flex flex-wrap gap-2">
+                  {s.tags.map(t => (
+                    <span key={t} className="px-2.5 py-1 bg-white border border-[#d0c8b8] rounded text-[#888] text-[10px]">{t}</span>
+                  ))}
+                </div>
+                <button
+                  onClick={() => handleSelect(i)}
+                  className="mt-4 text-[10px] uppercase tracking-wider font-semibold transition-colors hover:underline"
+                  style={{ color: s.color }}
+                >
+                  View in Diagram ↑
+                </button>
               </div>
             </div>
-          </div>
-        )}
+          ))}
 
-        {active !== null && (
-          <button onClick={() => setActive(null)} className="absolute top-4 right-4 px-3 py-1.5 bg-white/80 border border-[#d0c8b8] rounded text-[#888] text-[10px] uppercase tracking-wider hover:bg-white transition-colors">
-            Reset View
-          </button>
-        )}
-
-        {active === null && (
-          <div className="absolute bottom-6 left-8 pointer-events-none">
-            <p className="text-[#d0c8b8] text-[10px] uppercase tracking-[0.5em]">The Mindful Group — Milwaukee, WI</p>
+          {/* Closing */}
+          <div className="max-w-3xl mx-auto px-8 py-12 border-t border-[#d0c8b8]">
+            <div className="border-l-4 border-[#E07C3E] pl-6">
+              <p className="text-lg font-heading text-[#1B3A5C] leading-relaxed mb-3">
+                The Stellar Engine does not ask why people are poor. It builds a system that makes
+                the conditions of poverty economically unsustainable.
+              </p>
+              <p className="text-[#E07C3E] text-[10px] uppercase tracking-[0.2em] font-semibold">
+                <a href="https://reginald-reed-site.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:underline">Reginald Reed Jr.</a> — Founder & Executive Director
+              </p>
+            </div>
+            <div className="flex gap-3 mt-8">
+              <Link href="/programs" className="px-6 py-3 bg-[#E07C3E] text-white text-[10px] uppercase tracking-wider font-semibold hover:bg-[#E8944F] transition-colors rounded-md">Explore Programs</Link>
+              <Link href="/get-involved" className="px-6 py-3 border border-[#d0c8b8] text-[#888] text-[10px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors rounded-md">Partner With Us</Link>
+            </div>
           </div>
-        )}
+
+          <div className="py-6 text-center border-t border-[#d0c8b8]">
+            <p className="text-[#d0c8b8] text-[9px] uppercase tracking-[0.5em]">The Mindful Group — Milwaukee, WI</p>
+          </div>
+        </div>
       </div>
     </div>
   );
