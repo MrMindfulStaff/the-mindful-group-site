@@ -890,9 +890,13 @@ export default function StellarEngineTurbine() {
   const activeData = activeStep !== null ? STEPS[activeStep] : null;
 
   return (
-    <div className="h-screen w-screen flex" style={{ backgroundColor: C.bg }}>
+    <div className="fixed inset-0 z-[9999] flex" style={{ backgroundColor: C.bg }}>
       {/* ── Sidebar ── */}
       <div className="w-56 lg:w-64 shrink-0 bg-white/80 backdrop-blur-md border-r border-[#d0c8b8] flex flex-col overflow-y-auto">
+        {/* Back to site */}
+        <Link href="/" className="flex items-center gap-2 px-5 py-3 border-b border-[#d0c8b8] text-[#888] text-[10px] uppercase tracking-wider hover:bg-[#f0ebe0] transition-colors">
+          <span>←</span> <span>Back to Site</span>
+        </Link>
         <div className="p-5 border-b border-[#d0c8b8]">
           <p className="text-[#E07C3E] text-[9px] uppercase tracking-[0.5em] mb-1.5 font-semibold">System Architecture</p>
           <h1 className="text-lg font-heading text-[#1B3A5C] leading-tight">
