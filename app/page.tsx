@@ -8,7 +8,7 @@ import AnimatedSection, {
   StaggerItem,
 } from "@/components/AnimatedSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
-import HomeExperience from "@/components/HomeExperience";
+// 3D HomeExperience removed
 
 const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
@@ -381,7 +381,5 @@ function FallbackHome() {
 }
 
 export default function Home() {
-  return (
-    <HomeExperience fallback={<FallbackHome />} />
-  );
+  return <FallbackHome />;
 }
