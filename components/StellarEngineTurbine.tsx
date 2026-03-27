@@ -2,7 +2,9 @@
 
 import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Float } from "@react-three/drei";
+import { OrbitControls, Float, Environment, ContactShadows } from "@react-three/drei";
+import { EffectComposer, Bloom, SSAO, ChromaticAberration, Vignette, ToneMapping } from "@react-three/postprocessing";
+import { BlendFunction, ToneMappingMode } from "postprocessing";
 import * as THREE from "three";
 import Link from "next/link";
 
@@ -1000,12 +1002,12 @@ function RanchHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; t
       {/* Door handle */}
       <mesh position={[0.035 * s, 0.15 * s, d / 2 + 0.012]}>
         <sphereGeometry args={[0.006 * s, 6, 6]} />
-        <meshStandardMaterial color="#c8a840" metalness={0.8} roughness={0.3} />
+        <meshPhysicalMaterial color="#c8a840" metalness={0.95} roughness={0.15} clearcoat={0.5} reflectivity={1} />
       </mesh>
       {/* Front windows */}
       {[-0.28, 0.28].map((xOff, i) => (
         <group key={i} position={[xOff * s, 0.25 * s, d / 2 + 0.005]}>
-          <mesh><boxGeometry args={[0.14 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh><boxGeometry args={[0.14 * s, 0.12 * s, 0.01]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
           {/* Window frame */}
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.15 * s, 0.005 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005 * s, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
@@ -1065,7 +1067,7 @@ function ColonialHouse({ s, pal, roof, door }: { s: number; pal: { walls: string
       {/* First floor windows */}
       {[-0.22, 0.22].map((x, i) => (
         <group key={`f1-${i}`} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
-          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
           <mesh position={[-0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
           <mesh position={[0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
@@ -1074,7 +1076,7 @@ function ColonialHouse({ s, pal, roof, door }: { s: number; pal: { walls: string
       {/* Second floor windows */}
       {[-0.22, 0, 0.22].map((x, i) => (
         <group key={`f2-${i}`} position={[x * s, 0.48 * s, d / 2 + 0.005]}>
-          <mesh><boxGeometry args={[0.08 * s, 0.1 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh><boxGeometry args={[0.08 * s, 0.1 * s, 0.01]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.11 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
         </group>
       ))}
@@ -1135,7 +1137,7 @@ function BungalowHouse({ s, pal, roof, door }: { s: number; pal: { walls: string
       {/* Windows */}
       {[-0.25, 0.25].map((x, i) => (
         <group key={i} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
-          <mesh><boxGeometry args={[0.12 * s, 0.1 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh><boxGeometry args={[0.12 * s, 0.1 * s, 0.01]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.11 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.13 * s, 0.005, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
         </group>
@@ -1172,7 +1174,7 @@ function CapeHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; tr
         <group key={i} position={[x * s, h + 0.15 * s, d / 2 * 0.5]}>
           <mesh castShadow><boxGeometry args={[0.1 * s, 0.1 * s, 0.08 * s]} /><meshStandardMaterial color={pal.walls} roughness={0.85} /></mesh>
           <mesh castShadow position={[0, 0.06 * s, 0]}><coneGeometry args={[0.065 * s, 0.05 * s, 4]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
-          <mesh position={[0, -0.01 * s, 0.041 * s]}><boxGeometry args={[0.04 * s, 0.05 * s, 0.005]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh position={[0, -0.01 * s, 0.041 * s]}><boxGeometry args={[0.04 * s, 0.05 * s, 0.005]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
         </group>
       ))}
       {/* Door */}
@@ -1183,7 +1185,7 @@ function CapeHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; tr
       {/* Windows with shutters */}
       {[-0.22, 0.22].map((x, i) => (
         <group key={i} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
-          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshPhysicalMaterial color="#88c8e8" roughness={0.05} metalness={0.1} transmission={0.3} ior={1.5} clearcoat={1} clearcoatRoughness={0.05} reflectivity={0.9} /></mesh>
           <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
           <mesh position={[-0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
           <mesh position={[0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
@@ -1420,12 +1422,39 @@ function PowerBeams() {
   );
 }
 
-/* ── Sky dome ── */
+/* ── Sky dome — gradient from horizon to zenith ── */
 function SkyDome() {
+  const skyRef = useRef<THREE.Mesh>(null!);
+
+  useEffect(() => {
+    if (!skyRef.current) return;
+    const geo = skyRef.current.geometry;
+    const posAttr = geo.getAttribute("position");
+    const colors = new Float32Array(posAttr.count * 3);
+    // Zenith: deep blue, Horizon: warm golden
+    const zenith = new THREE.Color("#1a3050");
+    const horizon = new THREE.Color("#c8a070");
+    const mid = new THREE.Color("#4a7090");
+    for (let i = 0; i < posAttr.count; i++) {
+      const y = posAttr.getY(i);
+      const normalizedY = (y / 35 + 1) / 2; // 0 at bottom, 1 at top
+      const c = new THREE.Color();
+      if (normalizedY < 0.5) {
+        c.lerpColors(horizon, mid, normalizedY * 2);
+      } else {
+        c.lerpColors(mid, zenith, (normalizedY - 0.5) * 2);
+      }
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+    }
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  }, []);
+
   return (
-    <mesh>
-      <sphereGeometry args={[35, 32, 16]} />
-      <meshBasicMaterial color="#6aa0c8" side={THREE.BackSide} transparent opacity={0.15} />
+    <mesh ref={skyRef}>
+      <sphereGeometry args={[35, 48, 24]} />
+      <meshBasicMaterial vertexColors side={THREE.BackSide} />
     </mesh>
   );
 }
@@ -1493,7 +1522,7 @@ function Neighborhood() {
       {/* Ground — layered for realism */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.52, 0]}>
         <circleGeometry args={[25, 64]} />
-        <meshStandardMaterial color="#3a7530" roughness={0.95} />
+        <meshPhysicalMaterial color="#3a7530" roughness={0.98} clearcoat={0.02} clearcoatRoughness={0.9} sheen={0.3} sheenColor="#4a8a3a" />
       </mesh>
       {/* Lighter grass patches */}
       {[5, 12, -8, -14].map((x, i) => (
@@ -1517,7 +1546,7 @@ function Neighborhood() {
       {/* Main ring road */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
         <ringGeometry args={[9.3, 10.3, 64]} />
-        <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
+        <meshPhysicalMaterial color="#2a2a2a" roughness={0.7} metalness={0.05} clearcoat={0.15} clearcoatRoughness={0.6} />
       </mesh>
       {/* Curbs */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.505, 0]}>
@@ -1546,7 +1575,7 @@ function Neighborhood() {
       {/* Outer ring road */}
       <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
         <ringGeometry args={[13.3, 14.0, 64]} />
-        <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
+        <meshPhysicalMaterial color="#2a2a2a" roughness={0.7} metalness={0.05} clearcoat={0.15} clearcoatRoughness={0.6} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.504, 0]}>
         <ringGeometry args={[13.62, 13.68, 64]} />
@@ -1570,7 +1599,7 @@ function Neighborhood() {
         return (
           <mesh key={i} receiveShadow position={[mx, -1.51, mz]} rotation={[-Math.PI / 2, 0, -angle + Math.PI / 2]}>
             <boxGeometry args={[0.4, len, 0.01]} />
-            <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
+            <meshPhysicalMaterial color="#2a2a2a" roughness={0.7} metalness={0.05} clearcoat={0.15} clearcoatRoughness={0.6} />
           </mesh>
         );
       })}
@@ -1649,30 +1678,55 @@ function BasePlatform() {
 function Scene({ activeStep }: { activeStep: number | null }) {
   return (
     <>
-      {/* Lighting — golden hour sunlit neighborhood + engine glow */}
-      <ambientLight intensity={0.4} color="#90a8c0" />
+      {/* ══ ENVIRONMENT — HDR image-based lighting ══ */}
+      <Environment preset="sunset" background={false} environmentIntensity={0.4} />
+
+      {/* ══ ATMOSPHERIC FOG ══ */}
+      <fog attach="fog" args={["#1a2a3a", 18, 40]} />
+
+      {/* ══ LIGHTING — golden hour with high-quality shadows ══ */}
+      <ambientLight intensity={0.25} color="#8098b0" />
+
+      {/* Primary sun — warm golden hour */}
       <directionalLight
         position={[18, 25, 12]}
-        intensity={1.2}
-        color="#fff0d0"
+        intensity={1.5}
+        color="#ffe8c0"
         castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
+        shadow-mapSize-width={4096}
+        shadow-mapSize-height={4096}
         shadow-camera-far={60}
-        shadow-camera-left={-20}
-        shadow-camera-right={20}
-        shadow-camera-top={20}
-        shadow-camera-bottom={-20}
-        shadow-bias={-0.001}
+        shadow-camera-left={-22}
+        shadow-camera-right={22}
+        shadow-camera-top={22}
+        shadow-camera-bottom={-22}
+        shadow-bias={-0.0004}
+        shadow-normalBias={0.02}
       />
-      <directionalLight position={[-10, 15, -8]} intensity={0.25} color="#b0c8e0" />
-      <directionalLight position={[0, -3, -10]} intensity={0.1} color="#4488ff" />
-      <hemisphereLight color="#87CEEB" groundColor="#3a7530" intensity={0.35} />
-      <pointLight position={[0, 1.5, 0]} intensity={2} color={TEAL} distance={10} />
+      {/* Fill — cool sky bounce */}
+      <directionalLight position={[-12, 18, -8]} intensity={0.2} color="#a0c0e0" />
+      {/* Rim — warm backlight */}
+      <directionalLight position={[-5, 8, -15]} intensity={0.15} color="#ffaa66" />
+
+      <hemisphereLight color="#87CEEB" groundColor="#3a7530" intensity={0.3} />
+
+      {/* Engine core glow */}
+      <pointLight position={[0, 1.5, 0]} intensity={2.5} color={TEAL} distance={12} />
+      {/* Station lights */}
       {STEPS.map((step, i) => {
         const [x, , z] = getStationPosition(i);
-        return <pointLight key={i} position={[x, 3, z]} intensity={activeStep === i ? 2 : 0.15} color={step.color} distance={5} />;
+        return <pointLight key={i} position={[x, 3, z]} intensity={activeStep === i ? 2.5 : 0.15} color={step.color} distance={5} />;
       })}
+
+      {/* ══ CONTACT SHADOWS — soft ground shadows ══ */}
+      <ContactShadows
+        position={[0, -1.52, 0]}
+        opacity={0.35}
+        scale={50}
+        blur={2.5}
+        far={12}
+        color="#1a2a1a"
+      />
 
       <CameraController activeStep={activeStep} />
       <OrbitControls enableZoom enablePan={false} minDistance={6} maxDistance={22} enableDamping dampingFactor={0.05} />
@@ -1693,6 +1747,37 @@ function Scene({ activeStep }: { activeStep: number | null }) {
           <HoloComponent />
         </HologramContainer>
       ))}
+
+      {/* ══ POST-PROCESSING PIPELINE ══ */}
+      <EffectComposer multisampling={4}>
+        {/* Bloom — engine glow bleeds realistically */}
+        <Bloom
+          intensity={0.4}
+          luminanceThreshold={0.6}
+          luminanceSmoothing={0.9}
+          mipmapBlur
+        />
+        {/* SSAO — ambient occlusion for depth in corners/crevices */}
+        <SSAO
+          blendFunction={BlendFunction.MULTIPLY}
+          samples={21}
+          radius={0.12}
+          intensity={18}
+        />
+        {/* Chromatic aberration — subtle lens effect */}
+        <ChromaticAberration
+          blendFunction={BlendFunction.NORMAL}
+          offset={new THREE.Vector2(0.0004, 0.0004)}
+        />
+        {/* Vignette — dark edges like a real camera */}
+        <Vignette
+          offset={0.35}
+          darkness={0.55}
+          blendFunction={BlendFunction.NORMAL}
+        />
+        {/* Tone mapping — cinematic color grading */}
+        <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+      </EffectComposer>
     </>
   );
 }
@@ -1795,7 +1880,23 @@ export default function StellarEngineTurbine() {
 
       {/* Canvas */}
       <div className="flex-1 relative">
-        <Canvas shadows camera={{ position: [8, 8, 12], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} onCreated={({ gl }) => { gl.setClearColor(BG); gl.shadowMap.type = THREE.PCFSoftShadowMap; }}>
+        <Canvas
+          shadows
+          camera={{ position: [8, 8, 12], fov: 40 }}
+          dpr={[1, 2]}
+          gl={{
+            antialias: true,
+            alpha: false,
+            powerPreference: "high-performance",
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.1,
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(new THREE.Color("#111d2a"));
+            gl.shadowMap.type = THREE.PCFSoftShadowMap;
+            gl.outputColorSpace = THREE.SRGBColorSpace;
+          }}
+        >
           <Scene activeStep={activeStep} />
         </Canvas>
 
