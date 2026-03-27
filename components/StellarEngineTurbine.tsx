@@ -2,9 +2,9 @@
 
 import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Float, Environment, ContactShadows } from "@react-three/drei";
-import { EffectComposer, Bloom, SSAO, ChromaticAberration, Vignette, ToneMapping } from "@react-three/postprocessing";
-import { BlendFunction, ToneMappingMode } from "postprocessing";
+import { OrbitControls, Float, Environment, ContactShadows, SoftShadows } from "@react-three/drei";
+import { EffectComposer, Bloom, SSAO, ChromaticAberration, Vignette, ToneMapping, DepthOfField, SMAA, Noise } from "@react-three/postprocessing";
+import { BlendFunction, ToneMappingMode, SMAAPreset } from "postprocessing";
 import * as THREE from "three";
 import Link from "next/link";
 
@@ -1679,10 +1679,13 @@ function Scene({ activeStep }: { activeStep: number | null }) {
   return (
     <>
       {/* ══ ENVIRONMENT — HDR image-based lighting ══ */}
-      <Environment preset="sunset" background={false} environmentIntensity={0.4} />
+      <Environment preset="sunset" background={false} environmentIntensity={0.5} />
 
-      {/* ══ ATMOSPHERIC FOG ══ */}
-      <fog attach="fog" args={["#1a2a3a", 18, 40]} />
+      {/* ══ SOFT SHADOWS — kernel-based PCF softening ══ */}
+      <SoftShadows size={25} samples={16} focus={0} />
+
+      {/* ══ ATMOSPHERIC FOG — exponential falloff ══ */}
+      <fogExp2 attach="fog" args={["#1a2a3a", 0.028]} />
 
       {/* ══ LIGHTING — golden hour with high-quality shadows ══ */}
       <ambientLight intensity={0.25} color="#8098b0" />
@@ -1748,35 +1751,49 @@ function Scene({ activeStep }: { activeStep: number | null }) {
         </HologramContainer>
       ))}
 
-      {/* ══ POST-PROCESSING PIPELINE ══ */}
-      <EffectComposer multisampling={4}>
-        {/* Bloom — engine glow bleeds realistically */}
-        <Bloom
-          intensity={0.4}
-          luminanceThreshold={0.6}
-          luminanceSmoothing={0.9}
-          mipmapBlur
-        />
+      {/* ══ POST-PROCESSING PIPELINE — Full cinematic stack ══ */}
+      <EffectComposer multisampling={0}>
         {/* SSAO — ambient occlusion for depth in corners/crevices */}
         <SSAO
           blendFunction={BlendFunction.MULTIPLY}
           samples={21}
-          radius={0.12}
-          intensity={18}
+          radius={0.05}
+          intensity={120}
+          luminanceInfluence={0.1}
         />
-        {/* Chromatic aberration — subtle lens effect */}
+        {/* Bloom — engine glow bleeds realistically */}
+        <Bloom
+          intensity={0.35}
+          luminanceThreshold={0.7}
+          luminanceSmoothing={0.2}
+          mipmapBlur
+        />
+        {/* Depth of Field — bokeh blur for cinematic focus */}
+        <DepthOfField
+          focusDistance={0.012}
+          focalLength={0.025}
+          bokehScale={3}
+        />
+        {/* Chromatic aberration — subtle lens color fringing */}
         <ChromaticAberration
           blendFunction={BlendFunction.NORMAL}
-          offset={new THREE.Vector2(0.0004, 0.0004)}
+          offset={new THREE.Vector2(0.0005, 0.0005)}
+        />
+        {/* Film grain — subtle photographic texture */}
+        <Noise
+          blendFunction={BlendFunction.OVERLAY}
+          opacity={0.025}
         />
         {/* Vignette — dark edges like a real camera */}
         <Vignette
-          offset={0.35}
-          darkness={0.55}
+          offset={0.3}
+          darkness={0.6}
           blendFunction={BlendFunction.NORMAL}
         />
         {/* Tone mapping — cinematic color grading */}
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+        {/* SMAA — superior anti-aliasing for postprocessing */}
+        <SMAA preset={SMAAPreset.ULTRA} />
       </EffectComposer>
     </>
   );
@@ -1885,11 +1902,10 @@ export default function StellarEngineTurbine() {
           camera={{ position: [8, 8, 12], fov: 40 }}
           dpr={[1, 2]}
           gl={{
-            antialias: true,
+            antialias: false,
             alpha: false,
             powerPreference: "high-performance",
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.1,
+            toneMapping: THREE.NoToneMapping,
           }}
           onCreated={({ gl }) => {
             gl.setClearColor(new THREE.Color("#111d2a"));
