@@ -897,125 +897,495 @@ function CentralCore() {
    ════════════════════════════════════════════ */
 
 /* ════════════════════════════════════════════
-   NEIGHBORHOOD — Full-color community scene
+   NEIGHBORHOOD — Realistic community scene
    The engine powers the surrounding neighborhood.
    ════════════════════════════════════════════ */
 
-// House colors
-const HOUSE_WALLS = ["#e8dcc8", "#d4c5a9", "#c9b896", "#f0e6d3", "#ddd3c0", "#e2d8c5", "#f5ece0", "#d9cfc0"];
-const HOUSE_ROOFS = ["#8b3a3a", "#6b4226", "#4a6741", "#3d5a80", "#7a4a2a", "#5c4033", "#2d4a3e", "#6a3b3b"];
-const HOUSE_DOORS = ["#8b3a3a", "#3d5a80", "#4a6741", "#c9a227", "#6b4226", "#d45b3e"];
-const TREE_GREENS = ["#2d5a27", "#3a7233", "#4a8040", "#2a4f24", "#357a2e", "#4c8c45", "#266320"];
+const WALL_PALETTES = [
+  { walls: "#f0e8d8", trim: "#e0d5c0" },  // cream
+  { walls: "#e6ddd0", trim: "#d4c8b5" },  // warm beige
+  { walls: "#d9c9b0", trim: "#c4b498" },  // tan
+  { walls: "#e8e0d5", trim: "#d5cab8" },  // ivory
+  { walls: "#c8bfb0", trim: "#b5a998" },  // stone
+  { walls: "#ddd5c8", trim: "#cabfa8" },  // sand
+  { walls: "#e5dcd0", trim: "#d2c6b2" },  // antique white
+  { walls: "#c2b8a0", trim: "#a89880" },  // khaki
+  { walls: "#8b9ea0", trim: "#7a8d90" },  // slate blue siding
+  { walls: "#a89078", trim: "#907860" },  // brown siding
+  { walls: "#c4a882", trim: "#b09570" },  // caramel
+  { walls: "#b8c0a8", trim: "#a0a890" },  // sage
+];
+const ROOF_COLORS = ["#5a2a2a", "#4a3520", "#3a4a38", "#2a3a55", "#6a3a20", "#3a2a2a", "#504030", "#3a4a30", "#5a3028", "#4a4040"];
+const DOOR_COLORS = ["#6a2a2a", "#2a4a6a", "#3a5a3a", "#c49a20", "#4a3020", "#d45b3e", "#2a3a5a", "#8a3a2a"];
+const TREE_SHADES = ["#2a5520", "#35662e", "#40753a", "#254a20", "#306a28", "#458040", "#1e5520", "#3a7035", "#285a25"];
 
-function House({ position, wallColor, roofColor, doorColor, scale = 1, rotation = 0 }: {
-  position: [number, number, number];
-  wallColor: string; roofColor: string; doorColor: string;
+/* ── Realistic House with varied architecture ── */
+type HouseStyle = "ranch" | "colonial" | "bungalow" | "cape";
+
+function RealisticHouse({ position, style, wallIdx, roofIdx, doorIdx, scale = 1, rotation = 0 }: {
+  position: [number, number, number]; style: HouseStyle;
+  wallIdx: number; roofIdx: number; doorIdx: number;
   scale?: number; rotation?: number;
 }) {
-  const w = 0.8 * scale;
-  const h = 0.6 * scale;
-  const d = 0.7 * scale;
+  const pal = WALL_PALETTES[wallIdx % WALL_PALETTES.length];
+  const roof = ROOF_COLORS[roofIdx % ROOF_COLORS.length];
+  const door = DOOR_COLORS[doorIdx % DOOR_COLORS.length];
+  const s = scale;
+
   return (
     <group position={position} rotation={[0, rotation, 0]}>
-      {/* Walls */}
-      <mesh position={[0, h / 2, 0]}>
-        <boxGeometry args={[w, h, d]} />
-        <meshStandardMaterial color={wallColor} roughness={0.8} />
+      {style === "ranch" && <RanchHouse s={s} pal={pal} roof={roof} door={door} />}
+      {style === "colonial" && <ColonialHouse s={s} pal={pal} roof={roof} door={door} />}
+      {style === "bungalow" && <BungalowHouse s={s} pal={pal} roof={roof} door={door} />}
+      {style === "cape" && <CapeHouse s={s} pal={pal} roof={roof} door={door} />}
+      {/* Front yard lawn patch */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.005, 0.55 * s]}>
+        <boxGeometry args={[1.2 * s, 0.6 * s, 0.01]} />
+        <meshStandardMaterial color="#4a8a3e" roughness={0.95} />
       </mesh>
-      {/* Roof */}
-      <mesh position={[0, h + 0.15 * scale, 0]} rotation={[0, 0, 0]}>
-        <coneGeometry args={[w * 0.75, 0.4 * scale, 4]} />
-        <meshStandardMaterial color={roofColor} roughness={0.7} />
+      {/* Driveway */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.35 * s, 0.006, 0.55 * s]}>
+        <boxGeometry args={[0.22 * s, 0.55 * s, 0.01]} />
+        <meshStandardMaterial color="#888580" roughness={0.9} />
+      </mesh>
+      {/* Mailbox */}
+      <group position={[0.3 * s, 0, 0.85 * s]}>
+        <mesh position={[0, 0.12 * s, 0]}>
+          <cylinderGeometry args={[0.008 * s, 0.01 * s, 0.24 * s, 4]} />
+          <meshStandardMaterial color="#333" metalness={0.7} roughness={0.4} />
+        </mesh>
+        <mesh position={[0, 0.25 * s, 0]}>
+          <boxGeometry args={[0.05 * s, 0.035 * s, 0.03 * s]} />
+          <meshStandardMaterial color="#222" metalness={0.6} roughness={0.4} />
+        </mesh>
+      </group>
+      {/* Front walkway */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.006, 0.38 * s]}>
+        <boxGeometry args={[0.12 * s, 0.35 * s, 0.01]} />
+        <meshStandardMaterial color="#999590" roughness={0.85} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ── Ranch style — wide, single story ── */
+function RanchHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; trim: string }; roof: string; door: string }) {
+  const w = 1.0 * s, h = 0.45 * s, d = 0.6 * s;
+  return (
+    <group>
+      {/* Main body */}
+      <mesh castShadow receiveShadow position={[0, h / 2, 0]}>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial color={pal.walls} roughness={0.85} />
+      </mesh>
+      {/* Foundation strip */}
+      <mesh position={[0, 0.03 * s, 0]}>
+        <boxGeometry args={[w + 0.02 * s, 0.06 * s, d + 0.02 * s]} />
+        <meshStandardMaterial color="#777770" roughness={0.9} />
+      </mesh>
+      {/* Gable roof */}
+      <mesh castShadow position={[0, h + 0.12 * s, 0]} rotation={[0, 0, 0]}>
+        <boxGeometry args={[w + 0.08 * s, 0.02 * s, d + 0.12 * s]} />
+        <meshStandardMaterial color={roof} roughness={0.8} />
+      </mesh>
+      <mesh castShadow position={[0, h + 0.2 * s, 0]} rotation={[0, Math.PI / 4, 0]}>
+        <coneGeometry args={[(w * 0.78), 0.2 * s, 4]} />
+        <meshStandardMaterial color={roof} roughness={0.8} />
       </mesh>
       {/* Door */}
-      <mesh position={[0, 0.18 * scale, d / 2 + 0.005]}>
-        <boxGeometry args={[0.12 * scale, 0.25 * scale, 0.01]} />
-        <meshStandardMaterial color={doorColor} roughness={0.6} />
+      <mesh position={[0, 0.17 * s, d / 2 + 0.005]}>
+        <boxGeometry args={[0.1 * s, 0.28 * s, 0.01]} />
+        <meshStandardMaterial color={door} roughness={0.7} />
       </mesh>
-      {/* Windows */}
-      {[[-0.2, 0.35], [0.2, 0.35]].map(([x, y], i) => (
-        <mesh key={i} position={[x! * scale, y! * scale, d / 2 + 0.005]}>
-          <boxGeometry args={[0.1 * scale, 0.1 * scale, 0.01]} />
-          <meshStandardMaterial color="#a8d4f0" roughness={0.3} metalness={0.1} />
+      {/* Door handle */}
+      <mesh position={[0.035 * s, 0.15 * s, d / 2 + 0.012]}>
+        <sphereGeometry args={[0.006 * s, 6, 6]} />
+        <meshStandardMaterial color="#c8a840" metalness={0.8} roughness={0.3} />
+      </mesh>
+      {/* Front windows */}
+      {[-0.28, 0.28].map((xOff, i) => (
+        <group key={i} position={[xOff * s, 0.25 * s, d / 2 + 0.005]}>
+          <mesh><boxGeometry args={[0.14 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          {/* Window frame */}
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.15 * s, 0.005 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005 * s, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+          {/* Shutters */}
+          <mesh position={[-0.09 * s, 0, 0]}><boxGeometry args={[0.025 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+          <mesh position={[0.09 * s, 0, 0]}><boxGeometry args={[0.025 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+        </group>
+      ))}
+      {/* Porch overhang */}
+      <mesh castShadow position={[0, h - 0.02 * s, d / 2 + 0.12 * s]}>
+        <boxGeometry args={[0.5 * s, 0.015 * s, 0.22 * s]} />
+        <meshStandardMaterial color={pal.trim} roughness={0.7} />
+      </mesh>
+      {/* Porch posts */}
+      {[-0.2, 0.2].map((x, i) => (
+        <mesh key={i} position={[x * s, h / 2 - 0.05 * s, d / 2 + 0.2 * s]}>
+          <cylinderGeometry args={[0.01 * s, 0.01 * s, h - 0.08 * s, 6]} />
+          <meshStandardMaterial color={pal.trim} roughness={0.6} />
         </mesh>
       ))}
-      {/* Chimney */}
-      {scale > 0.8 && (
-        <mesh position={[w * 0.25, h + 0.35 * scale, 0]}>
-          <boxGeometry args={[0.08 * scale, 0.25 * scale, 0.08 * scale]} />
-          <meshStandardMaterial color="#8b7355" roughness={0.9} />
-        </mesh>
-      )}
+      {/* Porch step */}
+      <mesh position={[0, 0.025 * s, d / 2 + 0.15 * s]}>
+        <boxGeometry args={[0.3 * s, 0.05 * s, 0.1 * s]} />
+        <meshStandardMaterial color="#888580" roughness={0.85} />
+      </mesh>
     </group>
   );
 }
 
-function Tree({ position, height = 0.8, color }: {
-  position: [number, number, number]; height?: number; color: string;
-}) {
+/* ── Colonial — two story, symmetrical ── */
+function ColonialHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; trim: string }; roof: string; door: string }) {
+  const w = 0.75 * s, h = 0.7 * s, d = 0.55 * s;
+  return (
+    <group>
+      <mesh castShadow receiveShadow position={[0, h / 2, 0]}>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial color={pal.walls} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 0.03 * s, 0]}>
+        <boxGeometry args={[w + 0.02 * s, 0.06 * s, d + 0.02 * s]} />
+        <meshStandardMaterial color="#777770" roughness={0.9} />
+      </mesh>
+      {/* Peaked roof */}
+      <mesh castShadow position={[0, h + 0.15 * s, 0]} rotation={[0, Math.PI / 4, 0]}>
+        <coneGeometry args={[w * 0.85, 0.32 * s, 4]} />
+        <meshStandardMaterial color={roof} roughness={0.8} />
+      </mesh>
+      {/* Door with frame */}
+      <mesh position={[0, 0.17 * s, d / 2 + 0.005]}>
+        <boxGeometry args={[0.1 * s, 0.28 * s, 0.01]} />
+        <meshStandardMaterial color={door} roughness={0.7} />
+      </mesh>
+      <mesh position={[0, 0.32 * s, d / 2 + 0.006]}>
+        <boxGeometry args={[0.14 * s, 0.02 * s, 0.005]} />
+        <meshStandardMaterial color={pal.trim} roughness={0.6} />
+      </mesh>
+      {/* First floor windows */}
+      {[-0.22, 0.22].map((x, i) => (
+        <group key={`f1-${i}`} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
+          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+          <mesh position={[-0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+          <mesh position={[0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+        </group>
+      ))}
+      {/* Second floor windows */}
+      {[-0.22, 0, 0.22].map((x, i) => (
+        <group key={`f2-${i}`} position={[x * s, 0.48 * s, d / 2 + 0.005]}>
+          <mesh><boxGeometry args={[0.08 * s, 0.1 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.11 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+        </group>
+      ))}
+      {/* Chimney */}
+      <mesh castShadow position={[w * 0.3, h + 0.3 * s, 0]}>
+        <boxGeometry args={[0.07 * s, 0.35 * s, 0.07 * s]} />
+        <meshStandardMaterial color="#7a4030" roughness={0.9} />
+      </mesh>
+      {/* Step */}
+      <mesh position={[0, 0.03 * s, d / 2 + 0.1 * s]}>
+        <boxGeometry args={[0.2 * s, 0.06 * s, 0.08 * s]} />
+        <meshStandardMaterial color="#888580" roughness={0.85} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ── Bungalow — low, wide porch ── */
+function BungalowHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; trim: string }; roof: string; door: string }) {
+  const w = 0.85 * s, h = 0.4 * s, d = 0.55 * s;
+  return (
+    <group>
+      <mesh castShadow receiveShadow position={[0, h / 2, 0]}>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial color={pal.walls} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 0.025 * s, 0]}>
+        <boxGeometry args={[w + 0.02 * s, 0.05 * s, d + 0.02 * s]} />
+        <meshStandardMaterial color="#777770" roughness={0.9} />
+      </mesh>
+      {/* Wide low roof */}
+      <mesh castShadow position={[0, h + 0.1 * s, 0]} rotation={[0, Math.PI / 4, 0]}>
+        <coneGeometry args={[w * 0.9, 0.22 * s, 4]} />
+        <meshStandardMaterial color={roof} roughness={0.8} />
+      </mesh>
+      {/* Full-width porch */}
+      <mesh castShadow position={[0, h - 0.02 * s, d / 2 + 0.18 * s]}>
+        <boxGeometry args={[w + 0.1 * s, 0.012 * s, 0.35 * s]} />
+        <meshStandardMaterial color={pal.trim} roughness={0.7} />
+      </mesh>
+      {/* Porch floor */}
+      <mesh position={[0, 0.01 * s, d / 2 + 0.15 * s]}>
+        <boxGeometry args={[w + 0.05 * s, 0.02 * s, 0.28 * s]} />
+        <meshStandardMaterial color="#9a9080" roughness={0.85} />
+      </mesh>
+      {/* Porch columns */}
+      {[-0.35, -0.12, 0.12, 0.35].map((x, i) => (
+        <mesh key={i} position={[x * s, h / 2 - 0.03 * s, d / 2 + 0.28 * s]}>
+          <boxGeometry args={[0.025 * s, h - 0.04 * s, 0.025 * s]} />
+          <meshStandardMaterial color={pal.trim} roughness={0.6} />
+        </mesh>
+      ))}
+      {/* Door */}
+      <mesh position={[0, 0.15 * s, d / 2 + 0.005]}>
+        <boxGeometry args={[0.1 * s, 0.25 * s, 0.01]} />
+        <meshStandardMaterial color={door} roughness={0.7} />
+      </mesh>
+      {/* Windows */}
+      {[-0.25, 0.25].map((x, i) => (
+        <group key={i} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
+          <mesh><boxGeometry args={[0.12 * s, 0.1 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.11 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.13 * s, 0.005, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+        </group>
+      ))}
+      {/* Porch railing */}
+      <mesh position={[0, 0.15 * s, d / 2 + 0.3 * s]}>
+        <boxGeometry args={[w + 0.05 * s, 0.008 * s, 0.01 * s]} />
+        <meshStandardMaterial color={pal.trim} roughness={0.6} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ── Cape Cod — steep roof, dormers ── */
+function CapeHouse({ s, pal, roof, door }: { s: number; pal: { walls: string; trim: string }; roof: string; door: string }) {
+  const w = 0.75 * s, h = 0.42 * s, d = 0.55 * s;
+  return (
+    <group>
+      <mesh castShadow receiveShadow position={[0, h / 2, 0]}>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial color={pal.walls} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 0.03 * s, 0]}>
+        <boxGeometry args={[w + 0.02 * s, 0.06 * s, d + 0.02 * s]} />
+        <meshStandardMaterial color="#777770" roughness={0.9} />
+      </mesh>
+      {/* Steep roof */}
+      <mesh castShadow position={[0, h + 0.2 * s, 0]} rotation={[0, Math.PI / 4, 0]}>
+        <coneGeometry args={[w * 0.82, 0.42 * s, 4]} />
+        <meshStandardMaterial color={roof} roughness={0.75} />
+      </mesh>
+      {/* Dormers */}
+      {[-0.15, 0.15].map((x, i) => (
+        <group key={i} position={[x * s, h + 0.15 * s, d / 2 * 0.5]}>
+          <mesh castShadow><boxGeometry args={[0.1 * s, 0.1 * s, 0.08 * s]} /><meshStandardMaterial color={pal.walls} roughness={0.85} /></mesh>
+          <mesh castShadow position={[0, 0.06 * s, 0]}><coneGeometry args={[0.065 * s, 0.05 * s, 4]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+          <mesh position={[0, -0.01 * s, 0.041 * s]}><boxGeometry args={[0.04 * s, 0.05 * s, 0.005]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+        </group>
+      ))}
+      {/* Door */}
+      <mesh position={[0, 0.16 * s, d / 2 + 0.005]}>
+        <boxGeometry args={[0.09 * s, 0.26 * s, 0.01]} />
+        <meshStandardMaterial color={door} roughness={0.7} />
+      </mesh>
+      {/* Windows with shutters */}
+      {[-0.22, 0.22].map((x, i) => (
+        <group key={i} position={[x * s, 0.22 * s, d / 2 + 0.005]}>
+          <mesh><boxGeometry args={[0.1 * s, 0.12 * s, 0.01]} /><meshStandardMaterial color="#8cc8e8" roughness={0.2} metalness={0.15} /></mesh>
+          <mesh position={[0, 0, 0.002]}><boxGeometry args={[0.005, 0.13 * s, 0.005]} /><meshStandardMaterial color={pal.trim} roughness={0.7} /></mesh>
+          <mesh position={[-0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+          <mesh position={[0.065 * s, 0, 0]}><boxGeometry args={[0.02 * s, 0.13 * s, 0.008]} /><meshStandardMaterial color={roof} roughness={0.8} /></mesh>
+        </group>
+      ))}
+      {/* Step */}
+      <mesh position={[0, 0.03 * s, d / 2 + 0.08 * s]}>
+        <boxGeometry args={[0.18 * s, 0.06 * s, 0.06 * s]} />
+        <meshStandardMaterial color="#888580" roughness={0.85} />
+      </mesh>
+      {/* Chimney */}
+      <mesh castShadow position={[-w * 0.28, h + 0.38 * s, 0]}>
+        <boxGeometry args={[0.06 * s, 0.35 * s, 0.06 * s]} />
+        <meshStandardMaterial color="#7a4030" roughness={0.9} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ── Realistic trees — deciduous with sphere canopy + evergreen ── */
+function DeciduousTree({ position, height = 0.8, color }: { position: [number, number, number]; height?: number; color: string }) {
   return (
     <group position={position}>
-      {/* Trunk */}
-      <mesh position={[0, height * 0.3, 0]}>
-        <cylinderGeometry args={[0.03, 0.05, height * 0.5, 6]} />
-        <meshStandardMaterial color="#6b4226" roughness={0.9} />
+      <mesh castShadow position={[0, height * 0.35, 0]}>
+        <cylinderGeometry args={[0.02, 0.04, height * 0.55, 6]} />
+        <meshStandardMaterial color="#5a3a1a" roughness={0.95} />
       </mesh>
-      {/* Canopy — layered cones */}
-      <mesh position={[0, height * 0.65, 0]}>
-        <coneGeometry args={[height * 0.35, height * 0.5, 8]} />
-        <meshStandardMaterial color={color} roughness={0.85} />
+      {/* Main canopy — sphere cluster */}
+      <mesh castShadow position={[0, height * 0.7, 0]}>
+        <sphereGeometry args={[height * 0.38, 10, 8]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
       </mesh>
-      <mesh position={[0, height * 0.85, 0]}>
-        <coneGeometry args={[height * 0.25, height * 0.35, 8]} />
-        <meshStandardMaterial color={color} roughness={0.85} />
+      <mesh castShadow position={[height * 0.12, height * 0.78, height * 0.08]}>
+        <sphereGeometry args={[height * 0.25, 8, 6]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[-height * 0.1, height * 0.65, -height * 0.1]}>
+        <sphereGeometry args={[height * 0.22, 8, 6]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
       </mesh>
     </group>
   );
 }
 
+function EvergreenTree({ position, height = 0.9, color }: { position: [number, number, number]; height?: number; color: string }) {
+  return (
+    <group position={position}>
+      <mesh castShadow position={[0, height * 0.25, 0]}>
+        <cylinderGeometry args={[0.015, 0.03, height * 0.4, 5]} />
+        <meshStandardMaterial color="#4a2a10" roughness={0.95} />
+      </mesh>
+      <mesh castShadow position={[0, height * 0.48, 0]}>
+        <coneGeometry args={[height * 0.3, height * 0.35, 8]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[0, height * 0.65, 0]}>
+        <coneGeometry args={[height * 0.24, height * 0.3, 8]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
+      </mesh>
+      <mesh castShadow position={[0, height * 0.82, 0]}>
+        <coneGeometry args={[height * 0.15, height * 0.22, 8]} />
+        <meshStandardMaterial color={color} roughness={0.9} />
+      </mesh>
+    </group>
+  );
+}
+
+function Bush({ position, color, size = 0.12 }: { position: [number, number, number]; color: string; size?: number }) {
+  return (
+    <group position={position}>
+      <mesh castShadow position={[0, size * 0.5, 0]}>
+        <sphereGeometry args={[size, 8, 6]} />
+        <meshStandardMaterial color={color} roughness={0.95} />
+      </mesh>
+      <mesh castShadow position={[size * 0.6, size * 0.4, 0]}>
+        <sphereGeometry args={[size * 0.7, 6, 5]} />
+        <meshStandardMaterial color={color} roughness={0.95} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ── Street infrastructure ── */
 function StreetLamp({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.5, 0]}>
-        <cylinderGeometry args={[0.015, 0.02, 1, 6]} />
-        <meshStandardMaterial color="#555555" metalness={0.8} roughness={0.3} />
+      {/* Pole */}
+      <mesh castShadow position={[0, 0.5, 0]}>
+        <cylinderGeometry args={[0.012, 0.018, 1.0, 6]} />
+        <meshStandardMaterial color="#444" metalness={0.85} roughness={0.25} />
       </mesh>
-      <mesh position={[0, 1, 0]}>
-        <sphereGeometry args={[0.05, 8, 8]} />
-        <meshBasicMaterial color="#ffe4a8" transparent opacity={0.8} />
+      {/* Arm */}
+      <mesh castShadow position={[0.06, 0.95, 0]} rotation={[0, 0, -0.3]}>
+        <cylinderGeometry args={[0.006, 0.008, 0.15, 4]} />
+        <meshStandardMaterial color="#444" metalness={0.85} roughness={0.25} />
       </mesh>
-      <pointLight position={[position[0], position[1] + 1, position[2]]} intensity={0.3} color="#ffe4a8" distance={3} />
+      {/* Lamp housing */}
+      <mesh position={[0.1, 0.98, 0]}>
+        <boxGeometry args={[0.05, 0.025, 0.03]} />
+        <meshStandardMaterial color="#333" metalness={0.6} roughness={0.4} />
+      </mesh>
+      {/* Glow */}
+      <mesh position={[0.1, 0.96, 0]}>
+        <sphereGeometry args={[0.02, 6, 6]} />
+        <meshBasicMaterial color="#ffe8b0" transparent opacity={0.6} />
+      </mesh>
+      <pointLight position={[0.1, 0.96, 0]} intensity={0.25} color="#ffe4a0" distance={2.5} />
     </group>
   );
 }
 
-function Car({ position, color, rotation = 0 }: {
-  position: [number, number, number]; color: string; rotation?: number;
-}) {
+function FireHydrant({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      <mesh castShadow position={[0, 0.06, 0]}>
+        <cylinderGeometry args={[0.025, 0.03, 0.12, 8]} />
+        <meshStandardMaterial color="#cc3333" roughness={0.7} />
+      </mesh>
+      <mesh position={[0, 0.13, 0]}>
+        <sphereGeometry args={[0.025, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+        <meshStandardMaterial color="#cc3333" roughness={0.7} />
+      </mesh>
+      {/* Nozzles */}
+      <mesh position={[0.03, 0.06, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.008, 0.008, 0.02, 6]} />
+        <meshStandardMaterial color="#cc3333" roughness={0.7} />
+      </mesh>
+    </group>
+  );
+}
+
+function StopSign({ position, rotation = 0 }: { position: [number, number, number]; rotation?: number }) {
   return (
     <group position={position} rotation={[0, rotation, 0]}>
-      {/* Body */}
-      <mesh position={[0, 0.08, 0]}>
-        <boxGeometry args={[0.35, 0.1, 0.18]} />
-        <meshStandardMaterial color={color} roughness={0.4} metalness={0.3} />
+      <mesh castShadow position={[0, 0.45, 0]}>
+        <cylinderGeometry args={[0.01, 0.012, 0.9, 4]} />
+        <meshStandardMaterial color="#777" metalness={0.7} roughness={0.3} />
       </mesh>
-      {/* Cabin */}
-      <mesh position={[0.02, 0.16, 0]}>
-        <boxGeometry args={[0.2, 0.08, 0.16]} />
-        <meshStandardMaterial color="#a8d4f0" roughness={0.3} metalness={0.1} />
+      <mesh position={[0, 0.9, 0]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.005, 8]} />
+        <meshStandardMaterial color="#cc2222" roughness={0.6} />
       </mesh>
-      {/* Wheels */}
-      {[[-0.1, -0.09], [0.1, -0.09], [-0.1, 0.09], [0.1, 0.09]].map(([x, z], i) => (
-        <mesh key={i} position={[x!, 0.03, z!]} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.03, 0.03, 0.02, 8]} />
-          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+    </group>
+  );
+}
+
+function ParkBench({ position, rotation = 0 }: { position: [number, number, number]; rotation?: number }) {
+  return (
+    <group position={position} rotation={[0, rotation, 0]}>
+      {/* Seat */}
+      <mesh castShadow position={[0, 0.08, 0]}>
+        <boxGeometry args={[0.3, 0.012, 0.08]} />
+        <meshStandardMaterial color="#6a4020" roughness={0.9} />
+      </mesh>
+      {/* Back */}
+      <mesh castShadow position={[0, 0.14, -0.035]}>
+        <boxGeometry args={[0.3, 0.08, 0.008]} />
+        <meshStandardMaterial color="#6a4020" roughness={0.9} />
+      </mesh>
+      {/* Legs */}
+      {[-0.12, 0.12].map((x, i) => (
+        <mesh key={i} position={[x, 0.04, 0]}>
+          <boxGeometry args={[0.01, 0.08, 0.07]} />
+          <meshStandardMaterial color="#444" metalness={0.7} roughness={0.4} />
         </mesh>
       ))}
     </group>
   );
 }
 
-/* Energy beams from engine to houses */
+function Fence({ start, end, color = "#8a7a60" }: { start: [number, number, number]; end: [number, number, number]; color?: string }) {
+  const dx = end[0] - start[0], dz = end[2] - start[2];
+  const len = Math.sqrt(dx * dx + dz * dz);
+  const angle = Math.atan2(dx, dz);
+  const mx = (start[0] + end[0]) / 2, mz = (start[2] + end[2]) / 2;
+  const posts = Math.max(2, Math.floor(len / 0.2));
+  return (
+    <group>
+      {/* Rails */}
+      <mesh position={[mx, start[1] + 0.08, mz]} rotation={[0, angle, 0]}>
+        <boxGeometry args={[0.008, 0.008, len]} />
+        <meshStandardMaterial color={color} roughness={0.85} />
+      </mesh>
+      <mesh position={[mx, start[1] + 0.14, mz]} rotation={[0, angle, 0]}>
+        <boxGeometry args={[0.008, 0.008, len]} />
+        <meshStandardMaterial color={color} roughness={0.85} />
+      </mesh>
+      {/* Posts */}
+      {Array.from({ length: posts }, (_, i) => {
+        const t = i / (posts - 1);
+        return (
+          <mesh key={i} position={[start[0] + dx * t, start[1] + 0.09, start[2] + dz * t]}>
+            <boxGeometry args={[0.012, 0.18, 0.012]} />
+            <meshStandardMaterial color={color} roughness={0.85} />
+          </mesh>
+        );
+      })}
+    </group>
+  );
+}
+
+/* ── Energy beams from engine to community ── */
 function PowerBeams() {
   const beamsRef = useRef<THREE.Group>(null!);
   useFrame((state) => {
@@ -1024,29 +1394,25 @@ function PowerBeams() {
     beamsRef.current.children.forEach((child, i) => {
       if (child instanceof THREE.Mesh) {
         (child.material as THREE.MeshBasicMaterial).opacity =
-          0.04 + Math.sin(t * 1.5 + i * 0.8) * 0.02;
+          0.06 + Math.sin(t * 1.5 + i * 0.8) * 0.03;
       }
     });
   });
 
-  const beamAngles = Array.from({ length: 16 }, (_, i) => (i / 16) * Math.PI * 2);
+  const beamAngles = Array.from({ length: 24 }, (_, i) => (i / 24) * Math.PI * 2);
   return (
-    <group ref={beamsRef} position={[0, -0.5, 0]}>
+    <group ref={beamsRef} position={[0, -0.3, 0]}>
       {beamAngles.map((angle, i) => {
         const innerR = RING_RADIUS + 1;
-        const outerR = RING_RADIUS + 6 + (i % 3) * 2;
+        const outerR = RING_RADIUS + 5 + (i % 3) * 2;
         const midR = (innerR + outerR) / 2;
         const x = Math.cos(angle) * midR;
         const z = Math.sin(angle) * midR;
         const len = outerR - innerR;
         return (
-          <mesh
-            key={i}
-            position={[x, 0, z]}
-            rotation={[0, -angle + Math.PI / 2, Math.PI / 2]}
-          >
-            <cylinderGeometry args={[0.01, 0.04, len, 4]} />
-            <meshBasicMaterial color={TEAL} transparent opacity={0.04} />
+          <mesh key={i} position={[x, 0, z]} rotation={[0, -angle + Math.PI / 2, Math.PI / 2]}>
+            <cylinderGeometry args={[0.005, 0.03, len, 4]} />
+            <meshBasicMaterial color={TEAL} transparent opacity={0.06} />
           </mesh>
         );
       })}
@@ -1054,180 +1420,219 @@ function PowerBeams() {
   );
 }
 
+/* ── Sky dome ── */
+function SkyDome() {
+  return (
+    <mesh>
+      <sphereGeometry args={[35, 32, 16]} />
+      <meshBasicMaterial color="#6aa0c8" side={THREE.BackSide} transparent opacity={0.15} />
+    </mesh>
+  );
+}
+
+/* ── Main neighborhood assembly ── */
 function Neighborhood() {
-  const seeded = (i: number, arr: string[]) => arr[i % arr.length];
+  const STYLES: HouseStyle[] = ["ranch", "colonial", "bungalow", "cape"];
+  const pick = (i: number, len: number) => i % len;
 
-  // Generate house positions in rings around the torus
   const houses = useMemo(() => {
-    const h: { pos: [number, number, number]; rot: number; scale: number; wall: string; roof: string; door: string }[] = [];
+    const h: { pos: [number, number, number]; rot: number; scale: number; style: HouseStyle; wI: number; rI: number; dI: number }[] = [];
 
-    // Inner ring of houses (inside the torus, r ≈ 4-6)
+    // Inner ring (inside torus, r ≈ 3.5-6)
     for (let i = 0; i < 10; i++) {
       const angle = (i / 10) * Math.PI * 2 + 0.15;
-      const r = 4 + (i % 3) * 0.8;
-      h.push({
-        pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
-        rot: -angle + Math.PI,
-        scale: 0.7 + (i % 3) * 0.15,
-        wall: seeded(i, HOUSE_WALLS), roof: seeded(i, HOUSE_ROOFS), door: seeded(i, HOUSE_DOORS),
-      });
+      const r = 4.2 + (i % 3) * 0.7;
+      h.push({ pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r], rot: -angle + Math.PI,
+        scale: 0.65 + (i % 3) * 0.1, style: STYLES[pick(i, 4)], wI: i, rI: i + 2, dI: i + 1 });
     }
-
-    // Outer ring — close to torus (r ≈ 10-12)
-    for (let i = 0; i < 16; i++) {
-      const angle = (i / 16) * Math.PI * 2;
-      const r = 10.5 + (i % 4) * 0.6;
-      h.push({
-        pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
-        rot: -angle,
-        scale: 0.8 + (i % 3) * 0.1,
-        wall: seeded(i + 3, HOUSE_WALLS), roof: seeded(i + 2, HOUSE_ROOFS), door: seeded(i + 1, HOUSE_DOORS),
-      });
+    // Outer ring (r ≈ 10-12)
+    for (let i = 0; i < 18; i++) {
+      const angle = (i / 18) * Math.PI * 2;
+      const r = 10.5 + (i % 4) * 0.5;
+      h.push({ pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r], rot: -angle,
+        scale: 0.75 + (i % 3) * 0.08, style: STYLES[pick(i + 1, 4)], wI: i + 3, rI: i + 1, dI: i + 4 });
     }
-
-    // Far ring (r ≈ 13-16)
-    for (let i = 0; i < 20; i++) {
-      const angle = (i / 20) * Math.PI * 2 + 0.1;
-      const r = 13.5 + (i % 5) * 0.7;
-      h.push({
-        pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
-        rot: -angle + 0.3,
-        scale: 0.6 + (i % 4) * 0.12,
-        wall: seeded(i + 5, HOUSE_WALLS), roof: seeded(i + 4, HOUSE_ROOFS), door: seeded(i + 3, HOUSE_DOORS),
-      });
+    // Far ring (r ≈ 13.5-16.5)
+    for (let i = 0; i < 22; i++) {
+      const angle = (i / 22) * Math.PI * 2 + 0.08;
+      const r = 14 + (i % 5) * 0.6;
+      h.push({ pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r], rot: -angle + 0.2,
+        scale: 0.6 + (i % 4) * 0.1, style: STYLES[pick(i + 2, 4)], wI: i + 5, rI: i + 3, dI: i + 2 });
     }
-
     return h;
   }, []);
 
-  // Trees scattered throughout
   const trees = useMemo(() => {
-    const t: { pos: [number, number, number]; h: number; color: string }[] = [];
-    for (let i = 0; i < 60; i++) {
-      const angle = (i / 60) * Math.PI * 2 + (i * 0.37);
+    const t: { pos: [number, number, number]; h: number; color: string; evergreen: boolean }[] = [];
+    for (let i = 0; i < 80; i++) {
+      const angle = (i / 80) * Math.PI * 2 + (i * 0.37);
       const r = 3 + Math.abs(Math.sin(i * 1.7)) * 14;
-      // Skip trees that would overlap with the torus ring
       if (r > RING_RADIUS - 1.5 && r < RING_RADIUS + 1.5) continue;
-      t.push({
-        pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
-        h: 0.5 + (i % 4) * 0.2,
-        color: seeded(i, TREE_GREENS),
-      });
+      t.push({ pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
+        h: 0.5 + (i % 5) * 0.15, color: TREE_SHADES[i % TREE_SHADES.length], evergreen: i % 4 === 0 });
     }
     return t;
   }, []);
 
-  // Cars on streets
-  const cars = useMemo(() => [
-    { pos: [11, -1.42, 3] as [number, number, number], color: "#c0392b", rot: 0.5 },
-    { pos: [-9, -1.42, -7] as [number, number, number], color: "#2980b9", rot: 2.1 },
-    { pos: [5, -1.42, -12] as [number, number, number], color: "#f39c12", rot: 4.2 },
-    { pos: [-13, -1.42, 5] as [number, number, number], color: "#ecf0f1", rot: 1.8 },
-    { pos: [14, -1.42, -4] as [number, number, number], color: "#27ae60", rot: 3.5 },
-    { pos: [-4, -1.42, 14] as [number, number, number], color: "#8e44ad", rot: 0.9 },
-  ], []);
-
-  // Street lamps
-  const lamps = useMemo(() => {
-    const l: [number, number, number][] = [];
-    for (let i = 0; i < 12; i++) {
-      const angle = (i / 12) * Math.PI * 2;
-      l.push([Math.cos(angle) * 11.5, -1.5, Math.sin(angle) * 11.5]);
+  const bushes = useMemo(() => {
+    const b: { pos: [number, number, number]; color: string; size: number }[] = [];
+    for (let i = 0; i < 40; i++) {
+      const angle = (i / 40) * Math.PI * 2 + (i * 0.6);
+      const r = 4 + Math.abs(Math.sin(i * 2.3)) * 12;
+      if (r > RING_RADIUS - 1.2 && r < RING_RADIUS + 1.2) continue;
+      b.push({ pos: [Math.cos(angle) * r, -1.5, Math.sin(angle) * r],
+        color: TREE_SHADES[(i + 3) % TREE_SHADES.length], size: 0.06 + (i % 3) * 0.04 });
     }
-    return l;
+    return b;
   }, []);
 
   return (
     <group>
-      {/* Ground — large green grass plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.52, 0]}>
-        <circleGeometry args={[22, 64]} />
-        <meshStandardMaterial color="#3a7d32" roughness={0.95} />
+      <SkyDome />
+
+      {/* Ground — layered for realism */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.52, 0]}>
+        <circleGeometry args={[25, 64]} />
+        <meshStandardMaterial color="#3a7530" roughness={0.95} />
+      </mesh>
+      {/* Lighter grass patches */}
+      {[5, 12, -8, -14].map((x, i) => (
+        <mesh key={i} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[x, -1.518, (i - 2) * 4]}>
+          <circleGeometry args={[1.5 + i * 0.3, 16]} />
+          <meshStandardMaterial color="#488a38" roughness={0.95} />
+        </mesh>
+      ))}
+
+      {/* Park inside torus */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.515, 0]}>
+        <circleGeometry args={[RING_RADIUS - 1.5, 32]} />
+        <meshStandardMaterial color="#48903a" roughness={0.92} />
+      </mesh>
+      {/* Park pathway — circular */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
+        <ringGeometry args={[3.2, 3.4, 32]} />
+        <meshStandardMaterial color="#b8a890" roughness={0.88} />
       </mesh>
 
-      {/* Roads — concentric ring roads */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
-        <ringGeometry args={[9.5, 10.2, 64]} />
-        <meshStandardMaterial color="#4a4a4a" roughness={0.9} />
+      {/* Main ring road */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
+        <ringGeometry args={[9.3, 10.3, 64]} />
+        <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
-        <ringGeometry args={[13, 13.5, 64]} />
-        <meshStandardMaterial color="#4a4a4a" roughness={0.9} />
-      </mesh>
-      {/* Road center lines */}
+      {/* Curbs */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.505, 0]}>
-        <ringGeometry args={[9.82, 9.88, 64]} />
-        <meshStandardMaterial color="#e8c840" roughness={0.7} />
+        <ringGeometry args={[9.25, 9.32, 64]} />
+        <meshStandardMaterial color="#999590" roughness={0.85} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.505, 0]}>
-        <ringGeometry args={[13.22, 13.28, 64]} />
-        <meshStandardMaterial color="#e8c840" roughness={0.7} />
+        <ringGeometry args={[10.28, 10.35, 64]} />
+        <meshStandardMaterial color="#999590" roughness={0.85} />
+      </mesh>
+      {/* Center line */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.504, 0]}>
+        <ringGeometry args={[9.78, 9.82, 64]} />
+        <meshStandardMaterial color="#d8c040" roughness={0.7} />
+      </mesh>
+      {/* Sidewalks */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.508, 0]}>
+        <ringGeometry args={[9.1, 9.25, 64]} />
+        <meshStandardMaterial color="#c0b8a8" roughness={0.88} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.508, 0]}>
+        <ringGeometry args={[10.35, 10.5, 64]} />
+        <meshStandardMaterial color="#c0b8a8" roughness={0.88} />
       </mesh>
 
-      {/* Radial connector roads */}
+      {/* Outer ring road */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
+        <ringGeometry args={[13.3, 14.0, 64]} />
+        <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.504, 0]}>
+        <ringGeometry args={[13.62, 13.68, 64]} />
+        <meshStandardMaterial color="#d8c040" roughness={0.7} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.508, 0]}>
+        <ringGeometry args={[13.15, 13.3, 64]} />
+        <meshStandardMaterial color="#c0b8a8" roughness={0.88} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.508, 0]}>
+        <ringGeometry args={[14.0, 14.15, 64]} />
+        <meshStandardMaterial color="#c0b8a8" roughness={0.88} />
+      </mesh>
+
+      {/* Radial roads */}
       {[0, Math.PI / 3, Math.PI * 2 / 3, Math.PI, Math.PI * 4 / 3, Math.PI * 5 / 3].map((angle, i) => {
-        const x1 = Math.cos(angle) * 9.5;
-        const z1 = Math.sin(angle) * 9.5;
-        const x2 = Math.cos(angle) * 17;
-        const z2 = Math.sin(angle) * 17;
-        const midX = (x1 + x2) / 2;
-        const midZ = (z1 + z2) / 2;
+        const x1 = Math.cos(angle) * 9.3, z1 = Math.sin(angle) * 9.3;
+        const x2 = Math.cos(angle) * 18, z2 = Math.sin(angle) * 18;
+        const mx = (x1 + x2) / 2, mz = (z1 + z2) / 2;
         const len = Math.sqrt((x2 - x1) ** 2 + (z2 - z1) ** 2);
         return (
-          <mesh
-            key={i}
-            position={[midX, -1.51, midZ]}
-            rotation={[-Math.PI / 2, 0, -angle + Math.PI / 2]}
-          >
-            <boxGeometry args={[0.35, len, 0.01]} />
-            <meshStandardMaterial color="#4a4a4a" roughness={0.9} />
+          <mesh key={i} receiveShadow position={[mx, -1.51, mz]} rotation={[-Math.PI / 2, 0, -angle + Math.PI / 2]}>
+            <boxGeometry args={[0.4, len, 0.01]} />
+            <meshStandardMaterial color="#3a3a3a" roughness={0.92} />
           </mesh>
         );
       })}
 
-      {/* Sidewalks around ring road */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
-        <ringGeometry args={[9.3, 9.5, 64]} />
-        <meshStandardMaterial color="#b0a898" roughness={0.85} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.51, 0]}>
-        <ringGeometry args={[10.2, 10.4, 64]} />
-        <meshStandardMaterial color="#b0a898" roughness={0.85} />
-      </mesh>
-
       {/* Houses */}
       {houses.map((h, i) => (
-        <House key={i} position={h.pos} wallColor={h.wall} roofColor={h.roof} doorColor={h.door} scale={h.scale} rotation={h.rot} />
+        <RealisticHouse key={i} position={h.pos} style={h.style} wallIdx={h.wI} roofIdx={h.rI} doorIdx={h.dI} scale={h.scale} rotation={h.rot} />
       ))}
 
       {/* Trees */}
-      {trees.map((t, i) => (
-        <Tree key={i} position={t.pos} height={t.h} color={t.color} />
-      ))}
+      {trees.map((t, i) => t.evergreen
+        ? <EvergreenTree key={i} position={t.pos} height={t.h} color={t.color} />
+        : <DeciduousTree key={i} position={t.pos} height={t.h} color={t.color} />
+      )}
 
-      {/* Cars */}
-      {cars.map((c, i) => (
-        <Car key={i} position={c.pos} color={c.color} rotation={c.rot} />
+      {/* Bushes */}
+      {bushes.map((b, i) => (
+        <Bush key={i} position={b.pos} color={b.color} size={b.size} />
       ))}
 
       {/* Street lamps */}
-      {lamps.map((pos, i) => (
-        <StreetLamp key={i} position={pos} />
+      {Array.from({ length: 16 }, (_, i) => {
+        const angle = (i / 16) * Math.PI * 2;
+        return <StreetLamp key={i} position={[Math.cos(angle) * 11.5, -1.5, Math.sin(angle) * 11.5]} />;
+      })}
+
+      {/* Fire hydrants */}
+      {[0.8, 2.4, 4.0, 5.6].map((a, i) => (
+        <FireHydrant key={i} position={[Math.cos(a) * 10.45, -1.5, Math.sin(a) * 10.45]} />
       ))}
 
-      {/* Park area inside the torus ring */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.515, 0]}>
-        <circleGeometry args={[RING_RADIUS - 1.5, 32]} />
-        <meshStandardMaterial color="#45943a" roughness={0.9} />
-      </mesh>
+      {/* Stop signs at intersections */}
+      {[0, Math.PI / 3, Math.PI * 2 / 3, Math.PI, Math.PI * 4 / 3, Math.PI * 5 / 3].map((a, i) => (
+        <StopSign key={i} position={[Math.cos(a) * 9.6, -1.5, Math.sin(a) * 9.6]} rotation={a} />
+      ))}
 
-      {/* Power beams from engine to community */}
+      {/* Park benches inside torus */}
+      {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((a, i) => (
+        <ParkBench key={i} position={[Math.cos(a) * 3.3, -1.5, Math.sin(a) * 3.3]} rotation={a} />
+      ))}
+
+      {/* Fences — select yards */}
+      {houses.slice(10, 18).filter((_, i) => i % 3 === 0).map((h, i) => {
+        const fenceR = 0.55 * h.scale;
+        const sin = Math.sin(h.rot), cos = Math.cos(h.rot);
+        const p = h.pos;
+        return (
+          <Fence key={i}
+            start={[p[0] - cos * fenceR, p[1], p[2] + sin * fenceR]}
+            end={[p[0] + cos * fenceR, p[1], p[2] - sin * fenceR]}
+            color="#8a7a5a"
+          />
+        );
+      })}
+
+      {/* Power beams */}
       <PowerBeams />
 
-      {/* Atmospheric fog plane at edges */}
+      {/* Atmospheric edge fade */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.49, 0]}>
-        <ringGeometry args={[18, 22, 64]} />
-        <meshBasicMaterial color="#111d2a" transparent opacity={0.7} side={THREE.DoubleSide} />
+        <ringGeometry args={[20, 25, 64]} />
+        <meshBasicMaterial color="#111d2a" transparent opacity={0.75} side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
@@ -1244,12 +1649,25 @@ function BasePlatform() {
 function Scene({ activeStep }: { activeStep: number | null }) {
   return (
     <>
-      {/* Lighting — warm sunlit neighborhood + engine glow */}
-      <ambientLight intensity={0.5} color="#8aa0b8" />
-      <directionalLight position={[15, 20, 10]} intensity={1} color="#fff5e0" castShadow />
-      <directionalLight position={[-8, 12, -5]} intensity={0.3} color="#aac4e0" />
-      <directionalLight position={[0, -3, -10]} intensity={0.15} color="#4488ff" />
-      <hemisphereLight color="#87CEEB" groundColor="#3a7d32" intensity={0.3} />
+      {/* Lighting — golden hour sunlit neighborhood + engine glow */}
+      <ambientLight intensity={0.4} color="#90a8c0" />
+      <directionalLight
+        position={[18, 25, 12]}
+        intensity={1.2}
+        color="#fff0d0"
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-far={60}
+        shadow-camera-left={-20}
+        shadow-camera-right={20}
+        shadow-camera-top={20}
+        shadow-camera-bottom={-20}
+        shadow-bias={-0.001}
+      />
+      <directionalLight position={[-10, 15, -8]} intensity={0.25} color="#b0c8e0" />
+      <directionalLight position={[0, -3, -10]} intensity={0.1} color="#4488ff" />
+      <hemisphereLight color="#87CEEB" groundColor="#3a7530" intensity={0.35} />
       <pointLight position={[0, 1.5, 0]} intensity={2} color={TEAL} distance={10} />
       {STEPS.map((step, i) => {
         const [x, , z] = getStationPosition(i);
@@ -1377,7 +1795,7 @@ export default function StellarEngineTurbine() {
 
       {/* Canvas */}
       <div className="flex-1 relative">
-        <Canvas camera={{ position: [8, 8, 12], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} onCreated={({ gl }) => { gl.setClearColor(BG); }}>
+        <Canvas shadows camera={{ position: [8, 8, 12], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} onCreated={({ gl }) => { gl.setClearColor(BG); gl.shadowMap.type = THREE.PCFSoftShadowMap; }}>
           <Scene activeStep={activeStep} />
         </Canvas>
 
