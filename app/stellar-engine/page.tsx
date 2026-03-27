@@ -83,7 +83,8 @@ function DonutTorus({ active, onSelect }: { active: number | null; onSelect: (i:
     const radSegs = 32;
     // Create 270° torus (quarter cutaway)
     const geo = new THREE.TorusGeometry(R, TR, radSegs, tubSegs, Math.PI * 1.75);
-    // Rotate so the cutaway is at the front-right
+    // Lay flat (horizontal) then rotate cutaway to front-right
+    geo.rotateX(-Math.PI / 2);
     geo.rotateY(Math.PI * 0.15);
 
     const posAttr = geo.getAttribute("position");
@@ -182,13 +183,13 @@ function DonutTorus({ active, onSelect }: { active: number | null; onSelect: (i:
 function CutawayInterior({ active }: { active: number | null }) {
   return (
     <group>
-      {/* Inner channel tube — visible through the cut */}
-      <mesh rotation={[0, Math.PI * 0.15, 0]}>
+      {/* Inner channel tube — visible through the cut (rotated to match horizontal donut) */}
+      <mesh rotation={[-Math.PI / 2, Math.PI * 0.15, 0]}>
         <torusGeometry args={[R, TR * 0.4, 20, 64, Math.PI * 0.25]} />
         <meshStandardMaterial color="#0d1e30" roughness={0.5} metalness={0.3} side={THREE.DoubleSide} />
       </mesh>
       {/* Glowing energy core */}
-      <mesh rotation={[0, Math.PI * 0.15, 0]}>
+      <mesh rotation={[-Math.PI / 2, Math.PI * 0.15, 0]}>
         <torusGeometry args={[R, TR * 0.15, 12, 64, Math.PI * 0.25]} />
         <meshBasicMaterial color={active !== null ? STEPS[active].glow : TEAL_P} transparent opacity={0.35} side={THREE.DoubleSide} />
       </mesh>
@@ -229,7 +230,7 @@ function SectionDividers() {
         const x = Math.cos(a) * R;
         const z = Math.sin(a) * R;
         return (
-          <mesh key={i} position={[x, 0, z]} rotation={[0, -a, 0]}>
+          <mesh key={i} position={[x, 0, z]} rotation={[Math.PI / 2, 0, -a]}>
             <torusGeometry args={[TR * 1.01, 0.008, 8, 20]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.15} />
           </mesh>
@@ -310,7 +311,7 @@ function Arrows() {
       {Array.from({ length: 14 }, (_, i) => {
         const a = (i / 14) * Math.PI * 2;
         return (
-          <mesh key={i} position={[Math.cos(a) * R, TR + 0.03, Math.sin(a) * R]} rotation={[Math.PI / 2, 0, -(a + Math.PI / 2)]}>
+          <mesh key={i} position={[Math.cos(a) * R, TR + 0.06, Math.sin(a) * R]} rotation={[0, -(a + Math.PI / 2), 0]}>
             <coneGeometry args={[0.04, 0.09, 3]} />
             <meshBasicMaterial color={ORANGE} transparent opacity={0.12} />
           </mesh>
