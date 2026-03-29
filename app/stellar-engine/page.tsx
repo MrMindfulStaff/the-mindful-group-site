@@ -1,8 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import StellarEngineDiagram from "@/components/StellarEngineDiagram";
-import StellarEngine3D from "@/components/StellarEngine3D";
-import StellarEngineExperience from "@/components/StellarEngineExperience";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -110,59 +107,36 @@ const differentiators = [
   },
 ];
 
-function FallbackContent() {
+export default function StellarEnginePage() {
   return (
     <>
-      {/* Hero with Diagram */}
+      {/* Hero */}
       <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            <div>
-              <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6 font-semibold">
-                System Architecture
-              </p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading text-text leading-tight mb-8">
-                The Stellar <span className="text-primary">Engine</span>
-              </h1>
-              <p className="text-text-light text-lg md:text-xl leading-relaxed mb-8">
-                A mathematically designed, self-sustaining workforce development
-                model engineered to reverse poverty through earned revenue — not
-                perpetual grant dependency. It is not a program. It is
-                infrastructure.
-              </p>
-              <p className="text-text-light leading-relaxed">
-                Built on a closed-loop economic architecture where participant
-                outcomes generate the revenue that funds the next cohort — creating
-                a self-reinforcing cycle that grows stronger as it scales. Proven
-                over 9 years in Milwaukee&apos;s 53206 zip code, one of the most
-                economically distressed communities in the United States.
-              </p>
-            </div>
-            <div className="lg:pt-8">
-              <StellarEngineDiagram />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3D Visualization */}
-      <section className="py-12 bg-secondary">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-white/60 text-xs uppercase tracking-[0.3em] mb-4">
-            Interactive Visualization
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
+            System Architecture
           </p>
-          <h2 className="text-center text-2xl font-heading text-white mb-8">
-            The Closed-Loop <span className="text-accent">in Motion</span>
-          </h2>
-          <StellarEngine3D />
-          <p className="text-center text-white/40 text-xs mt-4">
-            Particles represent people flowing through the system. Orange nodes mark surplus generation.
+          <h1 className="text-4xl md:text-6xl font-heading text-ivory leading-tight mb-8">
+            The Stellar <span className="text-gold">Engine</span>
+          </h1>
+          <p className="text-silver text-lg md:text-xl max-w-4xl leading-relaxed mb-10">
+            A mathematically designed, self-sustaining workforce development
+            model engineered to reverse poverty through earned revenue — not
+            perpetual grant dependency. It is not a program. It is
+            infrastructure.
+          </p>
+          <p className="text-silver max-w-3xl leading-relaxed">
+            Built on a closed-loop economic architecture where participant
+            outcomes generate the revenue that funds the next cohort — creating
+            a self-reinforcing cycle that grows stronger as it scales. Proven
+            over 9 years in Milwaukee&apos;s 53206 zip code, one of the most
+            economically distressed communities in the United States.
           </p>
         </div>
       </section>
 
       {/* Proof Points */}
-      <section className="bg-surface py-24">
+      <section className="bg-obsidian-light py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
@@ -174,12 +148,12 @@ function FallbackContent() {
             ].map((m) => (
               <div
                 key={m.label}
-                className="bg-white border border-border-light rounded-lg p-6 text-center"
+                className="border border-gold/10 p-6 text-center"
               >
-                <p className="text-2xl md:text-3xl font-heading text-primary mb-2">
+                <p className="text-2xl md:text-3xl font-heading text-gold mb-2">
                   {m.stat}
                 </p>
-                <p className="text-text-light text-xs">{m.label}</p>
+                <p className="text-silver text-xs">{m.label}</p>
               </div>
             ))}
           </div>
@@ -189,11 +163,11 @@ function FallbackContent() {
       {/* The Problem */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             The Problem
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-12">
-            Why Traditional Models <span className="text-primary">Fail</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-12">
+            Why Traditional Models <span className="text-gold">Fail</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -215,12 +189,12 @@ function FallbackContent() {
             ].map((p) => (
               <div
                 key={p.title}
-                className="bg-white border border-border-light rounded-lg p-8"
+                className="border border-gold/10 p-8"
               >
-                <h3 className="text-xl font-heading text-text mb-4">
+                <h3 className="text-xl font-heading text-ivory mb-4">
                   {p.title}
                 </h3>
-                <p className="text-text-light text-sm leading-relaxed">
+                <p className="text-silver text-sm leading-relaxed">
                   {p.description}
                 </p>
               </div>
@@ -230,60 +204,60 @@ function FallbackContent() {
       </section>
 
       {/* Two Sub-Models */}
-      <section className="bg-surface py-24">
+      <section className="bg-obsidian-light py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             Dual Configuration
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-12">
-            Two Engines. <span className="text-primary">One Architecture.</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-12">
+            Two Engines. <span className="text-gold">One Architecture.</span>
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
-              <p className="text-primary text-xs uppercase tracking-[0.2em] mb-2">
+            <div className="border border-gold/10 p-8 md:p-12">
+              <p className="text-gold text-xs uppercase tracking-[0.2em] mb-2">
                 Sub-Model
               </p>
-              <h3 className="text-2xl md:text-3xl font-heading text-text mb-4">
+              <h3 className="text-2xl md:text-3xl font-heading text-ivory mb-4">
                 Little Dipper
               </h3>
-              <p className="text-primary/60 text-sm mb-6">
+              <p className="text-gold/60 text-sm mb-6">
                 Workforce Revenue Only
               </p>
-              <p className="text-text-light leading-relaxed mb-6">
+              <p className="text-silver leading-relaxed mb-6">
                 Revenue generated from placing trained graduates with employers
                 through the staffing arm. Proves the model works on placement
                 revenue alone. Establishes the floor of sustainability.
               </p>
-              <div className="border-t border-border-light pt-4">
-                <p className="text-text-light text-xs uppercase tracking-wider">
+              <div className="border-t border-gold/10 pt-4">
+                <p className="text-silver text-xs uppercase tracking-wider">
                   Revenue Source
                 </p>
-                <p className="text-text text-sm mt-1">
+                <p className="text-ivory text-sm mt-1">
                   Placement revenue from staffing arm
                 </p>
               </div>
             </div>
-            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
-              <p className="text-primary text-xs uppercase tracking-[0.2em] mb-2">
+            <div className="border border-gold/20 p-8 md:p-12">
+              <p className="text-gold text-xs uppercase tracking-[0.2em] mb-2">
                 Sub-Model
               </p>
-              <h3 className="text-2xl md:text-3xl font-heading text-text mb-4">
+              <h3 className="text-2xl md:text-3xl font-heading text-ivory mb-4">
                 Big Dipper
               </h3>
-              <p className="text-primary/60 text-sm mb-6">
+              <p className="text-gold/60 text-sm mb-6">
                 Training + Workforce Revenue
               </p>
-              <p className="text-text-light leading-relaxed mb-6">
+              <p className="text-silver leading-relaxed mb-6">
                 The full-power configuration. Combines training program tuition
                 or WIOA reimbursement revenue with workforce placement revenue.
                 Achieves sustainability at lower enrollment thresholds and
                 generates larger surplus for reinvestment.
               </p>
-              <div className="border-t border-border-light pt-4">
-                <p className="text-text-light text-xs uppercase tracking-wider">
+              <div className="border-t border-gold/10 pt-4">
+                <p className="text-silver text-xs uppercase tracking-wider">
                   Revenue Sources
                 </p>
-                <p className="text-text text-sm mt-1">
+                <p className="text-ivory text-sm mt-1">
                   Training revenue + Placement revenue
                 </p>
               </div>
@@ -295,13 +269,13 @@ function FallbackContent() {
       {/* Closed-Loop Logic */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             The Closed-Loop
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-6">
-            Each Step <span className="text-primary">Feeds the Next</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-6">
+            Each Step <span className="text-gold">Feeds the Next</span>
           </h2>
-          <p className="text-text-light text-lg max-w-3xl mb-16">
+          <p className="text-silver text-lg max-w-3xl mb-16">
             The system is designed as a closed loop, not a linear program. Participant outcomes generate the revenue that funds the next cohort.
           </p>
 
@@ -310,19 +284,19 @@ function FallbackContent() {
               <div key={step.step} className="relative flex gap-8">
                 {/* Vertical line + circle */}
                 <div className="flex flex-col items-center shrink-0">
-                  <div className="w-12 h-12 border border-primary flex items-center justify-center text-primary text-sm font-heading">
+                  <div className="w-12 h-12 border border-gold/40 flex items-center justify-center text-gold text-sm font-heading">
                     {step.step}
                   </div>
                   {i < closedLoop.length - 1 && (
-                    <div className="w-px bg-primary/10 flex-1 min-h-8" />
+                    <div className="w-px bg-gold/10 flex-1 min-h-8" />
                   )}
                 </div>
                 {/* Content */}
                 <div className="pb-10">
-                  <h3 className="text-xl font-heading text-text mb-2">
+                  <h3 className="text-xl font-heading text-ivory mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-text-light text-sm leading-relaxed max-w-2xl">
+                  <p className="text-silver text-sm leading-relaxed max-w-2xl">
                     {step.description}
                   </p>
                 </div>
@@ -331,12 +305,12 @@ function FallbackContent() {
             {/* Loop-back indicator */}
             <div className="flex gap-8">
               <div className="flex flex-col items-center shrink-0">
-                <div className="w-12 h-12 border border-primary bg-primary/5 flex items-center justify-center text-primary text-lg">
+                <div className="w-12 h-12 border border-gold/40 bg-gold/5 flex items-center justify-center text-gold text-lg">
                   &#x21bb;
                 </div>
               </div>
               <div className="pt-2">
-                <p className="text-primary text-sm uppercase tracking-wider font-heading">
+                <p className="text-gold text-sm uppercase tracking-wider font-heading">
                   Cycle Repeats — Each Cohort Funds the Next
                 </p>
               </div>
@@ -346,15 +320,15 @@ function FallbackContent() {
       </section>
 
       {/* Surplus Distribution */}
-      <section className="bg-surface py-24">
+      <section className="bg-obsidian-light py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             Reinvestment Architecture
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-6">
-            Where the <span className="text-primary">Surplus Goes</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-6">
+            Where the <span className="text-gold">Surplus Goes</span>
           </h2>
-          <p className="text-text-light text-lg max-w-3xl mb-16">
+          <p className="text-silver text-lg max-w-3xl mb-16">
             When the system generates surplus, funds are allocated according to
             a structured reinvestment model — not extracted as profit.
           </p>
@@ -363,18 +337,18 @@ function FallbackContent() {
             {surplusAllocation.map((a) => (
               <div
                 key={a.category}
-                className="bg-white border border-border-light rounded-lg p-8 flex gap-6"
+                className="border border-gold/10 p-8 flex gap-6"
               >
                 <div className="shrink-0">
-                  <p className="text-3xl font-heading text-primary">
+                  <p className="text-3xl font-heading text-gold">
                     {a.percentage}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-lg font-heading text-text mb-2">
+                  <h3 className="text-lg font-heading text-ivory mb-2">
                     {a.category}
                   </h3>
-                  <p className="text-text-light text-sm leading-relaxed">
+                  <p className="text-silver text-sm leading-relaxed">
                     {a.description}
                   </p>
                 </div>
@@ -387,24 +361,24 @@ function FallbackContent() {
       {/* What Makes It Different */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             The Difference
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-16">
-            Not a Program. <span className="text-primary">Infrastructure.</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-16">
+            Not a Program. <span className="text-gold">Infrastructure.</span>
           </h2>
 
           <div className="space-y-6">
             {differentiators.map((d) => (
               <div
                 key={d.title}
-                className="bg-white border border-border-light hover:border-primary/30 rounded-lg p-8 transition-all duration-300"
+                className="border border-gold/10 hover:border-gold/30 p-8 transition-all duration-300"
               >
                 <div className="grid md:grid-cols-3 gap-6">
-                  <h3 className="text-xl font-heading text-text md:col-span-1">
+                  <h3 className="text-xl font-heading text-ivory md:col-span-1">
                     {d.title}
                   </h3>
-                  <p className="text-text-light leading-relaxed md:col-span-2">
+                  <p className="text-silver leading-relaxed md:col-span-2">
                     {d.description}
                   </p>
                 </div>
@@ -415,38 +389,38 @@ function FallbackContent() {
       </section>
 
       {/* Replication Vision */}
-      <section className="bg-surface py-24">
+      <section className="bg-obsidian-light py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-primary text-sm uppercase tracking-[0.3em] mb-6">
+          <p className="text-gold text-sm uppercase tracking-[0.3em] mb-6">
             Replication
           </p>
-          <h2 className="text-3xl md:text-5xl font-heading text-text leading-tight mb-12">
-            A Blueprint, <span className="text-primary">Not a Boutique</span>
+          <h2 className="text-3xl md:text-5xl font-heading text-ivory leading-tight mb-12">
+            A Blueprint, <span className="text-gold">Not a Boutique</span>
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
-              <p className="text-primary text-xs uppercase tracking-[0.2em] mb-4">
+            <div className="border border-gold/10 p-8 md:p-12">
+              <p className="text-gold text-xs uppercase tracking-[0.2em] mb-4">
                 Phase 1
               </p>
-              <h3 className="text-2xl font-heading text-text mb-4">
+              <h3 className="text-2xl font-heading text-ivory mb-4">
                 Anchor Site
               </h3>
-              <p className="text-text-light leading-relaxed">
+              <p className="text-silver leading-relaxed">
                 The Milwaukee operation reaches full financial
                 self-sufficiency, generating surplus beyond what is needed for
                 local operations. This surplus becomes the seed capital for
                 Phase 2.
               </p>
             </div>
-            <div className="bg-white border border-border-light rounded-lg p-8 md:p-12">
-              <p className="text-primary text-xs uppercase tracking-[0.2em] mb-4">
+            <div className="border border-gold/20 p-8 md:p-12">
+              <p className="text-gold text-xs uppercase tracking-[0.2em] mb-4">
                 Phase 2
               </p>
-              <h3 className="text-2xl font-heading text-text mb-4">
+              <h3 className="text-2xl font-heading text-ivory mb-4">
                 Replication
               </h3>
-              <p className="text-text-light leading-relaxed">
+              <p className="text-silver leading-relaxed">
                 Each new site is seeded by the surplus of the previous site.
                 The anchor funds the first satellite. The first satellite, once
                 self-sustaining, funds the next. The network is
@@ -461,22 +435,22 @@ function FallbackContent() {
       {/* Quote + CTA */}
       <section className="py-24">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="border-l-2 border-primary pl-8 md:pl-12 mb-16">
-            <p className="text-2xl md:text-3xl font-heading text-text leading-relaxed mb-6">
+          <div className="border-l-2 border-gold pl-8 md:pl-12 mb-16">
+            <p className="text-2xl md:text-3xl font-heading text-ivory leading-relaxed mb-6">
               The Stellar Engine does not ask why people are poor. It builds a
               system that makes the conditions of poverty economically
               unsustainable.
             </p>
-            <p className="text-primary text-sm uppercase tracking-[0.2em]">
-              <a href="https://reginald-reed-site.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Reginald Reed Jr.</a> — Systems Architect
+            <p className="text-gold text-sm uppercase tracking-[0.2em]">
+              Reginald Reed Jr. — Systems Architect
             </p>
           </div>
 
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">
-              See the Engine <span className="text-primary">in Action</span>
+            <h2 className="text-3xl md:text-4xl font-heading text-ivory mb-6">
+              See the Engine <span className="text-gold">in Action</span>
             </h2>
-            <p className="text-text-light text-lg mb-10 max-w-2xl mx-auto">
+            <p className="text-silver text-lg mb-10 max-w-2xl mx-auto">
               The Mindful Group is the operating entity of the Stellar Engine.
               Explore our programs, see our outcomes, or partner with us to
               replicate the model.
@@ -484,13 +458,13 @@ function FallbackContent() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/programs"
-                className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
+                className="px-8 py-4 bg-gold text-obsidian font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors"
               >
                 Explore Programs
               </Link>
               <Link
                 href="/get-involved"
-                className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors"
+                className="px-8 py-4 border border-gold/40 text-gold text-sm uppercase tracking-wider hover:bg-gold/10 transition-colors"
               >
                 Partner With Us
               </Link>
@@ -499,11 +473,5 @@ function FallbackContent() {
         </div>
       </section>
     </>
-  );
-}
-
-export default function StellarEnginePage() {
-  return (
-    <StellarEngineExperience fallback={<FallbackContent />} />
   );
 }
