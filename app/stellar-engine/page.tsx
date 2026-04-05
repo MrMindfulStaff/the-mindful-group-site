@@ -1,5 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+
+const EngineRingDiagram = dynamic(() => import("@/components/EngineRingDiagram"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full aspect-square max-w-xl mx-auto rounded-2xl bg-surface border border-border-light animate-pulse flex items-center justify-center">
+      <p className="text-text-light text-sm">Loading diagram...</p>
+    </div>
+  ),
+});
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -130,136 +140,6 @@ const differentiators = [
   },
 ];
 
-/* ── SVG Diagram Component ── */
-function StellarEngineDiagram() {
-  const steps = closedLoop;
-  const cx = 300, cy = 300, r = 210;
-
-  return (
-    <svg viewBox="0 0 600 600" className="w-full max-w-xl mx-auto" aria-label="Stellar Engine closed-loop diagram">
-      <defs>
-        {/* Gradient for the outer ring */}
-        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#1A7A5C" />
-          <stop offset="50%" stopColor="#E07C3E" />
-          <stop offset="100%" stopColor="#1B3A5C" />
-        </linearGradient>
-        {/* Glow filter */}
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        {/* Shadow for cards */}
-        <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
-          <feDropShadow dx="0" dy="2" stdDeviation="4" floodOpacity="0.1" />
-        </filter>
-        {/* Arrow marker */}
-        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#E07C3E" />
-        </marker>
-      </defs>
-
-      {/* Background circles for depth */}
-      <circle cx={cx} cy={cy} r={r + 40} fill="none" stroke="#1A7A5C" strokeWidth="0.5" opacity="0.15" strokeDasharray="4 8" />
-      <circle cx={cx} cy={cy} r={r + 20} fill="none" stroke="#1B3A5C" strokeWidth="0.5" opacity="0.1" strokeDasharray="2 6" />
-
-      {/* Main ring track */}
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="url(#ringGrad)" strokeWidth="4" opacity="0.3" />
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="url(#ringGrad)" strokeWidth="1.5" opacity="0.6" />
-
-      {/* Flow arrows around the ring */}
-      {Array.from({ length: 14 }).map((_, i) => {
-        const angle = (i / 14) * Math.PI * 2 - Math.PI / 2;
-        const nextAngle = angle + 0.25;
-        const x1 = cx + Math.cos(angle) * r;
-        const y1 = cy + Math.sin(angle) * r;
-        const x2 = cx + Math.cos(nextAngle) * r;
-        const y2 = cy + Math.sin(nextAngle) * r;
-        return (
-          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke="#E07C3E" strokeWidth="1" opacity="0.25"
-            markerEnd="url(#arrowhead)" />
-        );
-      })}
-
-      {/* Inner circle — the core */}
-      <circle cx={cx} cy={cy} r="45" fill="#1A7A5C" opacity="0.08" />
-      <circle cx={cx} cy={cy} r="45" fill="none" stroke="#1A7A5C" strokeWidth="1.5" opacity="0.3" />
-      <circle cx={cx} cy={cy} r="30" fill="#E07C3E" opacity="0.06" />
-      <circle cx={cx} cy={cy} r="30" fill="none" stroke="#E07C3E" strokeWidth="1" opacity="0.2" />
-      {/* Core label */}
-      <text x={cx} y={cy - 6} textAnchor="middle" fill="#1A7A5C" fontSize="9" fontWeight="600" letterSpacing="0.1em">
-        STELLAR
-      </text>
-      <text x={cx} y={cy + 8} textAnchor="middle" fill="#1A7A5C" fontSize="9" fontWeight="600" letterSpacing="0.1em">
-        ENGINE
-      </text>
-
-      {/* Step nodes */}
-      {steps.map((step, i) => {
-        const angle = (i / steps.length) * Math.PI * 2 - Math.PI / 2;
-        const x = cx + Math.cos(angle) * r;
-        const y = cy + Math.sin(angle) * r;
-        // Label position (outside the ring)
-        const lx = cx + Math.cos(angle) * (r + 55);
-        const ly = cy + Math.sin(angle) * (r + 55);
-        const colors = ["#1A7A5C", "#22936F", "#2a9e7a", "#E07C3E", "#E8944F", "#1B3A5C", "#2A5580"];
-        const color = colors[i];
-        return (
-          <g key={step.step}>
-            {/* Connection line from node to label */}
-            <line x1={x} y1={y} x2={lx} y2={ly}
-              stroke={color} strokeWidth="0.5" opacity="0.3" strokeDasharray="2 3" />
-            {/* Node glow */}
-            <circle cx={x} cy={y} r="22" fill={color} opacity="0.08" />
-            {/* Node circle */}
-            <circle cx={x} cy={y} r="18" fill="white" stroke={color} strokeWidth="2" filter="url(#cardShadow)" />
-            {/* Step number */}
-            <text x={x} y={y - 3} textAnchor="middle" fill={color} fontSize="8" fontWeight="600" letterSpacing="0.05em">
-              {step.step}
-            </text>
-            {/* Step icon */}
-            <text x={x} y={y + 10} textAnchor="middle" fontSize="10">
-              {step.icon}
-            </text>
-            {/* External label */}
-            <text x={lx} y={ly - 4} textAnchor="middle" fill={color} fontSize="9" fontWeight="700" letterSpacing="0.05em">
-              {step.title.toUpperCase()}
-            </text>
-            <text x={lx} y={ly + 8} textAnchor="middle" fill="#64748b" fontSize="7">
-              Step {step.step}
-            </text>
-          </g>
-        );
-      })}
-
-      {/* Revenue input arrows */}
-      <g opacity="0.6">
-        <line x1="50" y1="520" x2="140" y2="440" stroke="#1A7A5C" strokeWidth="1.5" markerEnd="url(#arrowhead)" />
-        <text x="40" y="540" fill="#1A7A5C" fontSize="8" fontWeight="600">TRAINING</text>
-        <text x="40" y="550" fill="#1A7A5C" fontSize="8" fontWeight="600">REVENUE</text>
-      </g>
-      <g opacity="0.6">
-        <line x1="550" y1="520" x2="460" y2="440" stroke="#E07C3E" strokeWidth="1.5" markerEnd="url(#arrowhead)" />
-        <text x="510" y="540" fill="#E07C3E" fontSize="8" fontWeight="600">PLACEMENT</text>
-        <text x="510" y="550" fill="#E07C3E" fontSize="8" fontWeight="600">REVENUE</text>
-      </g>
-
-      {/* Surplus output */}
-      <g opacity="0.5">
-        <line x1={cx} y1="60" x2={cx - 60} y2="20" stroke="#1B3A5C" strokeWidth="1" strokeDasharray="3 3" />
-        <line x1={cx} y1="60" x2={cx + 60} y2="20" stroke="#1B3A5C" strokeWidth="1" strokeDasharray="3 3" />
-        <text x={cx} y="14" textAnchor="middle" fill="#1B3A5C" fontSize="7" fontWeight="600" letterSpacing="0.1em">
-          SURPLUS → REINVEST → SCALE
-        </text>
-      </g>
-    </svg>
-  );
-}
-
 export default function StellarEnginePage() {
   return (
     <>
@@ -331,7 +211,7 @@ export default function StellarEnginePage() {
               Participant outcomes generate the revenue that funds the next cohort — a self-reinforcing cycle that grows stronger at scale.
             </p>
           </div>
-          <StellarEngineDiagram />
+          <EngineRingDiagram />
         </div>
       </section>
 
