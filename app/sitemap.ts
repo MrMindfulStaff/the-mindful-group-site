@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllPosts } from "@/lib/blog";
 
 const BASE_URL = "https://the-mindful-group-site.vercel.app";
 
@@ -25,10 +26,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/blog", priority: 0.5 },
   ];
 
-  return pages.map((page) => ({
+  const staticEntries = pages.map((page) => ({
     url: `${BASE_URL}${page.url}`,
     lastModified: new Date(),
-    changeFrequency: page.priority >= 0.8 ? "weekly" : "monthly",
+    changeFrequency: (page.priority >= 0.8 ? "weekly" : "monthly") as "weekly" | "monthly",
     priority: page.priority,
   }));
+
+  const blogEntries = getAllPosts().map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticEntries, ...blogEntries];
 }
