@@ -9,6 +9,7 @@ import AnimatedSection, {
   StaggerItem,
 } from "@/components/AnimatedSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import WagesTicker from "@/components/WagesTicker";
 // 3D HomeExperience removed
 
 const metrics = [
@@ -152,6 +153,14 @@ function FallbackHome() {
                 <span className="text-accent text-sm group-hover:text-accent-light transition-colors">&rarr;</span>
               </div>
             </Link>
+            {/* Wages Ticker — live counter */}
+            <div className="bg-white/10 backdrop-blur-sm border border-white/10 p-6 rounded-lg mb-4 text-center">
+              <p className="text-4xl md:text-5xl font-heading text-accent mb-1 tabular-nums">
+                <WagesTicker />
+              </p>
+              <p className="text-white/60 text-sm">Cumulative Wages Generated — Live</p>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               {metrics.map((m, i) => (
                 <div

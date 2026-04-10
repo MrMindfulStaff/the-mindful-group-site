@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import EngineRingWrapper from "@/components/EngineRingWrapper";
+import WagesTickerWrapper from "@/components/WagesTickerWrapper";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -171,15 +172,15 @@ export default function StellarEnginePage() {
               { stat: "525+", label: "Individuals Trained" },
               { stat: "~90%", label: "Graduation Rate" },
               { stat: "~85%", label: "Job Placement Rate" },
-              { stat: "$60M+", label: "Cumulative Wages" },
+              { stat: null, label: "Cumulative Wages", isTicker: true },
               { stat: "9 Years", label: "Operating History" },
             ].map((m) => (
               <div
                 key={m.label}
                 className="bg-white rounded-lg shadow-lg border border-border-light p-6 text-center hover:shadow-xl transition-shadow"
               >
-                <p className="text-2xl md:text-3xl font-heading text-primary mb-1">
-                  {m.stat}
+                <p className="text-2xl md:text-3xl font-heading text-primary mb-1 tabular-nums">
+                  {"isTicker" in m && m.isTicker ? <WagesTickerWrapper /> : m.stat}
                 </p>
                 <p className="text-text-light text-xs">{m.label}</p>
               </div>
