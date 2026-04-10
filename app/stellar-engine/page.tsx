@@ -1,15 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-
-const EngineRingDiagram = dynamic(() => import("@/components/EngineRingDiagram"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full aspect-square max-w-xl mx-auto rounded-2xl bg-surface border border-border-light animate-pulse flex items-center justify-center">
-      <p className="text-text-light text-sm">Loading diagram...</p>
-    </div>
-  ),
-});
+import EngineRingWrapper from "@/components/EngineRingWrapper";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -211,7 +202,7 @@ export default function StellarEnginePage() {
               Participant outcomes generate the revenue that funds the next cohort — a self-reinforcing cycle that grows stronger at scale.
             </p>
           </div>
-          <EngineRingDiagram />
+          <EngineRingWrapper />
         </div>
       </section>
 
