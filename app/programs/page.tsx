@@ -113,7 +113,7 @@ export default function ProgramsPage() {
       <section className="pb-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="relative aspect-[21/9] rounded-lg overflow-hidden">
-            <Image src="/images/community-csr.jpg" alt="Community engagement and program impact" fill className="object-cover" />
+            <Image src="/images/programs-training.jpg" alt="Adults in a professional workforce training seminar" fill className="object-cover" />
             <div className="absolute inset-0 bg-primary/20" />
           </div>
         </div>

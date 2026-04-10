@@ -175,10 +175,10 @@ function FallbackHome() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { src: "/images/cna-training.jpg", alt: "CNA and CBRF training session" },
-              { src: "/images/construction-training.jpg", alt: "Hands-on construction training" },
+              { src: "/images/home-presenter.jpg", alt: "Instructor leading a workforce training session" },
+              { src: "/images/home-construction.jpg", alt: "Construction training participants in safety gear" },
               { src: "/images/community-csr.jpg", alt: "Community engagement and outreach" },
-              { src: "/images/volunteers.jpg", alt: "Volunteers supporting the mission" },
+              { src: "/images/programs-training.jpg", alt: "Adults in a professional training seminar" },
             ].map((img, i) => (
               <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden">
                 <Image src={img.src} alt={img.alt} fill className="object-cover" />
