@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -68,14 +69,12 @@ export default function ContactPage() {
                   <p className="text-text-light text-sm leading-relaxed mb-4">
                     We care about your experience. If something went wrong, let us know.
                   </p>
-                  <a
-                    href="https://www.themindfulgroupinc.org/participant-complaints"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/participant-complaints"
                     className="text-primary text-sm uppercase tracking-wider hover:text-primary-light transition-colors"
                   >
                     File Complaint &rarr;
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

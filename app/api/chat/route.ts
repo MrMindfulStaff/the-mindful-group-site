@@ -86,7 +86,7 @@ Reginald Reed Jr. (Founder/Executive Director), Regina Flores (Board Chair), Jiq
 - **Support services:** /support
 - **Get involved / donate:** /get-involved
 - **Contact page:** /contact
-- **File a complaint:** https://www.themindfulgroupinc.org/participant-complaints
+- **File a complaint:** /participant-complaints
 
 ## BEHAVIORAL RULES
 
