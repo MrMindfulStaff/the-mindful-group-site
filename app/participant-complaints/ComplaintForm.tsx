@@ -75,7 +75,6 @@ export default function ComplaintForm() {
       trainingProvider: getValue("trainingProvider"),
       harmCaused,
       powerOfAttorney: getValue("powerOfAttorney"),
-      submitToDWD: getValue("submitToDWD"),
       meetingDate: getValue("meetingDate"),
       otherTrainingProvider: getValue("otherTrainingProvider"),
       desiredCourse: getValue("desiredCourse"),
@@ -148,21 +147,21 @@ export default function ComplaintForm() {
             </div>
           </div>
           <div>
-            <label htmlFor="streetAddress" className={labelClass}>Street Address</label>
-            <input id="streetAddress" name="streetAddress" type="text" className={inputClass} />
+            <label htmlFor="streetAddress" className={labelClass}>Street Address <span className="text-accent">*</span></label>
+            <input id="streetAddress" name="streetAddress" type="text" required className={inputClass} />
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <label htmlFor="city" className={labelClass}>City</label>
-              <input id="city" name="city" type="text" className={inputClass} />
+              <label htmlFor="city" className={labelClass}>City <span className="text-accent">*</span></label>
+              <input id="city" name="city" type="text" required className={inputClass} />
             </div>
             <div>
-              <label htmlFor="state" className={labelClass}>Region/State/Province</label>
-              <input id="state" name="state" type="text" className={inputClass} />
+              <label htmlFor="state" className={labelClass}>Region/State/Province <span className="text-accent">*</span></label>
+              <input id="state" name="state" type="text" required className={inputClass} />
             </div>
             <div>
-              <label htmlFor="zipCode" className={labelClass}>Postal / Zip Code</label>
-              <input id="zipCode" name="zipCode" type="text" className={inputClass} />
+              <label htmlFor="zipCode" className={labelClass}>Postal / Zip Code <span className="text-accent">*</span></label>
+              <input id="zipCode" name="zipCode" type="text" required className={inputClass} />
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -171,8 +170,8 @@ export default function ComplaintForm() {
               <input id="email" name="email" type="email" required className={inputClass} />
             </div>
             <div>
-              <label htmlFor="phone" className={labelClass}>Phone</label>
-              <input id="phone" name="phone" type="tel" className={inputClass} />
+              <label htmlFor="phone" className={labelClass}>Phone <span className="text-accent">*</span></label>
+              <input id="phone" name="phone" type="tel" required className={inputClass} />
             </div>
           </div>
         </div>
@@ -183,8 +182,8 @@ export default function ComplaintForm() {
         <h2 className={sectionTitle}>Complaint Information</h2>
         <div className="space-y-5">
           <div>
-            <label htmlFor="complaintAbout" className={labelClass}>Is this complaint about the training provider or a funding organization/service provider?</label>
-            <select id="complaintAbout" name="complaintAbout" className={selectClass}>
+            <label htmlFor="complaintAbout" className={labelClass}>Is this complaint about the training provider or a funding organization/service provider? <span className="text-accent">*</span></label>
+            <select id="complaintAbout" name="complaintAbout" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="Funding Organization/Service Provider">Funding Organization/Service Provider</option>
               <option value="The Mindful Group/Training Provider">The Mindful Group/Training Provider</option>
@@ -193,8 +192,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="funderResponse" className={labelClass}>What response have you received from the Funder/Service Provider?</label>
-            <select id="funderResponse" name="funderResponse" className={selectClass}>
+            <label htmlFor="funderResponse" className={labelClass}>What response have you received from the Funder/Service Provider? <span className="text-accent">*</span></label>
+            <select id="funderResponse" name="funderResponse" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="No response">No response</option>
               <option value="Delayed">Delayed</option>
@@ -218,8 +217,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="funderServiceProvider" className={labelClass}>Who is your Funder/Service Provider?</label>
-            <select id="funderServiceProvider" name="funderServiceProvider" className={selectClass}>
+            <label htmlFor="funderServiceProvider" className={labelClass}>Who is your Funder/Service Provider? <span className="text-accent">*</span></label>
+            <select id="funderServiceProvider" name="funderServiceProvider" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="Dynamic Workforce Solutions">Dynamic Workforce Solutions</option>
               <option value="Maximus">Maximus</option>
@@ -231,8 +230,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="trainingProvider" className={labelClass}>Who is your chosen training provider?</label>
-            <select id="trainingProvider" name="trainingProvider" className={selectClass}>
+            <label htmlFor="trainingProvider" className={labelClass}>Who is your chosen training provider? <span className="text-accent">*</span></label>
+            <select id="trainingProvider" name="trainingProvider" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="The Mindful Group">The Mindful Group</option>
               <option value="Other">Other</option>
@@ -252,8 +251,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="powerOfAttorney" className={labelClass}>Do you have a Limited Power of Attorney on file with The Mindful Group?</label>
-            <select id="powerOfAttorney" name="powerOfAttorney" className={selectClass}>
+            <label htmlFor="powerOfAttorney" className={labelClass}>Do you have a Limited Power of Attorney on file with The Mindful Group? <span className="text-accent">*</span></label>
+            <select id="powerOfAttorney" name="powerOfAttorney" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -261,17 +260,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="submitToDWD" className={labelClass}>Would you like us to submit this report to Wisconsin DWD on your behalf?</label>
-            <select id="submitToDWD" name="submitToDWD" className={selectClass}>
-              <option value="">Choose an option</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="meetingDate" className={labelClass}>When did you meet with your Funder/Service Provider?</label>
-            <input id="meetingDate" name="meetingDate" type="date" className={inputClass} />
+            <label htmlFor="meetingDate" className={labelClass}>When did you meet with your Funder/Service Provider? <span className="text-accent">*</span></label>
+            <input id="meetingDate" name="meetingDate" type="date" required className={inputClass} />
           </div>
 
           <div>
@@ -280,8 +270,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="desiredCourse" className={labelClass}>What is your desired training course?</label>
-            <select id="desiredCourse" name="desiredCourse" className={selectClass}>
+            <label htmlFor="desiredCourse" className={labelClass}>What is your desired training course? <span className="text-accent">*</span></label>
+            <select id="desiredCourse" name="desiredCourse" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="CNA/CBRF">CNA/CBRF</option>
               <option value="Phlebotomy">Phlebotomy</option>
@@ -291,8 +281,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="remedySeeking" className={labelClass}>What remedy are you seeking?</label>
-            <select id="remedySeeking" name="remedySeeking" className={selectClass}>
+            <label htmlFor="remedySeeking" className={labelClass}>What remedy are you seeking? <span className="text-accent">*</span></label>
+            <select id="remedySeeking" name="remedySeeking" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="Written Explanation of Delay">Written Explanation of Delay</option>
               <option value="Enrollment Processing">Enrollment Processing</option>
@@ -306,8 +296,8 @@ export default function ComplaintForm() {
           </div>
 
           <div>
-            <label htmlFor="fileWithWorkforceBoard" className={labelClass}>Would you also like us to file this complaint with the Workforce Board (Employ Milwaukee)?</label>
-            <select id="fileWithWorkforceBoard" name="fileWithWorkforceBoard" className={selectClass}>
+            <label htmlFor="fileWithWorkforceBoard" className={labelClass}>Would you also like us to file this complaint with the Workforce Board (Employ Milwaukee)? <span className="text-accent">*</span></label>
+            <select id="fileWithWorkforceBoard" name="fileWithWorkforceBoard" required className={selectClass}>
               <option value="">Choose an option</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>

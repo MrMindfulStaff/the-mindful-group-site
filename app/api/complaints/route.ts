@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const {
       firstName, lastName, streetAddress, city, state, zipCode, email, phone,
       complaintAbout, funderResponse, rightsViolated, funderServiceProvider,
-      trainingProvider, harmCaused, powerOfAttorney, submitToDWD, meetingDate,
+      trainingProvider, harmCaused, powerOfAttorney, meetingDate,
       otherTrainingProvider, desiredCourse, remedySeeking, otherExplanation,
       fileWithWorkforceBoard, hasSigned,
     } = body;
@@ -70,7 +70,6 @@ export async function POST(req: NextRequest) {
       `Other Training Provider: ${otherTrainingProvider?.trim() || "N/A"}`,
       `Specific Harm Caused: ${harmStr}`,
       `Limited Power of Attorney on file: ${powerOfAttorney || "Not specified"}`,
-      `Submit to Wisconsin DWD: ${submitToDWD || "Not specified"}`,
       `Meeting Date with Funder: ${meetingDate || "Not specified"}`,
       `Desired Training Course: ${desiredCourse || "Not specified"}`,
       `Remedy Seeking: ${remedySeeking || "Not specified"}`,
