@@ -1,9 +1,8 @@
 import { NextRequest } from "next/server";
 
-// Simple in-memory rate limiter
 const submissions = new Map<string, number[]>();
 const RATE_LIMIT = 3;
-const RATE_WINDOW = 60 * 60 * 1000; // 1 hour
+const RATE_WINDOW = 60 * 60 * 1000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -25,32 +24,67 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { firstName, lastName, email, phone, program, incidentDate, description, resolution } = body;
+    const {
+      firstName, lastName, streetAddress, city, state, zipCode, email, phone,
+      complaintAbout, funderResponse, rightsViolated, funderServiceProvider,
+      trainingProvider, harmCaused, powerOfAttorney, submitToDWD, meetingDate,
+      otherTrainingProvider, desiredCourse, remedySeeking, otherExplanation,
+      fileWithWorkforceBoard, hasSigned,
+    } = body;
 
     // Validate required fields
-    if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !program?.trim() || !incidentDate?.trim() || !description?.trim()) {
-      return Response.json(
-        { error: "Please fill in all required fields." },
-        { status: 400 }
-      );
+    if (!firstName?.trim() || !lastName?.trim() || !email?.trim()) {
+      return Response.json({ error: "Please fill in all required fields (name and email)." }, { status: 400 });
     }
 
-    // Basic email validation
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
     }
 
-    // Input length limits
-    if (
-      firstName.length > 100 ||
-      lastName.length > 100 ||
-      email.length > 254 ||
-      (phone && phone.length > 20) ||
-      description.length > 5000 ||
-      (resolution && resolution.length > 2000)
-    ) {
+    if (firstName.length > 100 || lastName.length > 100 || email.length > 254) {
       return Response.json({ error: "One or more fields exceed the maximum length." }, { status: 400 });
     }
+
+    const rightsStr = Array.isArray(rightsViolated) ? rightsViolated.join(", ") : rightsViolated || "Not specified";
+    const harmStr = Array.isArray(harmCaused) ? harmCaused.join(", ") : harmCaused || "Not specified";
+
+    const emailBody = [
+      `PARTICIPANT COMPLAINT`,
+      `${"=".repeat(50)}`,
+      ``,
+      `CONTACT INFORMATION`,
+      `${"-".repeat(30)}`,
+      `Name: ${firstName.trim()} ${lastName.trim()}`,
+      `Address: ${streetAddress?.trim() || "Not provided"}`,
+      `City: ${city?.trim() || ""}, ${state?.trim() || ""} ${zipCode?.trim() || ""}`,
+      `Email: ${email.trim()}`,
+      `Phone: ${phone?.trim() || "Not provided"}`,
+      ``,
+      `COMPLAINT INFORMATION`,
+      `${"-".repeat(30)}`,
+      `Complaint About: ${complaintAbout || "Not specified"}`,
+      `Funder/Provider Response: ${funderResponse || "Not specified"}`,
+      `Rights Violated: ${rightsStr}`,
+      `Funder/Service Provider: ${funderServiceProvider || "Not specified"}`,
+      `Chosen Training Provider: ${trainingProvider || "Not specified"}`,
+      `Other Training Provider: ${otherTrainingProvider?.trim() || "N/A"}`,
+      `Specific Harm Caused: ${harmStr}`,
+      `Limited Power of Attorney on file: ${powerOfAttorney || "Not specified"}`,
+      `Submit to Wisconsin DWD: ${submitToDWD || "Not specified"}`,
+      `Meeting Date with Funder: ${meetingDate || "Not specified"}`,
+      `Desired Training Course: ${desiredCourse || "Not specified"}`,
+      `Remedy Seeking: ${remedySeeking || "Not specified"}`,
+      `Other Explanation: ${otherExplanation?.trim() || "N/A"}`,
+      `File with Workforce Board (Employ Milwaukee): ${fileWithWorkforceBoard || "Not specified"}`,
+      ``,
+      `CERTIFICATION`,
+      `${"-".repeat(30)}`,
+      `Signature provided: ${hasSigned ? "YES" : "NO"}`,
+      `Certification: "I certify that the information provided is true and accurate. I voluntarily authorize The Mindful Group to submit this complaint to Wisconsin DWD and/or Employ Milwaukee on my behalf as my designated representative."`,
+      ``,
+      `${"=".repeat(50)}`,
+      `Submitted: ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })}`,
+    ].join("\n");
 
     const resendKey = process.env.RESEND_API_KEY;
 
@@ -64,26 +98,8 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           from: "Complaint Form <noreply@themindfulgroup.org>",
           to: ["Info@TheMindfulGroupInc.Org"],
-          subject: `Participant Complaint: ${firstName.trim()} ${lastName.trim()} (${program})`,
-          text: [
-            `PARTICIPANT COMPLAINT`,
-            `${"=".repeat(40)}`,
-            ``,
-            `Name: ${firstName.trim()} ${lastName.trim()}`,
-            `Email: ${email.trim()}`,
-            `Phone: ${phone?.trim() || "Not provided"}`,
-            `Program: ${program}`,
-            `Date of Incident: ${incidentDate}`,
-            ``,
-            `DESCRIPTION:`,
-            description.trim(),
-            ``,
-            `DESIRED RESOLUTION:`,
-            resolution?.trim() || "Not specified",
-            ``,
-            `${"=".repeat(40)}`,
-            `Submitted: ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago" })}`,
-          ].join("\n"),
+          subject: `Participant Complaint: ${firstName.trim()} ${lastName.trim()} — ${complaintAbout || "General"}`,
+          text: emailBody,
         }),
       });
 
@@ -95,13 +111,13 @@ export async function POST(req: NextRequest) {
         );
       }
     } else {
-      console.log("Complaint submission (no RESEND_API_KEY configured):", {
+      console.log("Complaint submission (no RESEND_API_KEY):", {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
-        program,
-        incidentDate,
-        description: description.trim().substring(0, 200) + "...",
+        complaintAbout,
+        rightsViolated: rightsStr,
+        harmCaused: harmStr,
         timestamp: new Date().toISOString(),
       });
     }
