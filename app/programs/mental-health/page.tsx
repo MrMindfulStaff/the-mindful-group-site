@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Mental Health Counseling | The Mindful Group",
@@ -16,7 +17,7 @@ export default function MentalHealthPage() {
           <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5 rounded-md mb-6 inline-block">Wellness</span>
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Mental Health <span className="text-primary">Counseling</span></h1>
           <p className="text-text-light text-lg max-w-3xl mb-10">Nurturing your mental well-being. Personalized counseling in a safe, confidential environment to support your journey.</p>
-          <a href="https://www.themindfulgroupinc.org/service-page/mental-health-counseling" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</a>
+          <Link href={BOOKING.mentalHealth} className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</Link>
         </div>
       </section>
 
@@ -63,7 +64,7 @@ export default function MentalHealthPage() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">You Don&apos;t Have to Do This <span className="text-primary">Alone</span></h2>
           <p className="text-text-light text-lg mb-10">Request a counseling session. Everything is confidential and there&apos;s no cost to you.</p>
-          <a href="https://www.themindfulgroupinc.org/service-page/mental-health-counseling" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</a>
+          <Link href={BOOKING.mentalHealth} className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</Link>
         </div>
       </section>
     </>

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { BOOKING } from "@/lib/booking";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -57,14 +58,12 @@ export default function Navigation() {
               {l.label}
             </Link>
           ))}
-          <a
-            href="https://www.themindfulgroupinc.org/book-online"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={BOOKING.general}
             className="px-6 py-2 bg-accent text-white font-semibold text-xs uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md"
           >
             Enroll Now
-          </a>
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -106,14 +105,13 @@ export default function Navigation() {
                   {l.label}
                 </Link>
               ))}
-              <a
-                href="https://www.themindfulgroupinc.org/book-online"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={BOOKING.general}
+                onClick={() => setOpen(false)}
                 className="block mt-4 px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider text-center hover:bg-accent-light transition-colors rounded-md"
               >
                 Enroll Now
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

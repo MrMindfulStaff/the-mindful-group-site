@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Student Stories | The Mindful Group",
@@ -187,14 +188,12 @@ export default function TestimonialsPage() {
             Mindful Group. Zero tuition. Full support. Real careers.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://www.themindfulgroupinc.org/book-online"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={BOOKING.general}
               className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md"
             >
               Book an Orientation
-            </a>
+            </Link>
             <Link
               href="/programs"
               className="px-8 py-4 border border-white/30 text-white text-sm uppercase tracking-wider hover:bg-white/10 transition-colors rounded-md"

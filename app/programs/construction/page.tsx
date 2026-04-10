@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Construction Training | The Mindful Group",
@@ -23,7 +24,7 @@ export default function ConstructionPage() {
           <p className="text-text-light text-lg max-w-3xl mb-10">
             The Mindful Way Building Trades Training. A 9-week program featuring 5 weeks of hands-on remodeling training on real Milwaukee job sites.
           </p>
-          <a href="https://www.themindfulgroupinc.org/service-page/construction-training-orientation" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</a>
+          <Link href={BOOKING.construction} className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</Link>
         </div>
       </section>
 
@@ -77,7 +78,7 @@ export default function ConstructionPage() {
           <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">Ready to <span className="text-primary">Build?</span></h2>
           <p className="text-text-light text-lg mb-10">Book a free orientation to learn about the program and start your career in the trades.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://www.themindfulgroupinc.org/service-page/construction-training-orientation" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</a>
+            <Link href={BOOKING.construction} className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</Link>
             <Link href="/contact" className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors">Ask a Question</Link>
           </div>
         </div>

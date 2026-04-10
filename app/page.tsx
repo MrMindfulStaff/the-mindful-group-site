@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { BOOKING } from "@/lib/booking";
 import { motion } from "framer-motion";
 import AnimatedSection, {
   StaggerContainer,
@@ -119,14 +120,12 @@ function FallbackHome() {
               transition={{ duration: 0.7, delay: 0.8 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <a
-                href="https://www.themindfulgroupinc.org/book-online"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={BOOKING.general}
                 className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors text-center rounded-md"
               >
                 Enroll in a Program
-              </a>
+              </Link>
               <Link
                 href="/get-involved"
                 className="px-8 py-4 border border-white/30 text-white text-sm uppercase tracking-wider hover:bg-white/10 transition-colors text-center rounded-md"
@@ -340,14 +339,12 @@ function FallbackHome() {
                   our team, and begin your journey. No tuition. No prerequisites.
                   Just show up ready to change your life.
                 </p>
-                <a
-                  href="https://www.themindfulgroupinc.org/book-online"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={BOOKING.general}
                   className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md"
                 >
                   Book an Orientation
-                </a>
+                </Link>
               </div>
             </AnimatedSection>
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BOOKING } from "@/lib/booking";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -54,14 +55,12 @@ export default function ContactPage() {
                   <p className="text-text-light text-sm leading-relaxed mb-4">
                     Skip the form — book an orientation directly to learn about our programs.
                   </p>
-                  <a
-                    href="https://www.themindfulgroupinc.org/book-online"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={BOOKING.general}
                     className="inline-block px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
                   >
                     Book Orientation
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="bg-white border border-border-light rounded-lg p-6">

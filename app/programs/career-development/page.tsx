@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Career Development | The Mindful Group",
@@ -16,7 +17,7 @@ export default function CareerDevelopmentPage() {
           <span className="text-[10px] uppercase tracking-[0.2em] border border-border-light text-primary/60 px-2 py-0.5 rounded-md mb-6 inline-block">Career Readiness</span>
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">Career <span className="text-primary">Development</span></h1>
           <p className="text-text-light text-lg max-w-3xl mb-10">Empowering you for success in your career journey. Personalized coaching in resume building, interview techniques, and networking strategies.</p>
-          <a href="https://www.themindfulgroupinc.org/service-page/career-development-assistance" target="_blank" rel="noopener noreferrer" className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request a Session</a>
+          <Link href={BOOKING.careerDevelopment} className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request a Session</Link>
         </div>
       </section>
 
@@ -64,7 +65,7 @@ export default function CareerDevelopmentPage() {
           <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">Ready to Level Up?</h2>
           <p className="text-text-light text-lg mb-10">Request a career development session and take the next step in your professional journey.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://www.themindfulgroupinc.org/service-page/career-development-assistance" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request a Session</a>
+            <Link href={BOOKING.careerDevelopment} className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request a Session</Link>
             <Link href="/contact" className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors">Contact Us</Link>
           </div>
         </div>

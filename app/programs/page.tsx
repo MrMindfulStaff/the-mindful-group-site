@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Programs | The Mindful Group",
@@ -22,8 +23,7 @@ const programs = [
       "Full wraparound support included",
     ],
     href: "/programs/cna-cbrf",
-    bookingUrl:
-      "https://www.themindfulgroupinc.org/service-page/cna-cbrf-training-orientation",
+    bookingUrl: BOOKING.cnaCbrf,
   },
   {
     title: "Construction Training",
@@ -38,8 +38,7 @@ const programs = [
       "Tuesday orientation sessions",
     ],
     href: "/programs/construction",
-    bookingUrl:
-      "https://www.themindfulgroupinc.org/service-page/construction-training-orientation",
+    bookingUrl: BOOKING.construction,
   },
   {
     title: "Financial Literacy",
@@ -53,8 +52,7 @@ const programs = [
       "Financial planning for families",
     ],
     href: "/programs/financial-literacy",
-    bookingUrl:
-      "https://www.themindfulgroupinc.org/service-page/financial-literacy",
+    bookingUrl: BOOKING.financialLiteracy,
   },
   {
     title: "Career Development",
@@ -69,8 +67,7 @@ const programs = [
       "1-hour individual sessions",
     ],
     href: "/programs/career-development",
-    bookingUrl:
-      "https://www.themindfulgroupinc.org/service-page/career-development-assistance",
+    bookingUrl: BOOKING.careerDevelopment,
   },
   {
     title: "Mental Health Counseling",
@@ -85,8 +82,7 @@ const programs = [
       "Request-to-book for scheduling",
     ],
     href: "/programs/mental-health",
-    bookingUrl:
-      "https://www.themindfulgroupinc.org/service-page/mental-health-counseling",
+    bookingUrl: BOOKING.mentalHealth,
   },
 ];
 
@@ -141,14 +137,12 @@ export default function ProgramsPage() {
                       {p.description}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <a
+                      <Link
                         href={p.bookingUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors text-center"
                       >
                         Book Orientation
-                      </a>
+                      </Link>
                       <Link
                         href={p.href}
                         className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors text-center"
@@ -191,14 +185,12 @@ export default function ProgramsPage() {
             Attend an orientation session — no commitment required. Learn about
             our programs, meet the team, and see if it&apos;s the right fit.
           </p>
-          <a
-            href="https://www.themindfulgroupinc.org/book-online"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={BOOKING.general}
             className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
           >
             Book an Orientation
-          </a>
+          </Link>
         </div>
       </section>
     </>

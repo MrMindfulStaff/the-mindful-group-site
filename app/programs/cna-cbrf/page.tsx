@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "CNA/CBRF Training | The Mindful Group",
@@ -26,14 +27,12 @@ export default function CNACBRFPage() {
           <p className="text-text-light text-lg max-w-3xl mb-10">
             The best CNA training in Milwaukee. Launch a healthcare career with zero tuition, state certification, and direct employment placement through our staffing partners.
           </p>
-          <a
-            href="https://www.themindfulgroupinc.org/service-page/cna-cbrf-training-orientation"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={BOOKING.cnaCbrf}
             className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
           >
             Book Orientation
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -94,14 +93,12 @@ export default function CNACBRFPage() {
             Book a free orientation to learn more about the program, meet our team, and start your journey into healthcare.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://www.themindfulgroupinc.org/service-page/cna-cbrf-training-orientation"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={BOOKING.cnaCbrf}
               className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors"
             >
               Book Orientation
-            </a>
+            </Link>
             <Link href="/contact" className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors">
               Ask a Question
             </Link>
