@@ -5,7 +5,7 @@ import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact | The Mindful Group",
-  description: "Contact The Mindful Group. Located at 4201 N 27th Street Suite 500, Milwaukee, WI 53216. Phone: 414-600-3745.",
+  description: "Contact The Mindful Group. Located at 4201 N 27th Street Suite 500, Milwaukee, WI 53216. Phone: 833-414-MIND (6463).",
 };
 
 export default function ContactPage() {
@@ -44,7 +44,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Call Us</h3>
-                  <a href="tel:4146003745" className="text-text-light text-sm hover:text-primary transition-colors">414-600-3745</a>
+                  <a href="tel:8334146463" className="text-text-light text-sm hover:text-primary transition-colors">833-414-MIND (6463)</a>
                 </div>
                 <div>
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Email Us</h3>

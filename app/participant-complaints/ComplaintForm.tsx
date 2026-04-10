@@ -101,7 +101,7 @@ export default function ComplaintForm() {
       clearSignature();
     } catch {
       setStatus("error");
-      setErrorMsg("Failed to send. Please call us at 414-600-3745.");
+      setErrorMsg("Failed to send. Please call us at 833-414-MIND (6463).");
     }
   }
 

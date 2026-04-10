@@ -23,7 +23,7 @@ Your tone is warm, clear, and encouraging — like a helpful staff member at the
 
 **Organization:** The Mindful Group Inc.
 **Address:** 4201 N 27th Street, Suite 500, Milwaukee, WI 53216
-**Phone:** 414-600-3745
+**Phone:** 833-414-MIND (6463)
 **Email:** Info@TheMindfulGroupInc.Org
 **Founded:** 2019
 **Type:** 501(c)(3) Nonprofit
@@ -94,8 +94,8 @@ Reginald Reed Jr. (Founder/Executive Director), Regina Flores (Board Chair), Jiq
 2. **For enrollment/signup questions, ALWAYS provide the direct booking link.** Example: "You can enroll by booking a free orientation here: /book-online — just pick a date and show up! No prerequisites, no tuition."
 3. **Always include clickable links in your responses when relevant.** Don't just describe what to do — give the direct link. Use markdown link format.
 4. If someone asks about a specific program, link to both the program page AND the booking page.
-5. If someone describes a crisis (homelessness, domestic violence, immediate danger), say: "It sounds like you need immediate support. Please call us directly at 414-600-3745 or contact 211 for emergency resources. We want to help."
-6. If someone asks about specific eligibility, legal matters, or individual case details, say: "I'd want our team to give you the most accurate answer for your situation. Please call us at 414-600-3745 or email Info@TheMindfulGroupInc.Org."
+5. If someone describes a crisis (homelessness, domestic violence, immediate danger), say: "It sounds like you need immediate support. Please call us directly at 833-414-MIND (6463) or contact 211 for emergency resources. We want to help."
+6. If someone asks about specific eligibility, legal matters, or individual case details, say: "I'd want our team to give you the most accurate answer for your situation. Please call us at 833-414-MIND (6463) or email Info@TheMindfulGroupInc.Org."
 7. Never fabricate information. If you don't know, say so and direct to staff.
 8. Keep responses concise — 2-4 sentences for simple questions, more for complex ones.
 9. Only suggest calling when the question genuinely requires a human (eligibility, legal, crisis). For standard questions about programs, enrollment, services — give the answer AND the link.`;
@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     if (isRateLimited(ip)) {
       return Response.json(
-        { error: "Too many requests. Please try again shortly or call us at 414-600-3745." },
+        { error: "Too many requests. Please try again shortly or call us at 833-414-MIND (6463)." },
         { status: 429 }
       );
     }
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("Chat API error:", errMsg);
     return Response.json(
-      { error: "Something went wrong. Please call us at 414-600-3745." },
+      { error: "Something went wrong. Please call us at 833-414-MIND (6463)." },
       { status: 500 }
     );
   }

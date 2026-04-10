@@ -99,7 +99,7 @@ export default function ChatWidget() {
           {
             role: "assistant",
             content:
-              "I'm having trouble right now. Please call us at 414-600-3745 or email Info@TheMindfulGroupInc.Org.",
+              "I'm having trouble right now. Please call us at 833-414-MIND (6463) or email Info@TheMindfulGroupInc.Org.",
           },
         ]);
       }
@@ -109,7 +109,7 @@ export default function ChatWidget() {
         {
           role: "assistant",
           content:
-            "I'm having trouble connecting. Please call us at 414-600-3745.",
+            "I'm having trouble connecting. Please call us at 833-414-MIND (6463).",
         },
       ]);
     } finally {
@@ -249,7 +249,7 @@ export default function ChatWidget() {
                                     role: "assistant",
                                     content:
                                       data.message ||
-                                      "Please call us at 414-600-3745.",
+                                      "Please call us at 833-414-MIND (6463).",
                                   },
                                 ]);
                               })
@@ -258,7 +258,7 @@ export default function ChatWidget() {
                                   ...prev,
                                   {
                                     role: "assistant",
-                                    content: "Please call us at 414-600-3745.",
+                                    content: "Please call us at 833-414-MIND (6463).",
                                   },
                                 ]);
                               })
@@ -314,10 +314,10 @@ export default function ChatWidget() {
               <p className="text-[11px] text-text-light text-center">
                 Need a person?{" "}
                 <a
-                  href="tel:4146003745"
+                  href="tel:8334146463"
                   className="text-primary font-semibold hover:underline"
                 >
-                  Call 414-600-3745
+                  Call 833-414-MIND (6463)
                 </a>{" "}
                 or{" "}
                 <a

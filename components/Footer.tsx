@@ -28,7 +28,7 @@ export default function Footer() {
               <p>4201 N 27th Street, Suite 500</p>
               <p>Milwaukee, WI 53216</p>
               <p className="mt-2">
-                <a href="tel:4146003745" className="hover:text-accent transition-colors">414-600-3745</a>
+                <a href="tel:8334146463" className="hover:text-accent transition-colors">833-414-MIND (6463)</a>
               </p>
               <p>
                 <a href="mailto:Info@TheMindfulGroupInc.Org" className="hover:text-accent transition-colors">Info@TheMindfulGroupInc.Org</a>

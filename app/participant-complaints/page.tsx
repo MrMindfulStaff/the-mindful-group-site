@@ -210,7 +210,7 @@ export default function ComplaintPage() {
                 </div>
                 <div>
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Call Us</h3>
-                  <a href="tel:4146003745" className="text-text-light text-sm hover:text-primary transition-colors">414-600-3745</a>
+                  <a href="tel:8334146463" className="text-text-light text-sm hover:text-primary transition-colors">833-414-MIND (6463)</a>
                 </div>
                 <div>
                   <h3 className="text-text text-sm uppercase tracking-wider mb-3">Email Us</h3>

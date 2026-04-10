@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     if (isRateLimited(ip)) {
       return Response.json(
-        { error: "Too many submissions. Please try again later or call us at 414-600-3745." },
+        { error: "Too many submissions. Please try again later or call us at 833-414-MIND (6463)." },
         { status: 429 }
       );
     }
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       if (!res.ok) {
         console.error("Resend API error:", await res.text());
         return Response.json(
-          { error: "Failed to submit complaint. Please call us at 414-600-3745." },
+          { error: "Failed to submit complaint. Please call us at 833-414-MIND (6463)." },
           { status: 500 }
         );
       }
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
   } catch {
     console.error("Complaints API error");
     return Response.json(
-      { error: "Something went wrong. Please call us at 414-600-3745." },
+      { error: "Something went wrong. Please call us at 833-414-MIND (6463)." },
       { status: 500 }
     );
   }
