@@ -382,7 +382,7 @@ function RiverOfAbundance({ active }: { active: boolean }) {
 
       {/* River label */}
       <Html
-        position={[0, -0.3, 0.8]}
+        position={[0, 0.15, 0.8]}
         center
         distanceFactor={10}
         style={{ pointerEvents: "none" }}
@@ -474,7 +474,7 @@ export default function CascadingBuckets() {
   return (
     <div className="w-full aspect-[3/4] sm:aspect-[1/1] max-w-2xl mx-auto">
       <Canvas
-        camera={{ position: [0, 0.8, 9], fov: 38 }}
+        camera={{ position: [0, 0.4, 9], fov: 40 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
