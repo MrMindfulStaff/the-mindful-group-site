@@ -14,20 +14,20 @@ const BUCKETS = [
   { name: "Operational Reserves", pct: "20%", fill: 0.5, color: "#1B3A5C" },
 ];
 
-/* Staircase positions — descending left-to-right */
+/* Staircase positions — compact descending left-to-right */
 const POSITIONS: [number, number, number][] = [
-  [-2.4, 3.2, 0],
-  [-0.8, 1.6, 0],
-  [0.8, 0.0, 0],
-  [2.4, -1.6, 0],
+  [-1.8, 2.2, 0],
+  [-0.6, 1.0, 0],
+  [0.6, -0.2, 0],
+  [1.8, -1.4, 0],
 ];
 
 const TILT_Z = -0.08; // slight tilt toward next bucket
 
 /* ── Bucket geometry constants ── */
-const BUCKET_R_TOP = 0.7;
-const BUCKET_R_BOT = 0.55;
-const BUCKET_H = 1.0;
+const BUCKET_R_TOP = 0.55;
+const BUCKET_R_BOT = 0.42;
+const BUCKET_H = 0.8;
 
 /* ══════════════════════════════════════════════
    Single Bucket — walls + floor + water fill
@@ -279,19 +279,24 @@ function PourStream({
    River of Abundance
    ══════════════════════════════════════════════ */
 function RiverOfAbundance({ active }: { active: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null!);
   const opacityRef = useRef(0);
-  const particlesRef = useRef<THREE.InstancedMesh>(null!);
   const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  /* 4 colored river band refs */
+  const bandRefs = useRef<(THREE.Mesh | null)[]>([]);
+  const particlesRef = useRef<THREE.InstancedMesh>(null!);
+
+  const RIVER_COLORS = ["#1A7A5C", "#22936F", "#E07C3E", "#1B3A5C"];
 
   const riverParticles = useMemo(
     () =>
-      Array.from({ length: 40 }, () => ({
+      Array.from({ length: 50 }, (_, i) => ({
         x: (Math.random() - 0.5) * 5,
-        z: (Math.random() - 0.5) * 1.2,
-        speed: 0.3 + Math.random() * 0.4,
-        size: 0.02 + Math.random() * 0.025,
-        yOff: Math.random() * 0.08,
+        z: (Math.random() - 0.5) * 1.0,
+        speed: 0.4 + Math.random() * 0.5,
+        size: 0.025 + Math.random() * 0.03,
+        yOff: Math.random() * 0.06,
+        colorIdx: i % 4,
       })),
     []
   );
@@ -300,26 +305,31 @@ function RiverOfAbundance({ active }: { active: boolean }) {
     const t = state.clock.elapsedTime;
 
     // Fade river in
-    const targetOp = active ? 0.45 : 0;
+    const targetOp = active ? 1 : 0;
     opacityRef.current = THREE.MathUtils.lerp(opacityRef.current, targetOp, delta * 2);
 
-    // Ripple the plane
-    if (meshRef.current) {
-      (meshRef.current.material as THREE.MeshStandardMaterial).opacity = opacityRef.current;
-      const geo = meshRef.current.geometry;
+    // Ripple each color band
+    bandRefs.current.forEach((mesh) => {
+      if (!mesh) return;
+      (mesh.material as THREE.MeshStandardMaterial).opacity = opacityRef.current * 0.7;
+      const geo = mesh.geometry;
       const pos = geo.attributes.position;
       for (let i = 0; i < pos.count; i++) {
         const x = pos.getX(i);
         const z = pos.getZ(i);
-        const y = Math.sin(x * 3 + t * 1.2) * 0.04 + Math.sin(x * 7 - t * 1.8) * 0.02 + Math.sin(z * 5 + t) * 0.015;
+        const y =
+          Math.sin(x * 3 + t * 1.2) * 0.035 +
+          Math.sin(x * 7 - t * 1.8) * 0.015 +
+          Math.sin(z * 5 + t) * 0.01;
         pos.setY(i, y);
       }
       pos.needsUpdate = true;
-    }
+    });
 
     // Animate floating particles
     if (particlesRef.current) {
-      (particlesRef.current.material as THREE.MeshBasicMaterial).opacity = opacityRef.current * 0.8;
+      (particlesRef.current.material as THREE.MeshStandardMaterial).opacity =
+        opacityRef.current * 0.85;
       riverParticles.forEach((p, i) => {
         p.x += delta * p.speed;
         if (p.x > 3) p.x = -3;
@@ -333,31 +343,51 @@ function RiverOfAbundance({ active }: { active: boolean }) {
   });
 
   return (
-    <group position={[0.5, -3.4, 0]}>
-      {/* River plane */}
-      <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[6, 1.5, 64, 16]} />
+    <group position={[0.3, -2.6, 0]}>
+      {/* 4 colored bands side by side */}
+      {RIVER_COLORS.map((col, i) => (
+        <mesh
+          key={i}
+          ref={(el) => { bandRefs.current[i] = el; }}
+          rotation={[-Math.PI / 2, 0, 0]}
+          position={[0, 0, -0.45 + i * 0.3]}
+        >
+          <planeGeometry args={[5.5, 0.35, 48, 8]} />
+          <meshStandardMaterial
+            color={col}
+            emissive={col}
+            emissiveIntensity={0.35}
+            roughness={0.05}
+            metalness={0.25}
+            transparent
+            opacity={0}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      ))}
+
+      {/* Colored floating particles */}
+      <instancedMesh ref={particlesRef} args={[undefined, undefined, 50]}>
+        <sphereGeometry args={[1, 8, 8]} />
         <meshStandardMaterial
-          color="#1A7A5C"
-          emissive="#22936F"
-          emissiveIntensity={0.15}
-          roughness={0.05}
+          color="#22936F"
+          emissive="#1A7A5C"
+          emissiveIntensity={0.3}
+          roughness={0.1}
           metalness={0.2}
           transparent
           opacity={0}
-          side={THREE.DoubleSide}
         />
-      </mesh>
-
-      {/* Floating particles */}
-      <instancedMesh ref={particlesRef} args={[undefined, undefined, 40]}>
-        <sphereGeometry args={[1, 6, 6]} />
-        <meshBasicMaterial color="#93B396" transparent opacity={0} />
       </instancedMesh>
 
       {/* River label */}
-      <Html position={[0, -0.6, 0.5]} center distanceFactor={10} style={{ pointerEvents: "none" }}>
-        <span className="text-xs font-heading font-semibold text-primary/70 whitespace-nowrap bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full">
+      <Html
+        position={[0, -0.3, 0.8]}
+        center
+        distanceFactor={10}
+        style={{ pointerEvents: "none" }}
+      >
+        <span className="text-xs font-heading font-semibold text-primary whitespace-nowrap bg-white/85 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-primary/20">
           River of Abundance
         </span>
       </Html>
@@ -415,7 +445,7 @@ function CascadeScene() {
       {/* Final pour into river */}
       <PourStream
         from={POSITIONS[3]}
-        to={[2.4, -3.4, 0]}
+        to={[1.8, -2.6, 0]}
         color={BUCKETS[3].color}
         active={visibleCount > 4}
       />
@@ -442,9 +472,9 @@ function CascadeScene() {
    ══════════════════════════════════════════════ */
 export default function CascadingBuckets() {
   return (
-    <div className="w-full aspect-[3/4] sm:aspect-[4/3] max-w-2xl mx-auto">
+    <div className="w-full aspect-[3/4] sm:aspect-[1/1] max-w-2xl mx-auto">
       <Canvas
-        camera={{ position: [0, 1.2, 10], fov: 36 }}
+        camera={{ position: [0, 0.8, 9], fov: 38 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
