@@ -14,12 +14,12 @@ const BUCKETS = [
   { name: "Operational Reserves", pct: "20%", fill: 0.5, color: "#1B3A5C" },
 ];
 
-/* Staircase positions — compact descending left-to-right */
+/* Staircase positions — centered descending left-to-right */
 const POSITIONS: [number, number, number][] = [
-  [-1.8, 2.2, 0],
-  [-0.6, 1.0, 0],
-  [0.6, -0.2, 0],
-  [1.8, -1.4, 0],
+  [-1.4, 2.0, 0],
+  [-0.5, 0.9, 0],
+  [0.5, -0.2, 0],
+  [1.4, -1.3, 0],
 ];
 
 const TILT_Z = -0.08; // slight tilt toward next bucket
@@ -339,7 +339,7 @@ function RiverOfAbundance({ active }: { active: boolean }) {
   });
 
   return (
-    <group position={[0.3, -2.6, 0]}>
+    <group position={[0.2, -2.4, 0]}>
       {/* 4 colored bands side by side */}
       {RIVER_COLORS.map((col, i) => (
         <mesh
@@ -440,7 +440,7 @@ function CascadeScene() {
       {/* Final pour into river */}
       <PourStream
         from={POSITIONS[3]}
-        to={[1.8, -2.6, 0]}
+        to={[1.4, -2.4, 0]}
         color={BUCKETS[3].color}
         active={visibleCount > 4}
       />
@@ -469,7 +469,7 @@ export default function CascadingBuckets() {
   return (
     <div className="w-full aspect-[3/5] sm:aspect-[3/4] max-w-2xl mx-auto">
       <Canvas
-        camera={{ position: [0, 0.4, 9], fov: 40 }}
+        camera={{ position: [0, 0.4, 9], fov: 42 }}
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
