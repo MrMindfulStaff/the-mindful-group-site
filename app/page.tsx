@@ -78,7 +78,29 @@ function FallbackHome() {
     <>
       {/* Hero */}
       <section className="relative pt-32 pb-12 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
-        {/* 3D Scene (removed — globe experience handles this) */}
+        {/* Abstract flowing wave background */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {/* Large slow wave - teal */}
+          <svg className="absolute -bottom-1 left-0 w-[200%] h-48 md:h-64 animate-[wave_18s_ease-in-out_infinite]" viewBox="0 0 2400 200" preserveAspectRatio="none">
+            <path d="M0,100 C400,160 800,40 1200,100 C1600,160 2000,40 2400,100 L2400,200 L0,200 Z" fill="#1A7A5C" fillOpacity="0.12" />
+          </svg>
+          {/* Medium wave - accent orange */}
+          <svg className="absolute -bottom-1 left-0 w-[200%] h-40 md:h-56 animate-[wave_14s_ease-in-out_infinite_reverse]" viewBox="0 0 2400 200" preserveAspectRatio="none">
+            <path d="M0,120 C300,60 600,180 1200,80 C1800,0 2100,160 2400,120 L2400,200 L0,200 Z" fill="#E07C3E" fillOpacity="0.08" />
+          </svg>
+          {/* Small fast wave - light teal */}
+          <svg className="absolute -bottom-1 left-0 w-[200%] h-32 md:h-44 animate-[wave_10s_ease-in-out_infinite]" viewBox="0 0 2400 200" preserveAspectRatio="none">
+            <path d="M0,140 C200,80 500,180 900,100 C1300,20 1700,160 2400,100 L2400,200 L0,200 Z" fill="#22936F" fillOpacity="0.1" />
+          </svg>
+
+          {/* Upper ambient waves for depth */}
+          <svg className="absolute top-0 left-0 w-[200%] h-full animate-[wave_22s_ease-in-out_infinite]" viewBox="0 0 2400 600" preserveAspectRatio="none">
+            <path d="M0,300 C400,200 800,400 1200,250 C1600,100 2000,350 2400,300" fill="none" stroke="#1A7A5C" strokeWidth="1.5" strokeOpacity="0.08" />
+            <path d="M0,200 C300,280 700,120 1100,250 C1500,380 1900,150 2400,200" fill="none" stroke="#E07C3E" strokeWidth="1" strokeOpacity="0.06" />
+            <path d="M0,400 C500,320 900,480 1300,350 C1700,220 2100,420 2400,400" fill="none" stroke="#22936F" strokeWidth="1" strokeOpacity="0.07" />
+          </svg>
+        </div>
+
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent z-[1]" />
 
