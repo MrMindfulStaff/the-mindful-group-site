@@ -42,9 +42,9 @@ export default function GetInvolvedPage() {
             </p>
             <div className="space-y-3 mb-8">
               {[
-                { amount: "$50", impact: "Supplies one student for a week" },
-                { amount: "$250", impact: "Covers transportation for a cohort" },
-                { amount: "$1,000", impact: "Sponsors a full student journey" },
+                { amount: "$500", impact: "Community networking event" },
+                { amount: "$1,000", impact: "Transportation for a cohort" },
+                { amount: "$5,000", impact: "Sponsors a full student journey" },
               ].map((d) => (
                 <div key={d.amount} className="flex gap-4 items-start">
                   <span className="text-primary font-heading text-lg w-16 shrink-0">{d.amount}</span>
