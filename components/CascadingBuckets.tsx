@@ -472,7 +472,7 @@ function CascadeScene() {
    ══════════════════════════════════════════════ */
 export default function CascadingBuckets() {
   return (
-    <div className="w-full aspect-[3/4] sm:aspect-[1/1] max-w-2xl mx-auto">
+    <div className="w-full aspect-[3/5] sm:aspect-[3/4] max-w-2xl mx-auto">
       <Canvas
         camera={{ position: [0, 0.4, 9], fov: 40 }}
         dpr={[1, 1.5]}
