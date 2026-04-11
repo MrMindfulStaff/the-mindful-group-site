@@ -82,6 +82,23 @@ function FallbackHome() {
         {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-transparent z-[1]" />
 
+        {/* Centered Logo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-[2] flex justify-center pt-4 pb-2"
+        >
+          <Image
+            src="/images/tmg-logo.png"
+            alt="The Mindful Group"
+            width={180}
+            height={180}
+            className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-2xl"
+            priority
+          />
+        </motion.div>
+
         <div className="relative z-[2] max-w-7xl mx-auto px-6 py-8 md:py-12 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <motion.p
