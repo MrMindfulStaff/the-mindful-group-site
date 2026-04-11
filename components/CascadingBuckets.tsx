@@ -37,14 +37,12 @@ function Bucket({
   fill,
   name,
   pct,
-  labelSide,
   visible,
 }: {
   color: string;
   fill: number;
   name: string;
   pct: string;
-  labelSide: "left" | "right";
   visible: boolean;
 }) {
   const scaleRef = useRef(0);
@@ -77,7 +75,6 @@ function Bucket({
   const waterH = BUCKET_H * fill;
   const waterR =
     BUCKET_R_BOT + (BUCKET_R_TOP - BUCKET_R_BOT) * (waterH / BUCKET_H) * 0.9;
-  const labelX = labelSide === "right" ? BUCKET_R_TOP + 0.6 : -(BUCKET_R_TOP + 0.6);
 
   return (
     <group ref={groupRef} rotation={[0, 0, TILT_Z]}>
@@ -152,21 +149,20 @@ function Bucket({
         />
       </mesh>
 
-      {/* Label */}
+      {/* Label — centered on the bucket front face */}
       <Html
-        position={[labelX, 0, 0]}
+        position={[0, 0, BUCKET_R_TOP + 0.05]}
         center
         distanceFactor={10}
         style={{ pointerEvents: "none" }}
       >
-        <div className="bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-md border border-border-light whitespace-nowrap">
-          <p
-            className="text-sm font-heading font-bold leading-tight"
-            style={{ color }}
-          >
+        <div className="text-center whitespace-nowrap">
+          <p className="text-[11px] font-heading font-bold leading-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
             {name}
           </p>
-          <p className="text-xs text-text-light">{pct}</p>
+          <p className="text-[10px] font-semibold text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+            {pct}
+          </p>
         </div>
       </Html>
     </group>
@@ -425,7 +421,6 @@ function CascadeScene() {
             fill={b.fill}
             name={b.name}
             pct={b.pct}
-            labelSide={i % 2 === 0 ? "left" : "right"}
             visible={visibleCount > i}
           />
         </group>
