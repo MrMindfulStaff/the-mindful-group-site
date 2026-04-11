@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useMemo, useState, useCallback } from "react";
+import { useRef, useMemo, useCallback, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, OrbitControls } from "@react-three/drei";
+import { Float, Html, Text } from "@react-three/drei";
 import * as THREE from "three";
 
 const STEPS = [
@@ -15,121 +15,127 @@ const STEPS = [
   { title: "Scale", color: "#2A5580" },
 ];
 
-const R = 3.2; // ring radius
-const TUBE = 0.35; // tube radius
+const ORBIT_R = 3;
 
-/* ── Torus ring with vertex colors ── */
-function ColoredRing({ active }: { active: number | null }) {
-  const meshRef = useRef<THREE.Mesh>(null!);
+/* ── Glowing Orb Node ── */
+function OrbNode({
+  index,
+  step,
+  isActive,
+  onSelect,
+}: {
+  index: number;
+  step: (typeof STEPS)[number];
+  isActive: boolean;
+  onSelect: (i: number) => void;
+}) {
+  const groupRef = useRef<THREE.Group>(null!);
+  const glowRef = useRef<THREE.Mesh>(null!);
+  const orbSize = isActive ? 0.45 : 0.35;
 
-  const geometry = useMemo(() => {
-    const geo = new THREE.TorusGeometry(R, TUBE, 24, 128);
-    geo.rotateX(-Math.PI / 2); // lay flat
-    const colors = new Float32Array(geo.attributes.position.count * 3);
-    const pos = geo.attributes.position;
-
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i);
-      const z = pos.getZ(i);
-      let angle = Math.atan2(z, x);
-      if (angle < 0) angle += Math.PI * 2;
-      const section = Math.floor((angle / (Math.PI * 2)) * 7) % 7;
-      const c = new THREE.Color(STEPS[section].color);
-      if (active !== null && section !== active) {
-        c.multiplyScalar(0.5);
-      }
-      colors[i * 3] = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
+  useFrame((state) => {
+    if (glowRef.current) {
+      const mat = glowRef.current.material as THREE.MeshBasicMaterial;
+      mat.opacity = 0.12 + Math.sin(state.clock.elapsedTime * 2 + index) * 0.06;
     }
-    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    return geo;
-  }, [active]);
+  });
 
   return (
-    <mesh ref={meshRef} geometry={geometry}>
-      <meshStandardMaterial vertexColors roughness={0.4} metalness={0.3} />
+    <group ref={groupRef}>
+      <Float speed={1.8} floatIntensity={isActive ? 0.15 : 0.06}>
+        {/* Main orb */}
+        <mesh
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(index);
+          }}
+          scale={orbSize}
+        >
+          <sphereGeometry args={[1, 32, 32]} />
+          <meshStandardMaterial
+            color={step.color}
+            emissive={step.color}
+            emissiveIntensity={isActive ? 0.8 : 0.3}
+            roughness={0.2}
+            metalness={0.6}
+            transparent
+            opacity={0.92}
+          />
+        </mesh>
+
+        {/* Outer glow */}
+        <mesh ref={glowRef} scale={orbSize * 1.8}>
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshBasicMaterial
+            color={step.color}
+            transparent
+            opacity={0.12}
+            side={THREE.BackSide}
+          />
+        </mesh>
+
+        {/* Label */}
+        <Html
+          position={[0, orbSize + 0.35, 0]}
+          center
+          distanceFactor={8}
+          style={{ pointerEvents: "none" }}
+        >
+          <span
+            className={`text-xs font-semibold whitespace-nowrap px-2 py-0.5 rounded-full backdrop-blur-sm transition-all ${
+              isActive
+                ? "bg-white/90 text-primary shadow-md scale-110"
+                : "bg-white/70 text-text-light"
+            }`}
+          >
+            {step.title}
+          </span>
+        </Html>
+
+        {/* Point light on active */}
+        {isActive && (
+          <pointLight color={step.color} intensity={2} distance={3} />
+        )}
+      </Float>
+    </group>
+  );
+}
+
+/* ── Orbit ring path (subtle torus) ── */
+function OrbitPath() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <torusGeometry args={[ORBIT_R, 0.015, 8, 128]} />
+      <meshBasicMaterial color="#1A7A5C" transparent opacity={0.2} />
     </mesh>
   );
 }
 
-/* ── Wireframe overlay ── */
-function WireframeRing() {
-  const geo = useMemo(() => {
-    const g = new THREE.TorusGeometry(R, TUBE, 16, 64);
-    g.rotateX(-Math.PI / 2);
-    return g;
-  }, []);
-
-  return (
-    <mesh geometry={geo}>
-      <meshBasicMaterial color="#1B3A5C" wireframe transparent opacity={0.06} />
-    </mesh>
-  );
-}
-
-/* ── Step nodes on the ring ── */
-function StepNodes({ active, onSelect }: { active: number | null; onSelect: (i: number) => void }) {
-  return (
-    <>
-      {STEPS.map((step, i) => {
-        const angle = (i / 7) * Math.PI * 2;
-        const x = Math.cos(angle) * R;
-        const z = Math.sin(angle) * R;
-        const isActive = active === i;
-        const scale = isActive ? 1.5 : 1;
-        return (
-          <group key={i} position={[x, 0.15, z]}>
-            <Float speed={2} floatIntensity={isActive ? 0.15 : 0.05}>
-              <mesh
-                scale={scale}
-                onClick={(e) => { e.stopPropagation(); onSelect(i); }}
-              >
-                <octahedronGeometry args={[0.18, 0]} />
-                <meshStandardMaterial
-                  color={step.color}
-                  emissive={step.color}
-                  emissiveIntensity={isActive ? 0.6 : 0.1}
-                  metalness={0.5}
-                  roughness={0.3}
-                />
-              </mesh>
-            </Float>
-            {/* Vertical line from ring to node */}
-            <mesh position={[0, -0.08, 0]}>
-              <cylinderGeometry args={[0.005, 0.005, 0.15, 4]} />
-              <meshBasicMaterial color={step.color} transparent opacity={0.3} />
-            </mesh>
-          </group>
-        );
-      })}
-    </>
-  );
-}
-
-/* ── Flowing particles inside the ring ── */
+/* ── Flowing particles along orbit ── */
 function FlowParticles() {
-  const count = 200;
+  const count = 120;
   const meshRef = useRef<THREE.InstancedMesh>(null!);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  const particles = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      angle: (i / count) * Math.PI * 2,
-      speed: 0.08 + Math.random() * 0.04,
-      offset: (Math.random() - 0.5) * TUBE * 0.6,
-      yOff: (Math.random() - 0.5) * TUBE * 0.4,
-      size: 0.008 + Math.random() * 0.012,
-    }));
-  }, []);
+  const particles = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => ({
+        angle: (i / count) * Math.PI * 2,
+        speed: 0.12 + Math.random() * 0.06,
+        rOff: (Math.random() - 0.5) * 0.6,
+        yOff: (Math.random() - 0.5) * 0.3,
+        size: 0.012 + Math.random() * 0.018,
+      })),
+    []
+  );
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     particles.forEach((p, i) => {
       const a = p.angle + t * p.speed;
-      const pr = R + p.offset;
-      dummy.position.set(Math.cos(a) * pr, p.yOff, Math.sin(a) * pr);
-      dummy.scale.setScalar(p.size * (1 + Math.sin(t * 2 + p.angle) * 0.3));
+      const r = ORBIT_R + p.rOff;
+      dummy.position.set(Math.cos(a) * r, p.yOff, Math.sin(a) * r);
+      dummy.scale.setScalar(p.size * (1 + Math.sin(t * 2.5 + p.angle) * 0.3));
       dummy.updateMatrix();
       meshRef.current.setMatrixAt(i, dummy.matrix);
     });
@@ -139,95 +145,150 @@ function FlowParticles() {
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 6, 6]} />
-      <meshBasicMaterial color="#93B396" transparent opacity={0.4} />
+      <meshBasicMaterial color="#93B396" transparent opacity={0.35} />
     </instancedMesh>
   );
 }
 
-/* ── Flow direction arrows ── */
-function FlowArrows() {
-  const arrowsRef = useRef<THREE.Group>(null!);
+/* ── Center Core with "Stellar Engine" label ── */
+function CenterCore() {
+  const coreRef = useRef<THREE.Mesh>(null!);
+  const shellRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state) => {
-    if (!arrowsRef.current) return;
     const t = state.clock.elapsedTime;
-    arrowsRef.current.children.forEach((child, i) => {
-      if (child instanceof THREE.Mesh) {
-        (child.material as THREE.MeshBasicMaterial).opacity =
-          0.15 + Math.sin(t * 1.5 + i * 0.6) * 0.08;
-      }
-    });
+    if (coreRef.current) coreRef.current.rotation.y = t * 0.15;
+    if (shellRef.current) {
+      shellRef.current.rotation.y = -t * 0.08;
+      shellRef.current.rotation.x = t * 0.05;
+    }
   });
 
   return (
-    <group ref={arrowsRef}>
-      {Array.from({ length: 12 }).map((_, i) => {
-        const angle = (i / 12) * Math.PI * 2;
-        const x = Math.cos(angle) * R;
-        const z = Math.sin(angle) * R;
-        return (
-          <mesh
-            key={i}
-            position={[x, TUBE + 0.08, z]}
-            rotation={[Math.PI / 2, 0, -angle + Math.PI / 2]}
-          >
-            <coneGeometry args={[0.06, 0.14, 4]} />
-            <meshBasicMaterial color="#E07C3E" transparent opacity={0.15} />
-          </mesh>
-        );
-      })}
+    <group>
+      {/* Inner glowing sphere */}
+      <mesh>
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <meshStandardMaterial
+          color="#1A7A5C"
+          emissive="#1A7A5C"
+          emissiveIntensity={0.6}
+          roughness={0.1}
+          metalness={0.7}
+          transparent
+          opacity={0.85}
+        />
+      </mesh>
+
+      {/* Wireframe shell */}
+      <mesh ref={shellRef}>
+        <icosahedronGeometry args={[0.72, 1]} />
+        <meshStandardMaterial
+          color="#E07C3E"
+          wireframe
+          transparent
+          opacity={0.25}
+          emissive="#E07C3E"
+          emissiveIntensity={0.2}
+        />
+      </mesh>
+
+      {/* Outer glow */}
+      <mesh>
+        <sphereGeometry args={[0.9, 16, 16]} />
+        <meshBasicMaterial
+          color="#1A7A5C"
+          transparent
+          opacity={0.06}
+          side={THREE.BackSide}
+        />
+      </mesh>
+
+      {/* "Stellar Engine" label */}
+      <Html center distanceFactor={8} position={[0, -1.0, 0]} style={{ pointerEvents: "none" }}>
+        <span className="text-sm font-heading font-bold text-primary whitespace-nowrap bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm border border-primary/20">
+          Stellar Engine
+        </span>
+      </Html>
+
+      <pointLight intensity={3} color="#1A7A5C" distance={6} />
     </group>
   );
 }
 
-/* ── Central core ── */
-function Core() {
-  const coreRef = useRef<THREE.Mesh>(null!);
-
-  useFrame((state) => {
-    if (coreRef.current) coreRef.current.rotation.y = state.clock.elapsedTime * 0.08;
-  });
-
+/* ── Connection lines from center to orbs (thin cylinders) ── */
+function ConnectionLines({ active }: { active: number | null }) {
   return (
-    <Float speed={1.5} floatIntensity={0.1}>
-      <mesh ref={coreRef}>
-        <dodecahedronGeometry args={[0.45, 0]} />
-        <meshStandardMaterial
-          color="#1A7A5C"
-          emissive="#1A7A5C"
-          emissiveIntensity={0.4}
-          wireframe
-          transparent
-          opacity={0.5}
-        />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[0.2, 12, 12]} />
-        <meshBasicMaterial color="#E07C3E" transparent opacity={0.08} />
-      </mesh>
-      <pointLight intensity={1.5} color="#1A7A5C" distance={5} />
-    </Float>
+    <>
+      {STEPS.map((step, i) => {
+        const angle = (i / STEPS.length) * Math.PI * 2;
+        const x = Math.cos(angle) * ORBIT_R;
+        const z = Math.sin(angle) * ORBIT_R;
+        const isActive = active === i;
+        const length = ORBIT_R;
+        const midX = x / 2;
+        const midZ = z / 2;
+
+        return (
+          <mesh
+            key={i}
+            position={[midX, 0, midZ]}
+            rotation={[0, -angle + Math.PI / 2, Math.PI / 2]}
+          >
+            <cylinderGeometry args={[0.008, 0.008, length, 4]} />
+            <meshBasicMaterial
+              color={step.color}
+              transparent
+              opacity={isActive ? 0.4 : 0.08}
+            />
+          </mesh>
+        );
+      })}
+    </>
   );
 }
 
-/* ── Auto-rotate wrapper ── */
-function RotatingScene({ active, onSelect }: { active: number | null; onSelect: (i: number) => void }) {
+/* ── Rotating scene ── */
+function RotatingScene({
+  active,
+  onSelect,
+}: {
+  active: number | null;
+  onSelect: (i: number) => void;
+}) {
   const groupRef = useRef<THREE.Group>(null!);
 
   useFrame((_, delta) => {
-    if (groupRef.current && active === null) {
-      groupRef.current.rotation.y += delta * 0.1;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.08;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <ColoredRing active={active} />
-      <WireframeRing />
-      <StepNodes active={active} onSelect={onSelect} />
+      <OrbitPath />
+      <ConnectionLines active={active} />
       <FlowParticles />
-      <FlowArrows />
-      <Core />
+
+      {/* 7 Orb nodes */}
+      {STEPS.map((step, i) => {
+        const angle = (i / STEPS.length) * Math.PI * 2;
+        const x = Math.cos(angle) * ORBIT_R;
+        const z = Math.sin(angle) * ORBIT_R;
+
+        return (
+          <group key={i} position={[x, 0, z]}>
+            <OrbNode
+              index={i}
+              step={step}
+              isActive={active === i}
+              onSelect={onSelect}
+            />
+          </group>
+        );
+      })}
+
+      <CenterCore />
     </group>
   );
 }
@@ -242,32 +303,26 @@ export default function EngineRingDiagram() {
 
   return (
     <div className="relative">
-      <div className="w-full aspect-square max-w-xl mx-auto rounded-2xl overflow-hidden bg-gradient-to-b from-surface to-white border border-border-light shadow-lg">
+      <div className="w-full aspect-[4/3] max-w-2xl mx-auto">
         <Canvas
-          camera={{ position: [3, 4.5, 5], fov: 40 }}
+          camera={{ position: [0, 5, 7], fov: 38 }}
           dpr={[1, 1.5]}
           gl={{ antialias: true }}
+          style={{ background: "transparent" }}
         >
           <ambientLight intensity={0.5} color="#c8c0b8" />
           <directionalLight position={[8, 10, 5]} intensity={0.8} color="#fff5e0" />
           <directionalLight position={[-4, 6, -3]} intensity={0.2} color="#aac4e0" />
-          <hemisphereLight color="#d0d8e0" groundColor="#c8c0a8" intensity={0.2} />
+          <hemisphereLight color="#d0d8e0" groundColor="#c8c0a8" intensity={0.25} />
 
           <RotatingScene active={active} onSelect={handleSelect} />
 
-          <OrbitControls
-            enablePan={false}
-            minDistance={5}
-            maxDistance={14}
-            minPolarAngle={0.3}
-            maxPolarAngle={1.2}
-            enableDamping
-          />
+          {/* No OrbitControls — fixed camera, no zoom */}
         </Canvas>
       </div>
 
-      {/* Step legend below the diagram */}
-      <div className="mt-6 flex flex-wrap justify-center gap-3">
+      {/* Step legend */}
+      <div className="mt-4 flex flex-wrap justify-center gap-3">
         {STEPS.map((step, i) => (
           <button
             key={i}
@@ -286,15 +341,6 @@ export default function EngineRingDiagram() {
           </button>
         ))}
       </div>
-
-      {/* Active step detail */}
-      {active !== null && (
-        <div className="mt-4 text-center">
-          <p className="text-sm text-text-light">
-            Click the node again or drag to orbit. Click another step to compare.
-          </p>
-        </div>
-      )}
     </div>
   );
 }
