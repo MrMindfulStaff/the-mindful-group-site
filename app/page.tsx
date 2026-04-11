@@ -16,7 +16,7 @@ const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
   { value: 90, suffix: "%", label: "Graduation Rate" },
   { value: 85, suffix: "%", label: "Job Placement" },
-  { value: 0, suffix: "", label: "Tuition Charged" },
+  { value: 0, prefix: "$", suffix: "", label: "Tuition Charged" },
 ];
 
 const programs = [
@@ -185,7 +185,7 @@ function FallbackHome() {
                   className="bg-white/10 backdrop-blur-sm border border-white/10 p-6 rounded-lg hover:border-white/30 transition-all duration-300 group"
                 >
                   <p className="text-3xl md:text-4xl font-heading text-white mb-2 group-hover:scale-105 transition-transform">
-                    <AnimatedCounter value={m.value} suffix={m.suffix} />
+                    <AnimatedCounter value={m.value} prefix={("prefix" in m) ? m.prefix : ""} suffix={m.suffix} />
                   </p>
                   <p className="text-white/60 text-sm">{m.label}</p>
                 </div>
