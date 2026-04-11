@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import EngineRingWrapper from "@/components/EngineRingWrapper";
 import WagesTickerWrapper from "@/components/WagesTickerWrapper";
+import CascadingBucketsWrapper from "@/components/CascadingBucketsWrapper";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
@@ -379,12 +380,9 @@ export default function StellarEnginePage() {
             a structured reinvestment model — not extracted as profit.
           </p>
 
-          {/* Visual bar */}
-          <div className="mb-12 rounded-full overflow-hidden h-6 flex shadow-inner">
-            <div className="bg-primary h-full flex items-center justify-center text-white text-xs font-semibold" style={{ width: "30%" }}>30%</div>
-            <div className="bg-primary-light h-full flex items-center justify-center text-white text-xs font-semibold" style={{ width: "20%" }}>20%</div>
-            <div className="bg-accent h-full flex items-center justify-center text-white text-xs font-semibold" style={{ width: "30%" }}>30%</div>
-            <div className="bg-secondary h-full flex items-center justify-center text-white text-xs font-semibold" style={{ width: "20%" }}>20%</div>
+          {/* 3D Cascading Buckets Visualization */}
+          <div className="mb-12">
+            <CascadingBucketsWrapper />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
