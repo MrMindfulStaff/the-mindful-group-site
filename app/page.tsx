@@ -25,7 +25,7 @@ const programs = [
     description:
       "State-certified nursing assistant and community-based residential facility training. Launch a healthcare career with zero tuition.",
     href: "/programs/cna-cbrf",
-    duration: "Training Program",
+    duration: "5 Weeks",
     tag: "Healthcare",
   },
   {
