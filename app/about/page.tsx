@@ -75,7 +75,7 @@ export default function AboutPage() {
               <div className="space-y-4 text-text-light leading-relaxed">
                 <p>The Mindful Group was born from a simple observation: traditional workforce development programs treat training as the finish line, when it&apos;s actually just the starting point.</p>
                 <p>We built something different — an integrated model that combines career training with the wraparound support people actually need: child care, transportation, housing, and mental health services. When you remove the barriers, people don&apos;t just complete training — they launch careers.</p>
-                <p>Since 2019, we&apos;ve trained 525+ people with a 90% graduation rate and 85% job placement. We charge zero tuition. We partner with community leaders, schools, and businesses. And we&apos;re part of a larger ecosystem — House Reed — engineered specifically to reverse urban poverty.</p>
+                <p>Since 2018, we&apos;ve trained 525+ people with a 90% graduation rate and 85% job placement. We charge zero tuition. We partner with community leaders, schools, and businesses. And we&apos;re part of a larger ecosystem — House Reed — engineered specifically to reverse urban poverty.</p>
               </div>
             </div>
             <div>
