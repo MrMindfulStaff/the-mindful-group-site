@@ -87,19 +87,19 @@ function FallbackHome() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative z-[2] flex justify-center pt-4 pb-2"
+          className="relative z-[2] flex justify-center -mb-4"
         >
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
-            width={180}
-            height={180}
-            className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-2xl"
+            width={280}
+            height={280}
+            className="w-44 h-44 md:w-56 md:h-56 object-contain drop-shadow-2xl"
             priority
           />
         </motion.div>
 
-        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-8 md:py-12 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative z-[2] max-w-7xl mx-auto px-6 py-4 md:py-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
