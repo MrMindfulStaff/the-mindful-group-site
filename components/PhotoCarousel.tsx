@@ -82,7 +82,7 @@ export default function PhotoCarousel() {
       }}
     >
       {/* Slide container */}
-      <div className="relative aspect-[16/9] md:aspect-[3/1]">
+      <div className="relative aspect-[4/3] md:aspect-[16/9]">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={currentIndex}
