@@ -10,7 +10,7 @@ import AnimatedSection, {
 } from "@/components/AnimatedSection";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import WagesTicker from "@/components/WagesTicker";
-// 3D HomeExperience removed
+import PhotoCarousel from "@/components/PhotoCarousel";
 
 const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
@@ -222,21 +222,12 @@ function FallbackHome() {
         </div>
       </section>
 
-      {/* Photo Strip */}
+      {/* Photo Carousel */}
       <section className="bg-surface py-1">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { src: "/images/home-presenter.jpg", alt: "Instructor leading a workforce training session" },
-              { src: "/images/home-construction.jpg", alt: "Construction training participants in safety gear" },
-              { src: "/images/community-csr.jpg", alt: "Community engagement and outreach" },
-              { src: "/images/programs-training.jpg", alt: "Adults in a professional training seminar" },
-            ].map((img, i) => (
-              <div key={i} className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                <Image src={img.src} alt={img.alt} fill className="object-cover" />
-              </div>
-            ))}
-          </div>
+          <AnimatedSection>
+            <PhotoCarousel />
+          </AnimatedSection>
         </div>
       </section>
 
