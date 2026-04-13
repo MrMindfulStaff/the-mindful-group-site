@@ -224,7 +224,7 @@ function FallbackHome() {
 
       {/* Photo Carousel */}
       <section className="bg-surface py-1">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-6">
           <AnimatedSection>
             <PhotoCarousel />
           </AnimatedSection>
