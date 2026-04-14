@@ -154,9 +154,8 @@ function FallbackHome() {
               transition={{ duration: 0.7, delay: 0.6 }}
               className="text-white/80 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
             >
-              Zero-tuition career training with wraparound support — child care,
-              transportation, housing, and employment placement. We don&apos;t
-              just train people. We build futures.
+              Poverty is engineered. So is the way out. We build the bridge
+              between where you are and the life you were meant to live.
             </motion.p>
 
             <motion.div
