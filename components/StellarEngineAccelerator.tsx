@@ -1156,7 +1156,7 @@ export default function StellarEngineAccelerator({ height = "100vh" }: Props) {
       // Ring rotation
       if (!reduced) {
         if (st.autoRotate) {
-          st.ringRotation += 0.0008;
+          st.ringRotation += 0.0024;
         } else {
           st.ringRotation = lerp(st.ringRotation, st.rotationTarget, 0.05);
         }
