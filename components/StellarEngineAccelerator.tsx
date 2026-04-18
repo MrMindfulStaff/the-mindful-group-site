@@ -1325,7 +1325,7 @@ export default function StellarEngineAccelerator({ height = "100vh" }: Props) {
       />
 
       {/* HUD */}
-      <div className="absolute top-7 left-[26px] z-[5] font-mono text-[10px] tracking-[0.25em]" style={{ color: "#c0cad8", textShadow: "0 0 12px rgba(168, 216, 255, 0.15)" }}>
+      <div className="absolute top-[90px] left-[26px] z-[5] font-mono text-[10px] tracking-[0.25em]" style={{ color: "#c0cad8", textShadow: "0 0 12px rgba(168, 216, 255, 0.15)" }}>
         <div className="mb-[5px] flex items-center gap-2">
           <span className="inline-block w-[5px] h-[5px] rounded-full animate-pulse" style={{ background: "#ffd896", boxShadow: "0 0 10px #ffd896, 0 0 20px rgba(255, 216, 150, 0.4)" }} />
           SYSTEM &middot; ONLINE
@@ -1335,7 +1335,7 @@ export default function StellarEngineAccelerator({ height = "100vh" }: Props) {
       </div>
 
       {/* Title block */}
-      <div className="absolute top-[34px] left-1/2 -translate-x-1/2 text-center pointer-events-none z-[5]">
+      <div className="absolute top-[96px] left-1/2 -translate-x-1/2 text-center pointer-events-none z-[5]">
         <div
           className="text-[26px] tracking-[0.35em] font-extralight mb-2"
           style={{
@@ -1529,7 +1529,7 @@ export default function StellarEngineAccelerator({ height = "100vh" }: Props) {
       )}
 
       {/* Corner info */}
-      <div className="absolute top-7 right-[26px] text-right z-[5]">
+      <div className="absolute top-[90px] right-[26px] text-right z-[5]">
         <div className="text-[9px] tracking-[0.3em] font-mono mb-[3px]" style={{ color: "#4a5260" }}>
           SYS.MODEL
         </div>
