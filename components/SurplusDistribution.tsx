@@ -86,11 +86,16 @@ function makePctTexture(pct: number) {
 // ============================================================
 // Component
 // ============================================================
+interface ScreenPos { x: number; y: number }
+
 export default function SurplusDistribution({ height = "100vh" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
   const [activeCard, setActiveCard] = useState(0);
+  const [cardPositions, setCardPositions] = useState<ScreenPos[]>([]);
+  const [sourceLabelPos, setSourceLabelPos] = useState<ScreenPos>({ x: 0, y: 0 });
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -114,6 +119,37 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
     );
     camera.position.set(0, 0.5, 14);
     camera.lookAt(0, 0, 0);
+    cameraRef.current = camera;
+
+    // Project 3D world positions to screen pixel coordinates
+    function projectPositions() {
+      if (!container) return;
+      camera.updateMatrixWorld();
+      camera.updateProjectionMatrix();
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+
+      // Project each basin position
+      const positions = ALLOCATIONS.map((_, i) => {
+        const pos = destPos(i);
+        const p = pos.clone().project(camera);
+        return {
+          x: (p.x + 1) / 2 * w,
+          y: (1 - p.y) / 2 * h,
+        };
+      });
+      setCardPositions(positions);
+
+      // Project source label position (above the core)
+      const srcAbove = SOURCE_POS.clone();
+      srcAbove.y += 2.2;
+      const sp = srcAbove.project(camera);
+      setSourceLabelPos({
+        x: (sp.x + 1) / 2 * w,
+        y: (1 - sp.y) / 2 * h,
+      });
+    }
+    projectPositions();
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -684,6 +720,7 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       renderer.setSize(w, h);
       composer.setSize(w, h);
       bloom.setSize(w, h);
+      projectPositions();
     };
     window.addEventListener("resize", onResize);
 
@@ -810,112 +847,117 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
         </div>
       </div>
 
-      {/* Source label — positioned above the core sphere */}
-      <div
-        className="absolute z-[5] text-center pointer-events-none"
-        style={{
-          top: "22%",
-          left: "8%",
-          transform: "translateX(-50%)",
-        }}
-      >
+      {/* Source label — projected directly above the core sphere */}
+      {sourceLabelPos.x > 0 && (
         <div
-          className="text-[36px] font-light italic mb-1"
+          className="absolute z-[5] text-center pointer-events-none"
           style={{
-            fontFamily: "Georgia, serif",
-            color: "#ffd896",
-            textShadow: "0 0 24px rgba(255, 216, 150, 0.5)",
-            letterSpacing: "0.05em",
+            left: `${sourceLabelPos.x}px`,
+            top: `${sourceLabelPos.y}px`,
+            transform: "translate(-50%, -50%)",
           }}
         >
-          100%
-        </div>
-        <div
-          className="text-[10px] tracking-[0.35em] uppercase"
-          style={{
-            color: "#c0cad8",
-            textShadow: "0 0 10px rgba(168, 216, 255, 0.2)",
-          }}
-        >
-          Surplus
-        </div>
-      </div>
-
-      {/* Allocation cards — each positioned to align with its basin.
-          Basins span from top (i=0, y=+2.75) to bottom (i=3, y=-2.75)
-          in a viewport with camera at fov=42.  Screen %:
-            i=0 → ~18%, i=1 → ~35%, i=2 → ~52%, i=3 → ~69%  */}
-      {ALLOCATIONS.map((alloc, i) => {
-        const topPcts = [18, 35, 52, 69];
-        return (
           <div
-            key={alloc.name}
-            className="absolute z-[6] w-[340px] max-w-[calc(100vw-80px)]"
-            style={{ top: `${topPcts[i]}%`, right: "40px" }}
+            className="text-[36px] font-light italic mb-1"
+            style={{
+              fontFamily: "Georgia, serif",
+              color: "#ffd896",
+              textShadow: "0 0 24px rgba(255, 216, 150, 0.5)",
+              letterSpacing: "0.05em",
+            }}
           >
+            100%
+          </div>
+          <div
+            className="text-[10px] tracking-[0.35em] uppercase"
+            style={{
+              color: "#c0cad8",
+              textShadow: "0 0 10px rgba(168, 216, 255, 0.2)",
+            }}
+          >
+            Surplus
+          </div>
+        </div>
+      )}
+
+      {/* Allocation cards — projected to align with each basin */}
+      {cardPositions.length > 0 &&
+        ALLOCATIONS.map((alloc, i) => {
+          const pos = cardPositions[i];
+          if (!pos) return null;
+          return (
             <div
-              className="relative flex items-center gap-[14px] transition-all duration-400"
+              key={alloc.name}
+              className="absolute z-[6] w-[320px] max-w-[calc(100vw-80px)]"
               style={{
-                background: "rgba(10,13,20,0.72)",
-                backdropFilter: "blur(20px) saturate(1.2)",
-                WebkitBackdropFilter: "blur(20px) saturate(1.2)",
-                border: "1px solid rgba(180,140,100,0.15)",
-                boxShadow:
-                  "0 0 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)",
-                padding: "14px 16px",
+                left: `${pos.x + 30}px`,
+                top: `${pos.y}px`,
+                transform: "translateY(-50%)",
               }}
             >
-              {/* Active bar */}
               <div
-                className="absolute left-[-1px] top-[-1px] bottom-[-1px] w-[3px] transition-all duration-400"
+                className="relative flex items-center gap-[14px] transition-all duration-400"
                 style={{
-                  background: activeCard === i ? "#ffd896" : "transparent",
-                  boxShadow: activeCard === i ? "0 0 14px #ffd896" : "none",
-                }}
-              />
-              <div
-                className="text-[15px] font-medium italic min-w-[44px] text-center transition-all duration-400"
-                style={{
-                  fontFamily: "Georgia, serif",
-                  color: "#ffd896",
-                  padding: "8px 10px",
-                  background:
-                    activeCard === i
-                      ? "rgba(255, 216, 150, 0.2)"
-                      : "rgba(184,115,51,0.12)",
-                  border: `1px solid ${
-                    activeCard === i
-                      ? "rgba(255, 216, 150, 0.6)"
-                      : "rgba(201,165,122,0.25)"
-                  }`,
-                  letterSpacing: "0.05em",
-                  textShadow: "0 0 10px rgba(255, 216, 150, 0.4)",
+                  background: "rgba(10,13,20,0.72)",
+                  backdropFilter: "blur(20px) saturate(1.2)",
+                  WebkitBackdropFilter: "blur(20px) saturate(1.2)",
+                  border: "1px solid rgba(180,140,100,0.15)",
+                  boxShadow:
+                    "0 0 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)",
+                  padding: "14px 16px",
                 }}
               >
-                {alloc.pct}%
-              </div>
-              <div className="flex-1">
+                {/* Active bar */}
                 <div
-                  className="text-[14px] mb-1"
+                  className="absolute left-[-1px] top-[-1px] bottom-[-1px] w-[3px] transition-all duration-400"
                   style={{
-                    fontFamily: "Georgia, 'Times New Roman', serif",
-                    color: "#f0f4fa",
-                    letterSpacing: "0.02em",
+                    background: activeCard === i ? "#ffd896" : "transparent",
+                    boxShadow: activeCard === i ? "0 0 14px #ffd896" : "none",
+                  }}
+                />
+                <div
+                  className="text-[15px] font-medium italic min-w-[44px] text-center transition-all duration-400"
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    color: "#ffd896",
+                    padding: "8px 10px",
+                    background:
+                      activeCard === i
+                        ? "rgba(255, 216, 150, 0.2)"
+                        : "rgba(184,115,51,0.12)",
+                    border: `1px solid ${
+                      activeCard === i
+                        ? "rgba(255, 216, 150, 0.6)"
+                        : "rgba(201,165,122,0.25)"
+                    }`,
+                    letterSpacing: "0.05em",
+                    textShadow: "0 0 10px rgba(255, 216, 150, 0.4)",
                   }}
                 >
-                  {alloc.name}
+                  {alloc.pct}%
                 </div>
-                <div
-                  className="text-[10.5px] leading-[1.55]"
-                  style={{ color: "#a0aab8", letterSpacing: "0.02em" }}
-                >
-                  {alloc.description}
+                <div className="flex-1">
+                  <div
+                    className="text-[14px] mb-1"
+                    style={{
+                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      color: "#f0f4fa",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {alloc.name}
+                  </div>
+                  <div
+                    className="text-[10.5px] leading-[1.55]"
+                    style={{ color: "#a0aab8", letterSpacing: "0.02em" }}
+                  >
+                    {alloc.description}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
 
       {/* Corner info */}
       <div className="absolute bottom-[22px] right-[26px] text-right z-[5]">
