@@ -890,7 +890,7 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
               key={alloc.name}
               className="absolute z-[6] w-[320px] max-w-[calc(100vw-80px)]"
               style={{
-                left: `${pos.x + 30}px`,
+                left: `${pos.x + 80}px`,
                 top: `${pos.y}px`,
                 transform: "translateY(-50%)",
               }}
