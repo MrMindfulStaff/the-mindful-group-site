@@ -173,9 +173,10 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
     sourceGroup.position.copy(SOURCE_POS);
     scene.add(sourceGroup);
 
+    // Core brightness reduced by 40%
     const sourceCore = new THREE.Mesh(
       new THREE.SphereGeometry(0.45, 64, 64),
-      new THREE.MeshBasicMaterial({ color: 0xffffff })
+      new THREE.MeshBasicMaterial({ color: 0x999999 })
     );
     sourceGroup.add(sourceCore);
 
@@ -184,7 +185,7 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       new THREE.MeshBasicMaterial({
         color: PALETTE.coreHot,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.18,
         blending: THREE.AdditiveBlending,
       })
     );
@@ -195,7 +196,7 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       new THREE.MeshBasicMaterial({
         color: PALETTE.coreWarm,
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.108,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
@@ -207,7 +208,7 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       new THREE.MeshBasicMaterial({
         color: PALETTE.orbitGlow,
         transparent: true,
-        opacity: 0.08,
+        opacity: 0.048,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
@@ -244,16 +245,16 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       new THREE.SpriteMaterial({
         map: flareTex,
         transparent: true,
-        opacity: 0.45,
+        opacity: 0.27,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       })
     );
-    sourceFlare.scale.set(4, 4, 1);
+    sourceFlare.scale.set(3.2, 3.2, 1);
     sourceGroup.add(sourceFlare);
 
-    // Source point light
-    const srcLight = new THREE.PointLight(PALETTE.coreWarm, 1.8, 15);
+    // Source point light (reduced 40%)
+    const srcLight = new THREE.PointLight(PALETTE.coreWarm, 1.08, 15);
     sourceGroup.add(srcLight);
 
     // ============================================================
@@ -586,15 +587,15 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
       const dt = clock.getDelta();
 
       if (!reducedMotion) {
-        // Source pulse
-        const pulse = 1 + Math.sin(t * 2.2) * 0.08;
+        // Source pulse (reduced 40%)
+        const pulse = 1 + Math.sin(t * 2.2) * 0.05;
         sourceCore.scale.set(pulse, pulse, pulse);
-        sourceCorona1.scale.setScalar(1 + Math.sin(t * 2.2 + 0.4) * 0.06);
+        sourceCorona1.scale.setScalar(1 + Math.sin(t * 2.2 + 0.4) * 0.04);
         (sourceCorona2.material as THREE.MeshBasicMaterial).opacity =
-          0.14 + Math.sin(t * 1.8) * 0.05;
+          0.084 + Math.sin(t * 1.8) * 0.03;
         (sourceCorona3.material as THREE.MeshBasicMaterial).opacity =
-          0.06 + Math.sin(t * 1.3) * 0.025;
-        sourceFlare.material.opacity = 0.4 + Math.sin(t * 3) * 0.1;
+          0.036 + Math.sin(t * 1.3) * 0.015;
+        sourceFlare.material.opacity = 0.24 + Math.sin(t * 3) * 0.06;
 
         // Source orbital rings
         sourceRings.forEach((ring) => {
@@ -809,9 +810,14 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
         </div>
       </div>
 
-      {/* Source label */}
+      {/* Source label — positioned above the core sphere */}
       <div
-        className="absolute top-1/2 left-[8%] -translate-y-1/2 z-[5] text-center pointer-events-none"
+        className="absolute z-[5] text-center pointer-events-none"
+        style={{
+          top: "22%",
+          left: "8%",
+          transform: "translateX(-50%)",
+        }}
       >
         <div
           className="text-[36px] font-light italic mb-1"
@@ -835,72 +841,81 @@ export default function SurplusDistribution({ height = "100vh" }: Props) {
         </div>
       </div>
 
-      {/* Allocation cards */}
-      <div className="absolute top-1/2 right-[40px] -translate-y-1/2 z-[6] flex flex-col gap-[14px] w-[360px] max-w-[calc(100vw-80px)]">
-        {ALLOCATIONS.map((alloc, i) => (
+      {/* Allocation cards — each positioned to align with its basin.
+          Basins span from top (i=0, y=+2.75) to bottom (i=3, y=-2.75)
+          in a viewport with camera at fov=42.  Screen %:
+            i=0 → ~18%, i=1 → ~35%, i=2 → ~52%, i=3 → ~69%  */}
+      {ALLOCATIONS.map((alloc, i) => {
+        const topPcts = [18, 35, 52, 69];
+        return (
           <div
             key={alloc.name}
-            className="relative flex items-center gap-[14px] transition-all duration-400"
-            style={{
-              background: "rgba(10,13,20,0.72)",
-              backdropFilter: "blur(20px) saturate(1.2)",
-              WebkitBackdropFilter: "blur(20px) saturate(1.2)",
-              border: "1px solid rgba(180,140,100,0.15)",
-              boxShadow:
-                "0 0 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)",
-              padding: "14px 16px",
-            }}
+            className="absolute z-[6] w-[340px] max-w-[calc(100vw-80px)]"
+            style={{ top: `${topPcts[i]}%`, right: "40px" }}
           >
-            {/* Active bar */}
             <div
-              className="absolute left-[-1px] top-[-1px] bottom-[-1px] w-[3px] transition-all duration-400"
+              className="relative flex items-center gap-[14px] transition-all duration-400"
               style={{
-                background: activeCard === i ? "#ffd896" : "transparent",
-                boxShadow: activeCard === i ? "0 0 14px #ffd896" : "none",
-              }}
-            />
-            <div
-              className="text-[15px] font-medium italic min-w-[44px] text-center transition-all duration-400"
-              style={{
-                fontFamily: "Georgia, serif",
-                color: "#ffd896",
-                padding: "8px 10px",
-                background:
-                  activeCard === i
-                    ? "rgba(255, 216, 150, 0.2)"
-                    : "rgba(184,115,51,0.12)",
-                border: `1px solid ${
-                  activeCard === i
-                    ? "rgba(255, 216, 150, 0.6)"
-                    : "rgba(201,165,122,0.25)"
-                }`,
-                letterSpacing: "0.05em",
-                textShadow: "0 0 10px rgba(255, 216, 150, 0.4)",
+                background: "rgba(10,13,20,0.72)",
+                backdropFilter: "blur(20px) saturate(1.2)",
+                WebkitBackdropFilter: "blur(20px) saturate(1.2)",
+                border: "1px solid rgba(180,140,100,0.15)",
+                boxShadow:
+                  "0 0 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)",
+                padding: "14px 16px",
               }}
             >
-              {alloc.pct}%
-            </div>
-            <div className="flex-1">
+              {/* Active bar */}
               <div
-                className="text-[14px] mb-1"
+                className="absolute left-[-1px] top-[-1px] bottom-[-1px] w-[3px] transition-all duration-400"
                 style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  color: "#f0f4fa",
-                  letterSpacing: "0.02em",
+                  background: activeCard === i ? "#ffd896" : "transparent",
+                  boxShadow: activeCard === i ? "0 0 14px #ffd896" : "none",
+                }}
+              />
+              <div
+                className="text-[15px] font-medium italic min-w-[44px] text-center transition-all duration-400"
+                style={{
+                  fontFamily: "Georgia, serif",
+                  color: "#ffd896",
+                  padding: "8px 10px",
+                  background:
+                    activeCard === i
+                      ? "rgba(255, 216, 150, 0.2)"
+                      : "rgba(184,115,51,0.12)",
+                  border: `1px solid ${
+                    activeCard === i
+                      ? "rgba(255, 216, 150, 0.6)"
+                      : "rgba(201,165,122,0.25)"
+                  }`,
+                  letterSpacing: "0.05em",
+                  textShadow: "0 0 10px rgba(255, 216, 150, 0.4)",
                 }}
               >
-                {alloc.name}
+                {alloc.pct}%
               </div>
-              <div
-                className="text-[10.5px] leading-[1.55]"
-                style={{ color: "#a0aab8", letterSpacing: "0.02em" }}
-              >
-                {alloc.description}
+              <div className="flex-1">
+                <div
+                  className="text-[14px] mb-1"
+                  style={{
+                    fontFamily: "Georgia, 'Times New Roman', serif",
+                    color: "#f0f4fa",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  {alloc.name}
+                </div>
+                <div
+                  className="text-[10.5px] leading-[1.55]"
+                  style={{ color: "#a0aab8", letterSpacing: "0.02em" }}
+                >
+                  {alloc.description}
+                </div>
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
 
       {/* Corner info */}
       <div className="absolute bottom-[22px] right-[26px] text-right z-[5]">
