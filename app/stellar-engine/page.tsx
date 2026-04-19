@@ -2,40 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import StellarEngineAcceleratorWrapper from "@/components/StellarEngineAcceleratorWrapper";
 import WagesTickerWrapper from "@/components/WagesTickerWrapper";
-import CascadingBucketsWrapper from "@/components/CascadingBucketsWrapper";
+import SurplusDistributionWrapper from "@/components/SurplusDistributionWrapper";
 
 export const metadata: Metadata = {
   title: "The Stellar Engine | The Mindful Group",
   description:
     "A mathematically designed, self-sustaining workforce development model that reverses poverty through earned revenue — not grant dependency. Built and proven in Milwaukee's 53206.",
 };
-
-const surplusAllocation = [
-  {
-    category: "Supportive Services",
-    percentage: "30%",
-    description:
-      "Housing assistance, transportation, childcare, and mental health support. Removes the non-training barriers that cause dropout.",
-  },
-  {
-    category: "Non-WIOA Access",
-    percentage: "20%",
-    description:
-      "Funds training slots for participants not eligible for government subsidies — ensuring zero-tuition extends beyond the WIOA-eligible population.",
-  },
-  {
-    category: "Program Expansion",
-    percentage: "30%",
-    description:
-      "Capital for new cohorts, new training tracks, and new geographies. Surplus funds the growth rather than external grants.",
-  },
-  {
-    category: "Operational Reserves",
-    percentage: "20%",
-    description:
-      "Financial stability buffer. Ensures the system absorbs enrollment fluctuations without collapsing or cutting services.",
-  },
-];
 
 const differentiators = [
   {
@@ -250,60 +223,10 @@ export default function StellarEnginePage() {
       </section>
 
       {/* ============================================================
-          Surplus Distribution — Cascading Buckets
+          Surplus Distribution — 3D Flow Visualization
           ============================================================ */}
-      <section className="bg-[#0a0d14] py-20 border-t border-[rgba(180,140,100,0.08)]">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-[10px] uppercase tracking-[0.35em] font-medium mb-6" style={{ color: "#c9a57a" }}>
-            Reinvestment Architecture
-          </p>
-          <h2 className="text-3xl md:text-5xl font-heading leading-tight mb-6" style={{ color: "#e8ecf2" }}>
-            Where the{" "}
-            <span style={{ color: "#c9a57a" }}>Surplus Goes</span>
-          </h2>
-          <p className="text-lg max-w-3xl mb-12" style={{ color: "#8a94a4" }}>
-            When the system generates surplus, funds are allocated according to
-            a structured reinvestment model — not extracted as profit.
-          </p>
-
-          <div className="mb-12">
-            <CascadingBucketsWrapper />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {surplusAllocation.map((a) => (
-              <div
-                key={a.category}
-                className="rounded-lg p-8 flex gap-6 transition-all duration-300 hover:border-[rgba(201,165,122,0.3)]"
-                style={{
-                  background: "rgba(26,31,40,0.6)",
-                  border: "1px solid rgba(180,140,100,0.12)",
-                }}
-              >
-                <div className="shrink-0 flex flex-col items-center">
-                  <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center font-heading text-lg"
-                    style={{
-                      background: "rgba(201,165,122,0.15)",
-                      color: "#c9a57a",
-                      border: "1px solid rgba(201,165,122,0.25)",
-                    }}
-                  >
-                    {a.percentage}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-heading mb-2" style={{ color: "#e8ecf2" }}>
-                    {a.category}
-                  </h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#8a94a4" }}>
-                    {a.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      <section className="relative border-t border-[rgba(180,140,100,0.08)]">
+        <SurplusDistributionWrapper height="100vh" />
       </section>
 
       {/* ============================================================
