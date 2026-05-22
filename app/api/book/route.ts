@@ -10,7 +10,9 @@ import { randomUUID } from "crypto";
 import { ORIENTATION_PROGRAMS, type OrientationProgramId } from "@/lib/orientation-dates";
 
 const VICTORIA_WEBHOOK = "https://www.victorialms.com/api/webhooks/bookings";
-const ORIENTATION_ADDRESS = "4201 N 27th Street, Suite 500, Milwaukee, WI 53216";
+const ORIENTATION_ADDRESS = "4201 N 27th Street, Milwaukee, WI 53216";
+const ORIENTATION_ROOM = "First Floor Conference Room";
+const ORIENTATION_PARKING = "Park in the rear parking lot and enter through the northwest side of the building.";
 
 // Best-effort booking confirmation email via Resend (same setup as the contact
 // form). Never throws — a booking must succeed even if the email fails.
@@ -40,9 +42,8 @@ async function sendConfirmationEmail(args: {
     ``,
     `Date: ${dateStr}`,
     `Time: ${timeStr} (please arrive a few minutes early)`,
-    `Location: ${ORIENTATION_ADDRESS}`,
-    ``,
-    `What to bring: a valid photo ID.`,
+    `Location: ${ORIENTATION_ADDRESS} — ${ORIENTATION_ROOM}`,
+    `Parking & entry: ${ORIENTATION_PARKING}`,
     ``,
     `Attending orientation is required to move forward in the program. If you can't make it, please call us at 833-414-MIND (6463) so we can get you on another date.`,
     ``,
@@ -59,9 +60,9 @@ async function sendConfirmationEmail(args: {
       <table style="margin:16px 0;border-collapse:collapse">
         <tr><td style="padding:4px 12px 4px 0;color:#555">Date</td><td style="padding:4px 0"><strong>${dateStr}</strong></td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#555">Time</td><td style="padding:4px 0"><strong>${timeStr}</strong> (please arrive a few minutes early)</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#555">Location</td><td style="padding:4px 0">${ORIENTATION_ADDRESS}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#555;vertical-align:top">Location</td><td style="padding:4px 0">${ORIENTATION_ADDRESS}<br/><strong>${ORIENTATION_ROOM}</strong></td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#555;vertical-align:top">Parking &amp; entry</td><td style="padding:4px 0">${ORIENTATION_PARKING}</td></tr>
       </table>
-      <p><strong>What to bring:</strong> a valid photo ID.</p>
       <p>Attending orientation is required to move forward in the program. If you can't make it, please call us at <a href="tel:8334146463">833-414-MIND (6463)</a> so we can get you on another date.</p>
       <p>We look forward to seeing you!</p>
       <p style="margin-top:24px;color:#555">— The Mindful Group<br/>833-414-MIND (6463)</p>
