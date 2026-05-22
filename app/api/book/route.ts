@@ -73,7 +73,7 @@ async function sendConfirmationEmail(args: {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: "The Mindful Group <noreply@themindfulgroup.org>",
+        from: "The Mindful Group <noreply@themindfulgroupinc.org>",
         to: [args.email],
         subject: `You're booked: ${args.serviceName} — ${dateStr}`,
         text,
