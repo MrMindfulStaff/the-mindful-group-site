@@ -17,7 +17,7 @@ const services = [
     id: "cna-cbrf",
     title: "CNA/CBRF Training Orientation",
     tag: "Healthcare",
-    schedule: "Every other Tuesday at 11:30 AM",
+    schedule: "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
     description: "Launch a healthcare career with zero tuition. Our CNA/CBRF training orientation walks you through the program, requirements, timeline, and next steps. Leave with a clear path to certification.",
     whatToExpect: [
@@ -34,7 +34,7 @@ const services = [
     id: "construction",
     title: "Construction Training Orientation",
     tag: "Trades",
-    schedule: "Every other Tuesday at 11:30 AM",
+    schedule: "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
     description: "Enter the construction trades with hands-on training and zero tuition. This orientation covers the full pre-apprenticeship program, safety certification, and direct employment pipeline.",
     whatToExpect: [
@@ -153,7 +153,7 @@ export default async function BookOnlinePage() {
               <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             </div>
             <div>
-              <h2 className="text-text font-heading text-lg">Training Orientations: Every Other Tuesday at 11:30 AM</h2>
+              <h2 className="text-text font-heading text-lg">Training Orientations: Every Other Tuesday at 11:00 AM</h2>
               <p className="text-text-light text-sm mt-1">CNA/CBRF and Construction orientations run on the same biweekly schedule. Career Development, Mental Health, and Financial Literacy are available by appointment.</p>
             </div>
           </div>

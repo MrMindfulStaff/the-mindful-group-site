@@ -1,5 +1,5 @@
 // Orientation scheduling — CNA/CBRF and Construction orientations run
-// "every other Tuesday at 11:30 AM" Central. We generate the upcoming
+// "every other Tuesday at 11:00 AM" Central. We generate the upcoming
 // biweekly Tuesdays here so the booking form always shows real, correct dates
 // without anyone hand-maintaining a list.
 //
@@ -9,7 +9,7 @@
 
 const ANCHOR_ISO_DATE = "2026-05-26"; // a Tuesday — CONFIRM this is a real orientation date
 const ORIENTATION_HOUR = 11;
-const ORIENTATION_MINUTE = 30;
+const ORIENTATION_MINUTE = 0; // 11:00 AM Central — matches the existing Wix orientation time
 const TZ = "America/Chicago";
 const DAY_MS = 86_400_000;
 
@@ -28,7 +28,7 @@ function tzOffsetMinutes(instant: Date, timeZone: string): number {
   return sign * (parseInt(m[2], 10) * 60 + parseInt(m[3], 10));
 }
 
-// Convert a wall-clock time in `timeZone` to a UTC ISO string. 11:30 AM is far
+// Convert a wall-clock time in `timeZone` to a UTC ISO string. 11:00 AM is far
 // from the 2 AM DST boundary, so the single-pass offset lookup is exact here.
 function wallTimeToISO(y: number, mo: number, d: number, hh: number, mm: number, timeZone: string): string {
   const guess = new Date(Date.UTC(y, mo - 1, d, hh, mm));
@@ -37,7 +37,7 @@ function wallTimeToISO(y: number, mo: number, d: number, hh: number, mm: number,
 }
 
 export interface OrientationSlot {
-  iso: string;   // full ISO datetime (UTC Z) of the 11:30 AM Central session
+  iso: string;   // full ISO datetime (UTC Z) of the 11:00 AM Central session
   label: string; // e.g. "Tuesday, June 2, 2026"
 }
 

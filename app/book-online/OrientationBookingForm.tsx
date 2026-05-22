@@ -110,7 +110,7 @@ export default function OrientationBookingForm({ slots }: Props) {
           >
             <option value="" disabled>Choose a date…</option>
             {slots.map((s) => (
-              <option key={s.iso} value={s.iso}>{s.label} · 11:30 AM{seatsNote(s.remaining)}</option>
+              <option key={s.iso} value={s.iso}>{s.label} · 11:00 AM{seatsNote(s.remaining)}</option>
             ))}
           </select>
         </div>
