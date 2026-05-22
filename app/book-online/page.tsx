@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { BOOKING } from "@/lib/booking";
+import { upcomingOrientationDates } from "@/lib/orientation-dates";
+import OrientationBookingForm from "./OrientationBookingForm";
 
 export const metadata: Metadata = {
   title: "Book an Orientation | The Mindful Group",
@@ -22,7 +23,7 @@ const services = [
       "Enrollment paperwork — bring a valid ID",
       "Meet current students and graduates",
     ],
-    href: BOOKING.cnaCbrf,
+    href: "#book",
     programPage: "/programs/cna-cbrf",
   },
   {
@@ -39,7 +40,7 @@ const services = [
       "Tool and equipment orientation",
       "Employment placement through Mindful Staffing",
     ],
-    href: BOOKING.construction,
+    href: "#book",
     programPage: "/programs/construction",
   },
   {
@@ -56,7 +57,7 @@ const services = [
       "Job search strategy and networking",
       "Ongoing support through employment",
     ],
-    href: BOOKING.careerDevelopment,
+    href: "/contact",
     programPage: "/programs/career-development",
   },
   {
@@ -73,7 +74,7 @@ const services = [
       "Referrals to specialized services when needed",
       "No cost to participants",
     ],
-    href: BOOKING.mentalHealth,
+    href: "/contact",
     programPage: "/programs/mental-health",
   },
   {
@@ -90,12 +91,13 @@ const services = [
       "Banking and savings fundamentals",
       "Tax preparation assistance",
     ],
-    href: BOOKING.financialLiteracy,
+    href: "/contact",
     programPage: "/programs/financial-literacy",
   },
 ];
 
 export default function BookOnlinePage() {
+  const orientationSlots = upcomingOrientationDates(8);
   return (
     <>
       {/* Hero */}
@@ -139,6 +141,20 @@ export default function BookOnlinePage() {
               <h2 className="text-text font-heading text-lg">Training Orientations: Every Other Tuesday at 11:30 AM</h2>
               <p className="text-text-light text-sm mt-1">CNA/CBRF and Construction orientations run on the same biweekly schedule. Career Development, Mental Health, and Financial Literacy are available by appointment.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Orientation booking form */}
+      <section id="book" className="pb-16 scroll-mt-28">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="bg-white rounded-lg border border-border-light shadow-sm p-8">
+            <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">Reserve Your Seat</p>
+            <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">Book Your Orientation</h2>
+            <p className="text-text-light text-sm mb-8 max-w-2xl">
+              Pick a program and an upcoming Tuesday. Orientations are free, in-person, and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — <Link href="/contact" className="text-primary hover:text-primary-light transition-colors">contact us</Link> for those.
+            </p>
+            <OrientationBookingForm slots={orientationSlots} />
           </div>
         </div>
       </section>
