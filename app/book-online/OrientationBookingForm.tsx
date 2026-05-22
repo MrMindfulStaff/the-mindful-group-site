@@ -193,11 +193,14 @@ export default function OrientationBookingForm({ slots }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="phone" className="text-text-light text-xs uppercase tracking-wider block mb-2">Phone</label>
+          <label htmlFor="phone" className="text-text-light text-xs uppercase tracking-wider block mb-2">
+            Phone <span className="text-accent">*</span>
+          </label>
           <input
             id="phone"
             name="phone"
             type="tel"
+            required
             className="w-full bg-white border border-border-light rounded-md px-4 py-3 text-text text-sm focus:border-primary focus:outline-none transition-colors"
           />
         </div>

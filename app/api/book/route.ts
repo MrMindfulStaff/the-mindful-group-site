@@ -120,9 +120,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Required contact fields
-    if (!firstName?.trim() || !lastName?.trim() || !email?.trim()) {
+    if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim()) {
       return Response.json(
-        { error: "Please fill in your name and email." },
+        { error: "Please fill in your name, email, and phone number." },
         { status: 400 }
       );
     }
