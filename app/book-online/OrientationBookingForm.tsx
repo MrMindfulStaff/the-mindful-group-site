@@ -1,10 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import type { OrientationSlot } from "@/lib/orientation-dates";
+
+interface SlotWithSeats {
+  iso: string;
+  label: string;
+  remaining: number;
+}
 
 interface Props {
-  slots: OrientationSlot[];
+  slots: SlotWithSeats[];
+}
+
+function seatsNote(remaining: number): string {
+  if (remaining <= 5) return ` — only ${remaining} seat${remaining === 1 ? "" : "s"} left`;
+  return ` — ${remaining} seats left`;
 }
 
 export default function OrientationBookingForm({ slots }: Props) {
@@ -100,7 +110,7 @@ export default function OrientationBookingForm({ slots }: Props) {
           >
             <option value="" disabled>Choose a date…</option>
             {slots.map((s) => (
-              <option key={s.iso} value={s.iso}>{s.label} · 11:30 AM</option>
+              <option key={s.iso} value={s.iso}>{s.label} · 11:30 AM{seatsNote(s.remaining)}</option>
             ))}
           </select>
         </div>

@@ -13,6 +13,11 @@ const ORIENTATION_MINUTE = 30;
 const TZ = "America/Chicago";
 const DAY_MS = 86_400_000;
 
+// Pooled room capacity per session (CNA/CBRF + Construction combined). Used
+// only as a display fallback when VICTORIA availability can't be fetched; the
+// real cap is enforced server-side by the VICTORIA webhook.
+export const ORIENTATION_CAPACITY = 90;
+
 // Offset (minutes east of UTC; negative in the Americas) for a timezone at a
 // given instant. Uses Intl longOffset ("GMT-05:00") so DST is handled.
 function tzOffsetMinutes(instant: Date, timeZone: string): number {

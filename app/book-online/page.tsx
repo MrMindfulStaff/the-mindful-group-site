@@ -1,7 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { upcomingOrientationDates } from "@/lib/orientation-dates";
+import { upcomingOrientationDates, ORIENTATION_CAPACITY } from "@/lib/orientation-dates";
+import { fetchRemainingByDate } from "@/lib/orientation-availability";
 import OrientationBookingForm from "./OrientationBookingForm";
+
+// Always render fresh so seat availability is current.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Book an Orientation | The Mindful Group",
@@ -96,8 +100,19 @@ const services = [
   },
 ];
 
-export default function BookOnlinePage() {
-  const orientationSlots = upcomingOrientationDates(8);
+export default async function BookOnlinePage() {
+  // Generate a wide window of upcoming biweekly Tuesdays, then keep only the
+  // ones with open seats (next-available-onward), Wix-style.
+  const generated = upcomingOrientationDates(12);
+  const remainingByIso = await fetchRemainingByDate(generated.map((s) => s.iso));
+
+  const withSeats = generated.map((s) => ({
+    ...s,
+    remaining: remainingByIso[s.iso] ?? ORIENTATION_CAPACITY, // fail-open
+  }));
+  const orientationSlots = withSeats.filter((s) => s.remaining > 0).slice(0, 8);
+  const someHidden = withSeats.some((s) => s.remaining <= 0);
+
   return (
     <>
       {/* Hero */}
@@ -151,10 +166,25 @@ export default function BookOnlinePage() {
           <div className="bg-white rounded-lg border border-border-light shadow-sm p-8">
             <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">Reserve Your Seat</p>
             <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">Book Your Orientation</h2>
-            <p className="text-text-light text-sm mb-8 max-w-2xl">
+            <p className="text-text-light text-sm mb-6 max-w-2xl">
               Pick a program and an upcoming Tuesday. Orientations are free, in-person, and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — <Link href="/contact" className="text-primary hover:text-primary-light transition-colors">contact us</Link> for those.
             </p>
-            <OrientationBookingForm slots={orientationSlots} />
+            <div className="mb-8 flex items-start gap-2 rounded-md bg-surface border border-border-light px-4 py-3">
+              <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <p className="text-text-light text-xs">
+                Each orientation seats {ORIENTATION_CAPACITY} (CNA/CBRF and Construction combined).
+                {someHidden
+                  ? " Only dates with open seats are shown — sessions that are full are hidden."
+                  : " We show the next available dates with open seats."}
+              </p>
+            </div>
+            {orientationSlots.length === 0 ? (
+              <div className="rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                All upcoming orientations are currently full. Please call <a href="tel:8334146463" className="font-semibold underline">833-414-MIND (6463)</a> and we&apos;ll get you on the next available date.
+              </div>
+            ) : (
+              <OrientationBookingForm slots={orientationSlots} />
+            )}
           </div>
         </div>
       </section>

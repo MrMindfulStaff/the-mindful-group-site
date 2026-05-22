@@ -98,6 +98,15 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(payload),
     });
 
+    // Session filled between page load and submit — the webhook is the
+    // authoritative cap guard and returns 409 {code:"FULL"}.
+    if (res.status === 409) {
+      return Response.json(
+        { error: "That orientation just filled up. Please pick another date." },
+        { status: 409 }
+      );
+    }
+
     if (!res.ok) {
       console.error("[book] VICTORIA webhook error:", res.status, await res.text().catch(() => ""));
       return Response.json(
