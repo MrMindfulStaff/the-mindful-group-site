@@ -17,9 +17,15 @@ function seatsNote(remaining: number): string {
   return ` — ${remaining} seats left`;
 }
 
+const PROGRAM_NAMES: Record<string, string> = {
+  "cna-cbrf": "CNA/CBRF Training Orientation",
+  "construction": "Construction Training Orientation",
+};
+
 export default function OrientationBookingForm({ slots }: Props) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [booked, setBooked] = useState<{ program: string; dateLabel: string } | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,6 +54,10 @@ export default function OrientationBookingForm({ slots }: Props) {
         setErrorMsg(result.error || "Something went wrong.");
         return;
       }
+      setBooked({
+        program: PROGRAM_NAMES[data.program] ?? "Orientation",
+        dateLabel: slots.find((s) => s.iso === data.dateIso)?.label ?? "",
+      });
       setStatus("success");
       form.reset();
     } catch {
@@ -58,22 +68,48 @@ export default function OrientationBookingForm({ slots }: Props) {
 
   if (status === "success") {
     return (
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-8 text-center">
-        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-8">
+        <div className="text-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 className="text-text text-lg font-heading mb-2">You&apos;re Booked!</h3>
+          {booked && (
+            <p className="text-text text-sm font-semibold">
+              {booked.program}
+              {booked.dateLabel ? ` · ${booked.dateLabel} at 11:00 AM` : ""}
+            </p>
+          )}
+          <p className="text-text-light text-sm mt-1">
+            A confirmation email is on its way. Here&apos;s what you need to know:
+          </p>
         </div>
-        <h3 className="text-text text-lg font-heading mb-2">You&apos;re Booked!</h3>
-        <p className="text-text-light text-sm">
-          We&apos;ve got you on the roster. You&apos;ll get a confirmation, and our team will reach out with anything you need to bring. See you there!
-        </p>
+
+        <div className="mt-5 bg-white rounded-lg border border-border-light p-5 text-sm text-text-light space-y-3 max-w-md mx-auto text-left">
+          <div className="flex gap-3">
+            <span className="shrink-0">📍</span>
+            <span><strong className="text-text">4201 N 27th Street, Milwaukee, WI 53216</strong><br/>First Floor Conference Room</span>
+          </div>
+          <div className="flex gap-3">
+            <span className="shrink-0">🅿️</span>
+            <span>Park in the <strong className="text-text">rear parking lot</strong> and enter through the <strong className="text-text">northwest side</strong> of the building.</span>
+          </div>
+          <div className="flex gap-3">
+            <span className="shrink-0">🕚</span>
+            <span>Arrive a few minutes before <strong className="text-text">11:00 AM</strong>. Attending orientation is required to move forward — call <a href="tel:8334146463" className="text-primary hover:text-primary-light">833-414-MIND (6463)</a> if you need to reschedule.</span>
+          </div>
+        </div>
+
+        <div className="text-center">
         <button
-          onClick={() => setStatus("idle")}
-          className="mt-4 text-primary text-sm uppercase tracking-wider hover:text-primary-light transition-colors"
+          onClick={() => { setStatus("idle"); setBooked(null); }}
+          className="mt-5 text-primary text-sm uppercase tracking-wider hover:text-primary-light transition-colors"
         >
           Book Another Orientation
         </button>
+        </div>
       </div>
     );
   }
