@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://the-mindful-group-site.vercel.app"),
   title: "The Mindful Group | Community First. Opportunity Always.",
   description:
-    "Milwaukee's zero-tuition workforce training nonprofit. CNA/CBRF, Construction, and Career Development programs with wraparound support. 525+ trained. 90% graduation rate. 85% job placement.",
+    "Milwaukee's workforce training nonprofit. CNA/CBRF, Construction, and Career Development programs with wraparound support. 525+ trained. 90% graduation rate. 85% job placement.",
   keywords: [
     "The Mindful Group",
     "workforce development",
@@ -23,7 +23,6 @@ export const metadata: Metadata = {
     "CNA training",
     "CBRF training",
     "construction training",
-    "zero tuition",
     "career development",
     "53216",
     "job training Milwaukee",
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The Mindful Group | Community First. Opportunity Always.",
     description:
-      "Milwaukee's zero-tuition workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
+      "Milwaukee's workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
     type: "website",
     siteName: "The Mindful Group",
   },
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Mindful Group | Community First. Opportunity Always.",
     description:
-      "Milwaukee's zero-tuition workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
+      "Milwaukee's workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
   },
   icons: {
     icon: "/favicon.svg",

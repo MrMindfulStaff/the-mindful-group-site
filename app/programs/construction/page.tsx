@@ -5,7 +5,7 @@ import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Construction Training | The Mindful Group",
-  description: "9-week construction and building trades training in Milwaukee. Hands-on remodeling experience with zero tuition and job placement.",
+  description: "9-week construction and building trades training in Milwaukee. Hands-on remodeling experience with job placement.",
 };
 
 export default function ConstructionPage() {
@@ -53,7 +53,6 @@ export default function ConstructionPage() {
                 {[
                   { label: "Duration", value: "9 Weeks" },
                   { label: "Hands-On", value: "5 weeks remodeling" },
-                  { label: "Tuition", value: "$0 — Fully Funded" },
                   { label: "Orientation", value: "1.5 hours, Tuesdays" },
                   { label: "Location", value: "4201 N 27th St, Milwaukee" },
                   { label: "Support", value: "Child care, transport, housing" },
@@ -76,7 +75,7 @@ export default function ConstructionPage() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">Ready to <span className="text-primary">Build?</span></h2>
-          <p className="text-text-light text-lg mb-10">Book a free orientation to learn about the program and start your career in the trades.</p>
+          <p className="text-text-light text-lg mb-10">Book an orientation to learn about the program and start your career in the trades.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={BOOKING.construction} className="px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Book Orientation</Link>
             <Link href="/contact" className="px-8 py-4 border border-primary text-primary text-sm uppercase tracking-wider rounded-md hover:bg-primary/10 transition-colors">Ask a Question</Link>

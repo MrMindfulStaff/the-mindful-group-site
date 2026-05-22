@@ -20,7 +20,7 @@ export const ALLOCATIONS: Allocation[] = [
     pct: 20,
     name: "Non-WIOA Access",
     description:
-      "Funds training slots for participants not eligible for government subsidies \u2014 ensuring zero-tuition extends beyond the WIOA-eligible population.",
+      "Funds training slots for participants not eligible for government subsidies \u2014 extending access beyond the WIOA-eligible population.",
   },
   {
     pct: 30,

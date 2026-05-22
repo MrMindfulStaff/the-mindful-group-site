@@ -27,7 +27,7 @@ const testimonials = [
   },
   {
     quote:
-      "The construction program changed everything. I learned how to actually build something with my hands. Now I'm working on real job sites and they're talking about me getting into the apprenticeship program. Zero tuition. Zero excuses.",
+      "The construction program changed everything. I learned how to actually build something with my hands. Now I'm working on real job sites and they're talking about me getting into the apprenticeship program. No excuses.",
     name: "DeAndre W.",
     program: "Construction Training",
     year: "2024",
@@ -51,7 +51,7 @@ const testimonials = [
   },
   {
     quote:
-      "The mental health counseling was the part nobody talks about, but it's what kept me going. Training is stressful. Life is stressful. Having someone to talk to — confidentially, for free — that's the difference between finishing and dropping out.",
+      "The mental health counseling was the part nobody talks about, but it's what kept me going. Training is stressful. Life is stressful. Having someone to talk to — confidentially — that's the difference between finishing and dropping out.",
     name: "Keisha B.",
     program: "CNA Training + Mental Health Counseling",
     year: "2023",
@@ -79,7 +79,7 @@ const impactStats = [
   { stat: "525+", label: "People Trained" },
   { stat: "~90%", label: "Graduation Rate" },
   { stat: "~85%", label: "Job Placement" },
-  { stat: "$0", label: "Tuition Charged" },
+  { stat: "$65M+", label: "Wages Generated" },
 ];
 
 export default function TestimonialsPage() {
@@ -185,7 +185,7 @@ export default function TestimonialsPage() {
           </h2>
           <p className="text-white/80 text-lg mb-10">
             Join the 525+ people who have transformed their lives through The
-            Mindful Group. Zero tuition. Full support. Real careers.
+            Mindful Group. Full support. Real careers.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

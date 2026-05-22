@@ -44,7 +44,6 @@ export default function ChildcarePage() {
                 { label: "Children", value: "Up to 2 children" },
                 { label: "Eligibility", value: "Program graduates" },
                 { label: "Trigger", value: "Loss of state benefits after employment" },
-                { label: "Cost", value: "Free to participants" },
               ].map((d) => (
                 <div key={d.label} className="flex justify-between border-b border-border-light pb-3">
                   <span className="text-text-light text-sm">{d.label}</span>

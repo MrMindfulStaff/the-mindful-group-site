@@ -6,7 +6,7 @@ import { BOOKING } from "@/lib/booking";
 export const metadata: Metadata = {
   title: "Programs | The Mindful Group",
   description:
-    "Zero-tuition workforce training programs: CNA/CBRF, Construction, Financial Literacy, Career Development, and Mental Health Counseling in Milwaukee.",
+    "Workforce training programs: CNA/CBRF, Construction, Financial Literacy, Career Development, and Mental Health Counseling in Milwaukee.",
 };
 
 const programs = [
@@ -14,9 +14,8 @@ const programs = [
     title: "CNA/CBRF Training",
     tag: "Healthcare",
     description:
-      "State-certified nursing assistant and community-based residential facility training. Launch a healthcare career with zero tuition and direct job placement through Mindful Staffing.",
+      "State-certified nursing assistant and community-based residential facility training. Launch a healthcare career with direct job placement through Mindful Staffing.",
     details: [
-      "Zero tuition — fully funded",
       "State-certified CNA and CBRF curriculum",
       "Orientation sessions on Tuesdays",
       "Direct employment pipeline",
@@ -95,7 +94,7 @@ export default function ProgramsPage() {
             Training Programs
           </p>
           <h1 className="text-4xl md:text-6xl font-heading text-text leading-tight mb-8">
-            Zero Tuition. <span className="text-primary">Real Careers.</span>
+            Real Skills. <span className="text-primary">Real Careers.</span>
           </h1>
           <p className="text-text-light text-lg max-w-3xl">
             Industry-recognized training with full wraparound support. Every

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Financial Literacy | The Mindful Group",
-  description: "Free financial literacy training in Milwaukee. Budgeting, saving, investing, and credit building.",
+  description: "Financial literacy training in Milwaukee. Budgeting, saving, investing, and credit building.",
 };
 
 export default function FinancialLiteracyPage() {

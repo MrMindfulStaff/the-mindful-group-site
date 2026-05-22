@@ -79,7 +79,7 @@ export default function OGImage() {
             { stat: "525+", label: "Trained" },
             { stat: "90%", label: "Graduation" },
             { stat: "85%", label: "Job Placement" },
-            { stat: "$0", label: "Tuition" },
+            { stat: "$65M+", label: "Wages" },
           ].map((m) => (
             <div
               key={m.label}

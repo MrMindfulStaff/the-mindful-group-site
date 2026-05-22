@@ -17,7 +17,7 @@ export default function GetInvolvedPage() {
             Invest in <span className="text-primary">What Works</span>
           </h1>
           <p className="text-text-light text-lg max-w-3xl">
-            Every contribution powers zero-tuition training, wraparound support, and direct job placement for Milwaukee&apos;s underserved communities. Your support creates measurable, lasting impact.
+            Every contribution powers workforce training, wraparound support, and direct job placement for Milwaukee&apos;s underserved communities. Your support creates measurable, lasting impact.
           </p>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default function GetInvolvedPage() {
               { stat: "525+", label: "People Trained" },
               { stat: "90%", label: "Graduation Rate" },
               { stat: "85%", label: "Job Placement" },
-              { stat: "$0", label: "Tuition to Students" },
+              { stat: "$65M+", label: "Wages Generated" },
             ].map((s) => (
               <div key={s.label} className="bg-white border border-border-light rounded-lg p-6">
                 <p className="text-3xl font-heading text-primary mb-2">{s.stat}</p>

@@ -5,7 +5,7 @@ import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Career Development | The Mindful Group",
-  description: "Resume building, interview prep, and career coaching in Milwaukee. Free career development support.",
+  description: "Resume building, interview prep, and career coaching in Milwaukee. Career development support.",
 };
 
 export default function CareerDevelopmentPage() {
@@ -49,7 +49,7 @@ export default function CareerDevelopmentPage() {
               ))}
             </ul>
             <div className="mt-6 space-y-3">
-              {[{ label: "Duration", value: "1 hour per session" }, { label: "Format", value: "1-on-1, by request" }, { label: "Location", value: "4201 N 27th St" }, { label: "Cost", value: "Free" }].map((d) => (
+              {[{ label: "Duration", value: "1 hour per session" }, { label: "Format", value: "1-on-1, by request" }, { label: "Location", value: "4201 N 27th St" }].map((d) => (
                 <div key={d.label} className="flex justify-between border-b border-border-light pb-2">
                   <span className="text-text-light text-sm">{d.label}</span>
                   <span className="text-text text-sm">{d.value}</span>

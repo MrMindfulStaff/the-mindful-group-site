@@ -213,7 +213,7 @@ export default function OrientationBookingForm({ slots }: Props) {
         {status === "sending" ? "Booking…" : "Reserve My Spot"}
       </button>
       <p className="text-text-light text-xs">
-        Orientations are held at 4201 N 27th St, Suite 500, Milwaukee. Bring a valid ID. Zero tuition, no prerequisites.
+        Orientations are held at 4201 N 27th St, Milwaukee — First Floor Conference Room (rear parking lot, northwest entrance). No prerequisites.
       </p>
     </form>
   );

@@ -16,14 +16,14 @@ const metrics = [
   { value: 525, suffix: "+", label: "People Trained" },
   { value: 90, suffix: "%", label: "Graduation Rate" },
   { value: 85, suffix: "%", label: "Job Placement" },
-  { value: 0, prefix: "$", suffix: "", label: "Tuition Charged" },
+  { value: 65, prefix: "$", suffix: "M+", label: "Wages Generated" },
 ];
 
 const programs = [
   {
     title: "CNA/CBRF Training",
     description:
-      "State-certified nursing assistant and community-based residential facility training. Launch a healthcare career with zero tuition.",
+      "State-certified nursing assistant and community-based residential facility training. Launch a healthcare career with hands-on instruction and direct job placement.",
     href: "/programs/cna-cbrf",
     duration: "5 Weeks",
     tag: "Healthcare",
@@ -241,8 +241,8 @@ function FallbackHome() {
               Your Career <span className="text-primary">Starts Here</span>
             </h2>
             <p className="text-text-light text-lg max-w-3xl mb-6">
-              Industry-recognized training programs with zero tuition, hands-on
-              experience, and direct employment pipelines. Every program
+              Industry-recognized training programs with hands-on
+              experience and direct employment pipelines. Every program
               includes full wraparound support.
             </p>
           </AnimatedSection>
@@ -330,7 +330,7 @@ function FallbackHome() {
               </p>
               <blockquote className="text-xl md:text-2xl font-heading text-text leading-relaxed mb-6">
                 &ldquo;The Mindful Group trained me when no one else would take a chance.
-                Zero tuition, real support, and a job waiting on the other side.
+                Real support, and a job waiting on the other side.
                 That&apos;s not a program — that&apos;s a pipeline.&rdquo;
               </blockquote>
               <p className="text-primary font-semibold text-sm">
@@ -379,7 +379,7 @@ function FallbackHome() {
                 </h3>
                 <p className="text-text-light text-sm leading-relaxed mb-8">
                   Attend an orientation session to learn about our programs, meet
-                  our team, and begin your journey. No tuition. No prerequisites.
+                  our team, and begin your journey. No prerequisites.
                   Just show up ready to change your life.
                 </p>
                 <Link
@@ -400,10 +400,9 @@ function FallbackHome() {
                   Invest in What Works
                 </h3>
                 <p className="text-text-light text-sm leading-relaxed mb-8">
-                  525+ trained, 90% graduation rate, 85% job placement —
-                  with zero tuition charged to students. Your investment creates
-                  direct, measurable impact in Milwaukee&apos;s most underserved
-                  communities.
+                  525+ trained, 90% graduation rate, 85% job placement.
+                  Your investment creates direct, measurable impact in
+                  Milwaukee&apos;s most underserved communities.
                 </p>
                 <Link
                   href="/get-involved"

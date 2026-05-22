@@ -6,7 +6,7 @@ import { BOOKING } from "@/lib/booking";
 export const metadata: Metadata = {
   title: "CNA/CBRF Training | The Mindful Group",
   description:
-    "Zero-tuition CNA and CBRF training in Milwaukee. State-certified nursing assistant program with job placement, child care, transportation, and housing support.",
+    "CNA and CBRF training in Milwaukee. State-certified nursing assistant program with job placement, child care, transportation, and housing support.",
 };
 
 export default function CNACBRFPage() {
@@ -25,7 +25,7 @@ export default function CNACBRFPage() {
             CNA/CBRF <span className="text-primary">Training</span>
           </h1>
           <p className="text-text-light text-lg max-w-3xl mb-10">
-            The best CNA training in Milwaukee. Launch a healthcare career with zero tuition, state certification, and direct employment placement through our staffing partners.
+            The best CNA training in Milwaukee. Launch a healthcare career with state certification and direct employment placement through our staffing partners.
           </p>
           <Link
             href={BOOKING.cnaCbrf}
@@ -51,7 +51,7 @@ export default function CNACBRFPage() {
               <h2 className="text-2xl md:text-3xl font-heading text-text mb-6">The Mindful Way Medical Training Program</h2>
               <div className="space-y-4 text-text-light leading-relaxed">
                 <p>Our CNA/CBRF training program provides comprehensive, state-certified nursing assistant and community-based residential facility training to prepare you for immediate employment in healthcare.</p>
-                <p>Students receive hands-on clinical training, classroom instruction, and certification preparation — all at zero cost. Upon completion, graduates are connected directly to healthcare employers through Mindful Staffing Solutions.</p>
+                <p>Students receive hands-on clinical training, classroom instruction, and certification preparation. Upon completion, graduates are connected directly to healthcare employers through Mindful Staffing Solutions.</p>
                 <p>This isn&apos;t just training — it&apos;s a complete career launch system. Every student receives wraparound support including child care assistance, transportation, and housing help to ensure nothing stands between them and their certification.</p>
               </div>
             </div>
@@ -59,7 +59,6 @@ export default function CNACBRFPage() {
               <h3 className="text-text font-semibold text-sm uppercase tracking-wider mb-6">Program Details</h3>
               <div className="space-y-4">
                 {[
-                  { label: "Tuition", value: "$0 — Fully Funded" },
                   { label: "Orientation", value: "1.5 hours, Tuesdays" },
                   { label: "Location", value: "4201 N 27th St, Milwaukee" },
                   { label: "Certification", value: "State CNA & CBRF" },
@@ -90,7 +89,7 @@ export default function CNACBRFPage() {
             Take the <span className="text-primary">First Step</span>
           </h2>
           <p className="text-text-light text-lg mb-10">
-            Book a free orientation to learn more about the program, meet our team, and start your journey into healthcare.
+            Book an orientation to learn more about the program, meet our team, and start your journey into healthcare.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

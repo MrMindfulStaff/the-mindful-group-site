@@ -22,7 +22,7 @@ export default function Footer() {
             <p className="text-white/70 text-sm leading-relaxed mb-4">
               Community First. Opportunity Always.
               <br />
-              Zero-tuition workforce training and holistic support in Milwaukee.
+              Workforce training and holistic support in Milwaukee.
             </p>
             <div className="text-white/70 text-sm space-y-1">
               <p>4201 N 27th Street, Suite 500</p>

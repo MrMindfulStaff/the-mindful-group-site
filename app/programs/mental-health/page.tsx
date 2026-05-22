@@ -5,7 +5,7 @@ import { BOOKING } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Mental Health Counseling | The Mindful Group",
-  description: "Free confidential mental health counseling in Milwaukee. Coping strategies, emotional wellness, and stress management.",
+  description: "Confidential mental health counseling in Milwaukee. Coping strategies, emotional wellness, and stress management.",
 };
 
 export default function MentalHealthPage() {
@@ -49,7 +49,7 @@ export default function MentalHealthPage() {
               ))}
             </ul>
             <div className="mt-6 space-y-3">
-              {[{ label: "Duration", value: "1 hour" }, { label: "Format", value: "Request to Book" }, { label: "Location", value: "4201 N 27th St" }, { label: "Cost", value: "Free" }].map((d) => (
+              {[{ label: "Duration", value: "1 hour" }, { label: "Format", value: "Request to Book" }, { label: "Location", value: "4201 N 27th St" }].map((d) => (
                 <div key={d.label} className="flex justify-between border-b border-border-light pb-2">
                   <span className="text-text-light text-sm">{d.label}</span>
                   <span className="text-text text-sm">{d.value}</span>
@@ -63,7 +63,7 @@ export default function MentalHealthPage() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-heading text-text mb-6">You Don&apos;t Have to Do This <span className="text-primary">Alone</span></h2>
-          <p className="text-text-light text-lg mb-10">Request a counseling session. Everything is confidential and there&apos;s no cost to you.</p>
+          <p className="text-text-light text-lg mb-10">Request a counseling session. Everything is confidential.</p>
           <Link href={BOOKING.mentalHealth} className="inline-block px-8 py-4 bg-accent text-white font-semibold text-sm uppercase tracking-wider rounded-md hover:bg-accent-light transition-colors">Request to Book</Link>
         </div>
       </section>

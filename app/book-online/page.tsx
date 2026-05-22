@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Book an Orientation | The Mindful Group",
-  description: "Book a free orientation for CNA/CBRF Training, Construction Training, Career Development, Mental Health Counseling, or Financial Literacy. Zero tuition. Milwaukee, WI.",
+  description: "Book an orientation for CNA/CBRF Training, Construction Training, Career Development, Mental Health Counseling, or Financial Literacy. Milwaukee, WI.",
 };
 
 const services = [
@@ -19,7 +19,7 @@ const services = [
     tag: "Healthcare",
     schedule: "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
-    description: "Launch a healthcare career with zero tuition. Our CNA/CBRF training orientation walks you through the program, requirements, timeline, and next steps. Leave with a clear path to certification.",
+    description: "Our CNA/CBRF training orientation walks you through the program, requirements, timeline, and next steps. Leave with a clear path to certification.",
     whatToExpect: [
       "Program overview and curriculum walkthrough",
       "Certification requirements explained",
@@ -36,7 +36,7 @@ const services = [
     tag: "Trades",
     schedule: "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
-    description: "Enter the construction trades with hands-on training and zero tuition. This orientation covers the full pre-apprenticeship program, safety certification, and direct employment pipeline.",
+    description: "Enter the construction trades with hands-on training. This orientation covers the full pre-apprenticeship program, safety certification, and direct employment pipeline.",
     whatToExpect: [
       "Pre-apprenticeship program overview",
       "OSHA safety certification path",
@@ -76,7 +76,6 @@ const services = [
       "Stress and anxiety management",
       "Trauma-informed care approach",
       "Referrals to specialized services when needed",
-      "No cost to participants",
     ],
     href: "/contact",
     programPage: "/programs/mental-health",
@@ -130,7 +129,7 @@ export default async function BookOnlinePage() {
             Book an <span className="text-accent">Orientation</span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mb-4">
-            Every journey starts with a single step. Choose a program below and book your free orientation — no tuition, no prerequisites, just show up.
+            Every journey starts with a single step. Choose a program below and book your orientation — no prerequisites, just show up.
           </p>
           <div className="flex flex-wrap gap-6 text-white/50 text-sm">
             <div className="flex items-center gap-2">
@@ -167,7 +166,7 @@ export default async function BookOnlinePage() {
             <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">Reserve Your Seat</p>
             <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">Book Your Orientation</h2>
             <p className="text-text-light text-sm mb-6 max-w-2xl">
-              Pick a program and an upcoming Tuesday. Orientations are free, in-person, and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — <Link href="/contact" className="text-primary hover:text-primary-light transition-colors">contact us</Link> for those.
+              Pick a program and an upcoming Tuesday. Orientations are in-person and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — <Link href="/contact" className="text-primary hover:text-primary-light transition-colors">contact us</Link> for those.
             </p>
             <div className="mb-8 flex items-start gap-2 rounded-md bg-surface border border-border-light px-4 py-3">
               <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
