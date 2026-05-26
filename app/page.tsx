@@ -76,36 +76,39 @@ const supportServices = [
 function FallbackHome() {
   return (
     <>
-      {/* NEW Image Hero */}
-      <section className="relative w-full overflow-hidden mt-[72px]" style={{ aspectRatio: "1200/628", minHeight: 280, maxHeight: 700 }}>
+      {/* NEW Image Hero — natural-scaling so % overlays stay locked to image pixels */}
+      <section className="relative w-full mt-[72px]">
         <Image
           src="/images/tmg-hero.png"
           alt="Permanent doors out of poverty — The Mindful Group"
-          fill
-          className="object-cover object-top"
+          width={1200}
+          height={628}
+          className="w-full h-auto block"
           priority
         />
         {/* Logo — top center */}
-        <div className="absolute top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 z-10">
+        <div className="absolute top-[3%] left-1/2 -translate-x-1/2 z-10">
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
             width={100}
             height={100}
-            className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 object-contain drop-shadow-xl"
+            className="w-[5vw] min-w-[40px] max-w-[80px] h-auto object-contain drop-shadow-xl"
           />
         </div>
-        {/* Transparent clickable overlays sized to sit exactly over the image buttons */}
+        {/* Transparent overlays — % values map directly to image pixels (1200×628) */}
+        {/* START YOUR JOURNEY: x≈35, y≈348, w≈185, h≈42 */}
         <Link
           href="/book-online"
           className="absolute z-10 rounded hover:bg-white/10 transition-colors"
-          style={{ top: "54.5%", left: "2.8%", width: "15.2%", height: "7.2%" }}
+          style={{ top: "55.4%", left: "2.9%", width: "15.4%", height: "6.7%" }}
           aria-label="Start Your Journey — Book an orientation"
         />
+        {/* OUR PROGRAMS: x≈228, y≈348, w≈148, h≈42 */}
         <Link
           href="/programs"
           className="absolute z-10 rounded hover:bg-white/10 transition-colors"
-          style={{ top: "54.5%", left: "18.8%", width: "12.8%", height: "7.2%" }}
+          style={{ top: "55.4%", left: "19%", width: "12.3%", height: "6.7%" }}
           aria-label="Our Programs"
         />
       </section>
