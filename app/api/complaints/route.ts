@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           from: "Complaint Form <noreply@themindfulgroupinc.org>",
-          to: ["Info@TheMindfulGroupInc.Org"],
+          to: ["reginald@themindfulgroupinc.org"],
           subject: `Participant Complaint: ${firstName.trim()} ${lastName.trim()} — ${complaintAbout || "General"}`,
           text: emailBody,
         }),

@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         from: "The Mindful Group <noreply@themindfulgroupinc.org>",
-        to: ["Info@TheMindfulGroupInc.Org"],
+        to: ["reginald@themindfulgroupinc.org"],
         reply_to: email.trim(),
         subject: `Inquiry: ${serviceLabel} — ${firstName.trim()} ${lastName.trim()}`,
         text,
