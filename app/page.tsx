@@ -95,21 +95,19 @@ function FallbackHome() {
             className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 object-contain drop-shadow-xl"
           />
         </div>
-        {/* Functional buttons — positioned to match the visual buttons in the image */}
-        <div className="absolute z-10 flex flex-wrap gap-2 sm:gap-3" style={{ top: "57%", left: "3%" }}>
-          <Link
-            href="/book-online"
-            className="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-[#C9A030] hover:bg-[#b8911f] text-black text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap shadow-md"
-          >
-            Start Your Journey →
-          </Link>
-          <Link
-            href="/programs"
-            className="px-3 py-1.5 sm:px-5 sm:py-2.5 border border-white/80 bg-black/10 text-white text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider rounded hover:bg-white/20 transition-colors whitespace-nowrap shadow-md"
-          >
-            Our Programs
-          </Link>
-        </div>
+        {/* Transparent clickable overlays sized to sit exactly over the image buttons */}
+        <Link
+          href="/book-online"
+          className="absolute z-10 rounded hover:bg-white/10 transition-colors"
+          style={{ top: "54.5%", left: "2.8%", width: "15.2%", height: "7.2%" }}
+          aria-label="Start Your Journey — Book an orientation"
+        />
+        <Link
+          href="/programs"
+          className="absolute z-10 rounded hover:bg-white/10 transition-colors"
+          style={{ top: "54.5%", left: "18.8%", width: "12.8%", height: "7.2%" }}
+          aria-label="Our Programs"
+        />
       </section>
 
       {/* Original Hero (logo removed) */}
