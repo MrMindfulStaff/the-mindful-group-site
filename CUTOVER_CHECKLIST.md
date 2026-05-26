@@ -39,15 +39,22 @@ curl -H "Authorization: Bearer $CRON_SECRET" \
 
 Response should show `smsBreakdown` with counts that match `emailBreakdown`.
 
-## 3. Add domain to Vercel
+## 3. Add domain to Vercel ✅ DONE
 
-In Vercel → the-mindful-group-site → Settings → Domains:
+Both domains have been added via CLI (`npx vercel domains add`).
 
-- [ ] Add `themindfulgroupinc.org`
-- [ ] Add `www.themindfulgroupinc.org` (it will redirect to apex by default)
-- [ ] Note the A record and CNAME Vercel asks for — typically:
-  - Apex: `A 76.76.21.21` (or whatever Vercel shows)
-  - www:  `CNAME cname.vercel-dns.com`
+- [x] `themindfulgroupinc.org` — added to project the-mindful-group-site
+- [x] `www.themindfulgroupinc.org` — added to project the-mindful-group-site
+
+Vercel confirmed the DNS records needed (registrar is **GoDaddy**,
+current nameservers: ns71.domaincontrol.com / ns72.domaincontrol.com):
+
+  | Record | Host | Value |
+  |--------|------|-------|
+  | A      | `@`  | `76.76.21.21` |
+  | CNAME  | `www` | `cname.vercel-dns.com` |
+
+Set these at login.godaddy.com → DNS → themindfulgroupinc.org.
 
 ## 4. Smoke test on the Vercel preview URL
 
@@ -76,13 +83,35 @@ Before flipping DNS, walk through these against
 
 Don't change Wix's domain settings yet — just prepare:
 
-- [ ] Wix dashboard → Bookings → Settings → Online Booking → set to
-  **off** the moment DNS flips. Have this tab open and ready.
-- [ ] Note any forms / contact widgets you'll need to recreate elsewhere
-  (you have inquiry forms + contact form + complaint form on the new site
-  already — confirm no Wix-only intake you forgot)
-- [ ] Export any data you want to keep (we already migrated 303 orientation
-  bookings)
+- [x] Confirmed Wix services — all have `onlineBooking.enabled: true`:
+
+  | Service | Type | Wix ID |
+  |---------|------|--------|
+  | CNA/CBRF Training Orientation | CLASS | `f1065f2c-c70c-49c5-aa36-7a9c0e9f985a` |
+  | Construction Training Orientation | CLASS | `86549878-aa30-4d54-9ad9-c091f9d9c820` |
+  | Career Development Assistance | APPOINTMENT | `34431885-4110-46cd-8c19-1c4f4948821a` |
+  | Mental Health Counseling | APPOINTMENT | `0b9f2188-ff86-402d-acce-493f79dbe018` |
+  | Financial Literacy | CLASS | `09e5f493-29dd-48eb-ae2e-7f2b00c8d9a9` |
+  | Phlebotomy Orientation | CLASS (hidden) | `bf4b0954-96d1-4d3a-9989-739df8082832` |
+
+  **At DNS flip:** disable `onlineBooking` on all five visible services
+  via Wix dashboard (Bookings → each service → Edit → Online Booking → off).
+  Have the Wix dashboard open in a tab before you flip.
+
+  **Alternatively**, I can call the Wix API to bulk-disable them the moment
+  you give the word — no dashboard clicking required.
+
+- [x] Old Wix `/service-page/*` and `/booking-calendar/*` URL paths are
+  covered by 301 redirects in `next.config.ts` (added 2026-05-26) so Google
+  and bookmarks land on the right new-site pages after flip.
+
+- [x] Confirmed no Wix-only intake is missing: the new site has booking
+  forms (CNA/CBRF + Construction orientations via /book-online), inquiry
+  forms (Career Dev / Mental Health / Financial Literacy via /programs/*/inquire),
+  contact form, and complaint form.
+
+- [x] 303 orientation bookings already migrated to VICTORIA. No additional
+  data export needed before cutover.
 
 ## 6. Flip DNS
 
