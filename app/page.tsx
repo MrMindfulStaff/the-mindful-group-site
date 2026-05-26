@@ -76,8 +76,44 @@ const supportServices = [
 function FallbackHome() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-32 pb-12 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[90vh]">
+      {/* NEW Image Hero */}
+      <section className="relative w-full overflow-hidden mt-[72px]" style={{ aspectRatio: "1200/628", minHeight: 280, maxHeight: 700 }}>
+        <Image
+          src="/images/tmg-hero.png"
+          alt="Permanent doors out of poverty — The Mindful Group"
+          fill
+          className="object-cover object-top"
+          priority
+        />
+        {/* Logo — top center */}
+        <div className="absolute top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 z-10">
+          <Image
+            src="/images/tmg-logo.png"
+            alt="The Mindful Group"
+            width={100}
+            height={100}
+            className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 object-contain drop-shadow-xl"
+          />
+        </div>
+        {/* Functional buttons — positioned to match the visual buttons in the image */}
+        <div className="absolute z-10 flex flex-wrap gap-2 sm:gap-3" style={{ top: "57%", left: "3%" }}>
+          <Link
+            href="/book-online"
+            className="px-3 py-1.5 sm:px-5 sm:py-2.5 bg-[#C9A030] hover:bg-[#b8911f] text-black text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap shadow-md"
+          >
+            Start Your Journey →
+          </Link>
+          <Link
+            href="/programs"
+            className="px-3 py-1.5 sm:px-5 sm:py-2.5 border border-white/80 bg-black/10 text-white text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider rounded hover:bg-white/20 transition-colors whitespace-nowrap shadow-md"
+          >
+            Our Programs
+          </Link>
+        </div>
+      </section>
+
+      {/* Original Hero (logo removed) */}
+      <section className="relative pt-16 pb-12 bg-gradient-to-br from-secondary via-secondary to-primary overflow-hidden min-h-[70vh]">
         {/* Abstract flowing wave background */}
         <div className="absolute inset-0 z-[1] overflow-hidden">
           {/* Large slow wave - teal */}
@@ -92,39 +128,20 @@ function FallbackHome() {
           <svg className="absolute -bottom-1 left-0 w-[200%] h-44 md:h-60 animate-[wave_10s_ease-in-out_infinite]" viewBox="0 0 2400 200" preserveAspectRatio="none">
             <path d="M0,140 C200,80 500,180 900,100 C1300,20 1700,160 2400,100 L2400,200 L0,200 Z" fill="#22936F" fillOpacity="0.2" />
           </svg>
-
           {/* Upper ambient wave strokes */}
           <svg className="absolute top-0 left-0 w-[200%] h-full animate-[wave_22s_ease-in-out_infinite]" viewBox="0 0 2400 600" preserveAspectRatio="none">
             <path d="M0,300 C400,200 800,400 1200,250 C1600,100 2000,350 2400,300" fill="none" stroke="#1A7A5C" strokeWidth="2" strokeOpacity="0.15" />
             <path d="M0,200 C300,280 700,120 1100,250 C1500,380 1900,150 2400,200" fill="none" stroke="#E07C3E" strokeWidth="1.5" strokeOpacity="0.12" />
             <path d="M0,400 C500,320 900,480 1300,350 C1700,220 2100,420 2400,400" fill="none" stroke="#22936F" strokeWidth="1.5" strokeOpacity="0.13" />
           </svg>
-
           {/* Mid-level flowing wave */}
           <svg className="absolute top-1/3 left-0 w-[200%] h-48 animate-[wave_16s_ease-in-out_infinite_reverse]" viewBox="0 0 2400 200" preserveAspectRatio="none">
             <path d="M0,100 C600,40 900,180 1500,80 C2100,0 2200,140 2400,100 L2400,200 L0,200 Z" fill="#1A7A5C" fillOpacity="0.08" />
           </svg>
         </div>
 
-        {/* Gradient overlay for text readability — lighter to let waves show */}
+        {/* Gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-secondary/80 via-secondary/50 to-transparent z-[1]" />
-
-        {/* Centered Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-[2] flex justify-center -mb-4"
-        >
-          <Image
-            src="/images/tmg-logo.png"
-            alt="The Mindful Group"
-            width={280}
-            height={280}
-            className="w-44 h-44 md:w-56 md:h-56 object-contain drop-shadow-2xl"
-            priority
-          />
-        </motion.div>
 
         <div className="relative z-[2] max-w-7xl mx-auto px-6 py-4 md:py-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
