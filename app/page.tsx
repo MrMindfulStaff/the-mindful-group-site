@@ -76,7 +76,7 @@ const supportServices = [
 function FallbackHome() {
   return (
     <>
-      {/* NEW Image Hero — natural-scaling so % overlays stay locked to image pixels */}
+      {/* NEW Image Hero */}
       <section className="relative w-full mt-[72px]">
         <Image
           src="/images/tmg-hero.png"
@@ -86,31 +86,35 @@ function FallbackHome() {
           className="w-full h-auto block"
           priority
         />
-        {/* Logo — top center */}
+
+        {/* Logo — top center, 3× larger */}
         <div className="absolute top-[3%] left-1/2 -translate-x-1/2 z-10">
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
-            width={100}
-            height={100}
-            className="w-[5vw] min-w-[40px] max-w-[80px] h-auto object-contain drop-shadow-xl"
+            width={240}
+            height={240}
+            className="w-[15vw] min-w-[120px] max-w-[240px] h-auto object-contain drop-shadow-2xl"
           />
         </div>
-        {/* Transparent overlays — % values map directly to image pixels (1200×628) */}
-        {/* START YOUR JOURNEY: x≈35, y≈348, w≈185, h≈42 */}
-        <Link
-          href="/book-online"
-          className="absolute z-10 rounded hover:bg-white/10 transition-colors"
-          style={{ top: "55.4%", left: "2.9%", width: "15.4%", height: "6.7%" }}
-          aria-label="Start Your Journey — Book an orientation"
-        />
-        {/* OUR PROGRAMS: x≈228, y≈348, w≈148, h≈42 */}
-        <Link
-          href="/programs"
-          className="absolute z-10 rounded hover:bg-white/10 transition-colors"
-          style={{ top: "55.4%", left: "19%", width: "12.3%", height: "6.7%" }}
-          aria-label="Our Programs"
-        />
+
+        {/* Buttons — placed below the subtitle text in the lower-left of the image */}
+        <div className="absolute z-10 flex flex-wrap gap-[1.5%]" style={{ top: "70%", left: "3%" }}>
+          <Link
+            href="/book-online"
+            className="px-[2.5vw] py-[0.8vw] bg-[#C9A030] hover:bg-[#b8911f] text-black font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap shadow-lg text-[1.2vw] min-text-[11px]"
+            style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
+          >
+            Start Your Journey →
+          </Link>
+          <Link
+            href="/programs"
+            className="px-[2.5vw] py-[0.8vw] border-2 border-white/90 text-white font-bold uppercase tracking-wider rounded hover:bg-white/20 transition-colors whitespace-nowrap shadow-lg"
+            style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
+          >
+            Our Programs
+          </Link>
+        </div>
       </section>
 
       {/* Original Hero (logo removed) */}
