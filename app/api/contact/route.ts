@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           from: "Contact Form <noreply@themindfulgroupinc.org>",
-          to: ["reginald@themindfulgroupinc.org"],
+          to: ["Info@TheMindfulGroupInc.Org"],
           subject: `Contact Form: ${firstName.trim()} ${lastName.trim()} (${role || "Not specified"})`,
           text: [
             `Name: ${firstName.trim()} ${lastName.trim()}`,
