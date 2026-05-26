@@ -18,6 +18,14 @@ const DAY_MS = 86_400_000;
 // real cap is enforced server-side by the VICTORIA webhook.
 export const ORIENTATION_CAPACITY = 90;
 
+// Logistics — single source of truth. Used on /book-online (pre-booking
+// panel), in the booking-success state, and in the confirmation email so
+// every channel says the same thing.
+export const ORIENTATION_ADDRESS = "4201 N 27th Street, Milwaukee, WI 53216";
+export const ORIENTATION_ROOM    = "First Floor Conference Room";
+export const ORIENTATION_PARKING = "Park in the rear parking lot and enter through the northwest side of the building.";
+export const ORIENTATION_TIME_LABEL = "11:00 AM";
+
 // Offset (minutes east of UTC; negative in the Americas) for a timezone at a
 // given instant. Uses Intl longOffset ("GMT-05:00") so DST is handled.
 function tzOffsetMinutes(instant: Date, timeZone: string): number {

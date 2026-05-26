@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 // Simple in-memory rate limiter
 const submissions = new Map<string, number[]>();
@@ -25,7 +26,16 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { firstName, lastName, email, phone, role, message } = body;
+    const { firstName, lastName, email, phone, role, message, turnstileToken } = body;
+
+    // Bot challenge — no-ops if Turnstile is not configured.
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip);
+    if (!turnstile.ok) {
+      return Response.json(
+        { error: "We couldn't verify you weren't a bot. Please refresh and try again." },
+        { status: 400 }
+      );
+    }
 
     // Validate required fields
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !message?.trim()) {

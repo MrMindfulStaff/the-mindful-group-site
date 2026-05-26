@@ -16,12 +16,12 @@ export const BOOKING = {
   /** Construction Training Orientation */
   construction: "/book-online#construction",
 
-  /** Career Development Assistance */
-  careerDevelopment: "/book-online#career-development",
+  /** Career Development Assistance — by appointment, routed through inquiry form */
+  careerDevelopment: "/programs/career-development/inquire",
 
-  /** Mental Health Counseling */
-  mentalHealth: "/book-online#mental-health",
+  /** Mental Health Counseling — by appointment, routed through inquiry form */
+  mentalHealth: "/programs/mental-health/inquire",
 
-  /** Financial Literacy */
-  financialLiteracy: "/book-online#financial-literacy",
+  /** Financial Literacy — by appointment, routed through inquiry form */
+  financialLiteracy: "/programs/financial-literacy/inquire",
 };

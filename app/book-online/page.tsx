@@ -1,6 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { upcomingOrientationDates, ORIENTATION_CAPACITY } from "@/lib/orientation-dates";
+import {
+  upcomingOrientationDates,
+  ORIENTATION_CAPACITY,
+  ORIENTATION_ADDRESS,
+  ORIENTATION_ROOM,
+  ORIENTATION_PARKING,
+  ORIENTATION_TIME_LABEL,
+} from "@/lib/orientation-dates";
 import { fetchRemainingByDate } from "@/lib/orientation-availability";
 import OrientationBookingForm from "./OrientationBookingForm";
 
@@ -61,7 +68,7 @@ const services = [
       "Job search strategy and networking",
       "Ongoing support through employment",
     ],
-    href: "/contact",
+    href: "/programs/career-development/inquire",
     programPage: "/programs/career-development",
   },
   {
@@ -77,7 +84,7 @@ const services = [
       "Trauma-informed care approach",
       "Referrals to specialized services when needed",
     ],
-    href: "/contact",
+    href: "/programs/mental-health/inquire",
     programPage: "/programs/mental-health",
   },
   {
@@ -94,7 +101,7 @@ const services = [
       "Banking and savings fundamentals",
       "Tax preparation assistance",
     ],
-    href: "/contact",
+    href: "/programs/financial-literacy/inquire",
     programPage: "/programs/financial-literacy",
   },
 ];
@@ -134,7 +141,7 @@ export default async function BookOnlinePage() {
           <div className="flex flex-wrap gap-6 text-white/50 text-sm">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              4201 N 27th St, Suite 500, Milwaukee, WI 53216
+              {ORIENTATION_ADDRESS} — {ORIENTATION_ROOM}
             </div>
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
@@ -159,6 +166,46 @@ export default async function BookOnlinePage() {
         </div>
       </section>
 
+      {/* Where & how to arrive — shown BEFORE booking so people know what
+          they're signing up for. Mirrors the success-state and confirmation
+          email so all three channels say the exact same thing. */}
+      <section className="pb-8">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="bg-white rounded-lg border border-border-light shadow-sm p-6">
+            <h2 className="text-text font-heading text-lg mb-4">Where &amp; How to Arrive</h2>
+            <div className="grid sm:grid-cols-2 gap-4 text-sm text-text-light">
+              <div className="flex gap-3">
+                <span className="shrink-0 text-base">📍</span>
+                <span>
+                  <strong className="text-text">{ORIENTATION_ADDRESS}</strong>
+                  <br />
+                  {ORIENTATION_ROOM}
+                </span>
+              </div>
+              <div className="flex gap-3">
+                <span className="shrink-0 text-base">🅿️</span>
+                <span>{ORIENTATION_PARKING}</span>
+              </div>
+              <div className="flex gap-3">
+                <span className="shrink-0 text-base">🕚</span>
+                <span>
+                  Arrive a few minutes before <strong className="text-text">{ORIENTATION_TIME_LABEL}</strong>. Orientations run about 90 minutes.
+                </span>
+              </div>
+              <div className="flex gap-3">
+                <span className="shrink-0 text-base">📞</span>
+                <span>
+                  Need to reschedule? Call{" "}
+                  <a href="tel:8334146463" className="text-primary hover:text-primary-light">
+                    833-414-MIND (6463)
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Orientation booking form */}
       <section id="book" className="pb-16 scroll-mt-28">
         <div className="max-w-3xl mx-auto px-6">
@@ -166,7 +213,7 @@ export default async function BookOnlinePage() {
             <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">Reserve Your Seat</p>
             <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">Book Your Orientation</h2>
             <p className="text-text-light text-sm mb-6 max-w-2xl">
-              Pick a program and an upcoming Tuesday. Orientations are in-person and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — <Link href="/contact" className="text-primary hover:text-primary-light transition-colors">contact us</Link> for those.
+              Pick a program and an upcoming Tuesday. Orientations are in-person and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — tell us about your interest on the program page to get scheduled.
             </p>
             <div className="mb-8 flex items-start gap-2 rounded-md bg-surface border border-border-light px-4 py-3">
               <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

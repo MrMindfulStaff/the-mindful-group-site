@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -12,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://the-mindful-group-site.vercel.app"),
+  metadataBase: new URL("https://themindfulgroupinc.org"),
   title: "The Mindful Group | Community First. Opportunity Always.",
   description:
     "Milwaukee's workforce training nonprofit. CNA/CBRF, Construction, and Career Development programs with wraparound support. 525+ trained. 90% graduation rate. 85% job placement.",
@@ -57,6 +58,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ChatWidget />
+        <Analytics />
       </body>
     </html>
   );

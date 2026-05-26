@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 const submissions = new Map<string, number[]>();
 const RATE_LIMIT = 3;
@@ -29,8 +30,17 @@ export async function POST(req: NextRequest) {
       complaintAbout, funderResponse, rightsViolated, funderServiceProvider,
       trainingProvider, harmCaused, powerOfAttorney, meetingDate,
       otherTrainingProvider, desiredCourse, remedySeeking, otherExplanation,
-      fileWithWorkforceBoard, hasSigned,
+      fileWithWorkforceBoard, hasSigned, turnstileToken,
     } = body;
+
+    // Bot challenge — no-ops if Turnstile is not configured.
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip);
+    if (!turnstile.ok) {
+      return Response.json(
+        { error: "We couldn't verify you weren't a bot. Please refresh and try again." },
+        { status: 400 }
+      );
+    }
 
     // Validate required fields
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim()) {

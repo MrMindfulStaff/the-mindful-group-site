@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Turnstile, { readTurnstileToken } from "@/components/Turnstile";
 
 interface SlotWithSeats {
   iso: string;
@@ -40,6 +41,7 @@ export default function OrientationBookingForm({ slots }: Props) {
       lastName:  (form.elements.namedItem("lastName")   as HTMLInputElement).value,
       email:     (form.elements.namedItem("email")      as HTMLInputElement).value,
       phone:     (form.elements.namedItem("phone")      as HTMLInputElement).value,
+      turnstileToken: readTurnstileToken(form),
     };
 
     try {
@@ -207,6 +209,8 @@ export default function OrientationBookingForm({ slots }: Props) {
       </div>
 
       {status === "error" && <p className="text-red-600 text-sm">{errorMsg}</p>}
+
+      <Turnstile />
 
       <button
         type="submit"

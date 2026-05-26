@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Turnstile, { readTurnstileToken } from "@/components/Turnstile";
 
 export default function ComplaintForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -82,6 +83,7 @@ export default function ComplaintForm() {
       otherExplanation: getValue("otherExplanation"),
       fileWithWorkforceBoard: getValue("fileWithWorkforceBoard"),
       hasSigned,
+      turnstileToken: readTurnstileToken(form),
     };
 
     try {
@@ -338,6 +340,8 @@ export default function ComplaintForm() {
       {status === "error" && (
         <p className="text-red-600 text-sm">{errorMsg}</p>
       )}
+
+      <Turnstile />
 
       <button
         type="submit"

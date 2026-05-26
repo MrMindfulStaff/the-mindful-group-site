@@ -7,12 +7,17 @@
 
 import { NextRequest } from "next/server";
 import { randomUUID } from "crypto";
-import { ORIENTATION_PROGRAMS, type OrientationProgramId } from "@/lib/orientation-dates";
+import {
+  ORIENTATION_PROGRAMS,
+  ORIENTATION_ADDRESS,
+  ORIENTATION_ROOM,
+  ORIENTATION_PARKING,
+  type OrientationProgramId,
+} from "@/lib/orientation-dates";
+import { normalizeUsPhone } from "@/lib/phone";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 const VICTORIA_WEBHOOK = "https://www.victorialms.com/api/webhooks/bookings";
-const ORIENTATION_ADDRESS = "4201 N 27th Street, Milwaukee, WI 53216";
-const ORIENTATION_ROOM = "First Floor Conference Room";
-const ORIENTATION_PARKING = "Park in the rear parking lot and enter through the northwest side of the building.";
 
 // Best-effort booking confirmation email via Resend (same setup as the contact
 // form). Never throws — a booking must succeed even if the email fails.
@@ -111,7 +116,18 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { program, dateIso, firstName, lastName, email, phone } = body ?? {};
+    const { program, dateIso, firstName, lastName, email, phone, turnstileToken } = body ?? {};
+
+    // Bot challenge — no-ops if Turnstile is not configured (early-cutover
+    // safety). Once TURNSTILE_SECRET_KEY is set on Vercel, all bookings must
+    // come with a valid token.
+    const turnstile = await verifyTurnstileToken(turnstileToken, ip);
+    if (!turnstile.ok) {
+      return Response.json(
+        { error: "We couldn't verify you weren't a bot. Please refresh and try again." },
+        { status: 400 }
+      );
+    }
 
     // Program must be a known orientation
     const serviceName = ORIENTATION_PROGRAMS[program as OrientationProgramId];
@@ -144,6 +160,17 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "One or more fields exceed the maximum length." }, { status: 400 });
     }
 
+    // Phone must be a real US number — SMS reminders go to it. Normalize once
+    // here so VICTORIA stores the canonical E.164 form ("+14145551212") and the
+    // reminder cron can hand it to Twilio without re-parsing.
+    const normalizedPhone = normalizeUsPhone(phone);
+    if (!normalizedPhone) {
+      return Response.json(
+        { error: "Please enter a valid US phone number (e.g. 414-555-1212)." },
+        { status: 400 }
+      );
+    }
+
     const secret = process.env.BOOKINGS_WEBHOOK_SECRET;
     if (!secret) {
       console.error("[book] BOOKINGS_WEBHOOK_SECRET not configured");
@@ -159,7 +186,7 @@ export async function POST(req: NextRequest) {
       serviceName,
       customerName: `${firstName.trim()} ${lastName.trim()}`,
       customerEmail: email.trim(),
-      customerPhone: phone?.trim() || null,
+      customerPhone: normalizedPhone,
       startTime: start.toISOString(),
       programInterest: serviceName,
     };

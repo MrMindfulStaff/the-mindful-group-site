@@ -1,17 +1,21 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
 
-const BASE_URL = "https://the-mindful-group-site.vercel.app";
+const BASE_URL = "https://themindfulgroupinc.org";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { url: "/", priority: 1.0 },
+    { url: "/book-online", priority: 0.95 },
     { url: "/programs", priority: 0.9 },
     { url: "/programs/cna-cbrf", priority: 0.8 },
     { url: "/programs/construction", priority: 0.8 },
     { url: "/programs/career-development", priority: 0.8 },
+    { url: "/programs/career-development/inquire", priority: 0.7 },
     { url: "/programs/financial-literacy", priority: 0.7 },
+    { url: "/programs/financial-literacy/inquire", priority: 0.6 },
     { url: "/programs/mental-health", priority: 0.7 },
+    { url: "/programs/mental-health/inquire", priority: 0.6 },
     { url: "/support", priority: 0.8 },
     { url: "/support/childcare", priority: 0.7 },
     { url: "/support/housing", priority: 0.7 },
@@ -23,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/get-involved", priority: 0.8 },
     { url: "/employment", priority: 0.7 },
     { url: "/contact", priority: 0.7 },
+    { url: "/participant-complaints", priority: 0.4 },
     { url: "/blog", priority: 0.5 },
   ];
 

@@ -1,5 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
+import {
+  upcomingOrientationDates,
+  ORIENTATION_ADDRESS,
+  ORIENTATION_ROOM,
+} from "@/lib/orientation-dates";
 
 // Simple in-memory rate limiter
 const requests = new Map<string, number[]>();
@@ -15,14 +20,21 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-const SYSTEM_PROMPT = `You are the AI assistant for The Mindful Group, a 501(c)(3) nonprofit workforce training organization in Milwaukee, Wisconsin. You help two audiences: prospective students and partners/funders.
+// Build the system prompt at request time so the orientation date list stays
+// current — never returns past Tuesdays to a prospective student.
+function buildSystemPrompt(): string {
+  const upcoming = upcomingOrientationDates(6)
+    .map((s) => s.label)
+    .join("; ");
+
+  return `You are the AI assistant for The Mindful Group, a 501(c)(3) nonprofit workforce training organization in Milwaukee, Wisconsin. You help two audiences: prospective students and partners/funders.
 
 Your tone is warm, clear, and encouraging — like a helpful staff member at the front desk. Not corporate. Not overly casual. You are knowledgeable, patient, and direct.
 
 ## CORE INFORMATION
 
 **Organization:** The Mindful Group Inc.
-**Address:** 4201 N 27th Street, Suite 500, Milwaukee, WI 53216
+**Address:** ${ORIENTATION_ADDRESS} (orientations meet in the ${ORIENTATION_ROOM})
 **Phone:** 833-414-MIND (6463)
 **Email:** Info@TheMindfulGroupInc.Org
 **Founded:** 2019
@@ -35,7 +47,7 @@ Your tone is warm, clear, and encouraging — like a helpful staff member at the
 
 **Construction Training** — 9-week building trades program with 5 weeks hands-on remodeling. Graduates eligible for the Mindful Way Homeowner Program (rent-to-own homes remodeled by students).
 
-**ORIENTATION SCHEDULE:** Orientations are held every other Tuesday at 11:00 AM at 4201 N 27th St, Suite 500, Milwaukee. The schedule anchors from March 31, 2026 as the next orientation, then April 14, April 28, May 12, May 26, and so on (every 2 weeks). IMPORTANT: When someone asks about orientation times, always direct them to the booking page for the most current availability: /book-online — do NOT guess dates beyond the known pattern. Say "every other Tuesday at 11:00 AM" and link to the booking page to see available dates.
+**ORIENTATION SCHEDULE:** Orientations are held every other Tuesday at 11:00 AM at ${ORIENTATION_ADDRESS} in the ${ORIENTATION_ROOM}. Park in the rear parking lot and enter through the northwest side of the building. The next six upcoming orientation dates are: ${upcoming}. IMPORTANT: When someone asks about orientation times, share the next 1–2 upcoming dates above and always direct them to /book-online for live seat availability — only the booking page knows which sessions are full. Do NOT guess dates beyond the list above.
 
 **Financial Literacy** — Budgeting, saving, investing, credit building. Contact for session availability.
 
@@ -99,6 +111,7 @@ Reginald Reed Jr. (Founder/Executive Director), Regina Flores (Board Chair), Jiq
 7. Never fabricate information. If you don't know, say so and direct to staff.
 8. Keep responses concise — 2-4 sentences for simple questions, more for complex ones.
 9. Only suggest calling when the question genuinely requires a human (eligibility, legal, crisis). For standard questions about programs, enrollment, services — give the answer AND the link.`;
+}
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY || process.env.anthropic_api_key,
@@ -137,7 +150,7 @@ export async function POST(req: NextRequest) {
     const response = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 500,
-      system: SYSTEM_PROMPT,
+      system: buildSystemPrompt(),
       messages: recentMessages,
     });
 

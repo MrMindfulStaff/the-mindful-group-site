@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Turnstile, { readTurnstileToken } from "@/components/Turnstile";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -19,6 +20,7 @@ export default function ContactForm() {
       phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
       role: (form.elements.namedItem("role") as HTMLSelectElement).value,
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      turnstileToken: readTurnstileToken(form),
     };
 
     try {
@@ -148,6 +150,8 @@ export default function ContactForm() {
       {status === "error" && (
         <p className="text-red-600 text-sm">{errorMsg}</p>
       )}
+
+      <Turnstile />
 
       <button
         type="submit"
