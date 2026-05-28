@@ -41,9 +41,6 @@ export const metadata: Metadata = {
     description:
       "Milwaukee's workforce training nonprofit. 525+ trained. 90% graduation rate. 85% job placement.",
   },
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
