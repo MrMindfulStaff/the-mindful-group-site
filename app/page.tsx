@@ -77,7 +77,7 @@ function FallbackHome() {
   return (
     <>
       {/* NEW Image Hero */}
-      <section className="relative w-full mt-[72px]">
+      <section className="relative w-full max-w-5xl mx-auto mt-[72px]">
         <Image
           src="/images/tmg-hero.png"
           alt="Permanent doors out of poverty — The Mindful Group"
