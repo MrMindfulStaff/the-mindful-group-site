@@ -58,6 +58,14 @@ export default function Navigation() {
               {l.label}
             </Link>
           ))}
+          <a
+            href="https://www.victorialms.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 border border-primary text-primary font-semibold text-xs uppercase tracking-wider hover:bg-primary hover:text-white transition-colors rounded-md"
+          >
+            Student Login
+          </a>
           <Link
             href={BOOKING.general}
             className="px-6 py-2 bg-accent text-white font-semibold text-xs uppercase tracking-wider hover:bg-accent-light transition-colors rounded-md"
@@ -105,10 +113,19 @@ export default function Navigation() {
                   {l.label}
                 </Link>
               ))}
+              <a
+                href="https://www.victorialms.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="block mt-4 px-6 py-3 border border-primary text-primary font-semibold text-xs uppercase tracking-wider text-center hover:bg-primary hover:text-white transition-colors rounded-md"
+              >
+                Student Login
+              </a>
               <Link
                 href={BOOKING.general}
                 onClick={() => setOpen(false)}
-                className="block mt-4 px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider text-center hover:bg-accent-light transition-colors rounded-md"
+                className="block mt-2 px-6 py-3 bg-accent text-white font-semibold text-xs uppercase tracking-wider text-center hover:bg-accent-light transition-colors rounded-md"
               >
                 Enroll Now
               </Link>
