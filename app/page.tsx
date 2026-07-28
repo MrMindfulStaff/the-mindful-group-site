@@ -87,14 +87,24 @@ function FallbackHome() {
           priority
         />
 
-        {/* Logo — top center, 3× larger */}
-        <div className="absolute top-[3%] left-1/2 -translate-x-1/2 z-10">
+        {/* Logos — flanking the hero, one on each side, vertically centered */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-[3%] z-10">
           <Image
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
             width={240}
             height={240}
-            className="w-[15vw] min-w-[120px] max-w-[240px] h-auto object-contain drop-shadow-2xl"
+            className="w-[13vw] min-w-[80px] max-w-[200px] h-auto object-contain drop-shadow-2xl"
+          />
+        </div>
+        <div className="absolute top-1/2 -translate-y-1/2 right-[3%] z-10">
+          <Image
+            src="/images/tmg-logo.png"
+            alt=""
+            aria-hidden="true"
+            width={240}
+            height={240}
+            className="w-[13vw] min-w-[80px] max-w-[200px] h-auto object-contain drop-shadow-2xl"
           />
         </div>
 
