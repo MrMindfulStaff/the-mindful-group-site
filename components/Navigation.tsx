@@ -37,7 +37,7 @@ export default function Navigation() {
             src="/images/tmg-logo.png"
             alt="The Mindful Group"
             width={120}
-            height={65}
+            height={120}
             className="h-12 w-auto"
             priority
           />

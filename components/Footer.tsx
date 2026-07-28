@@ -12,8 +12,8 @@ export default function Footer() {
                 src="/images/tmg-logo.png"
                 alt="The Mindful Group"
                 width={40}
-                height={22}
-                className="h-6 w-auto brightness-0 invert"
+                height={40}
+                className="h-10 w-auto"
               />
               <h3 className="text-white font-heading text-lg">
                 The Mindful Group
