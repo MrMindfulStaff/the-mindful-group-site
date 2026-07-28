@@ -76,54 +76,59 @@ const supportServices = [
 function FallbackHome() {
   return (
     <>
-      {/* NEW Image Hero */}
-      <section className="relative w-full max-w-5xl mx-auto mt-[72px]">
-        <Image
-          src="/images/tmg-hero.png"
-          alt="Permanent doors out of poverty — The Mindful Group"
-          width={1200}
-          height={628}
-          className="w-full h-auto block"
-          priority
-        />
+      {/* NEW Image Hero — hero image centered with flanking medallions */}
+      <section className="w-full mt-[72px] px-4 md:px-8">
+        <div className="mx-auto flex items-center justify-center gap-4 md:gap-8 max-w-[1600px]">
+          {/* Left medallion — hidden on small screens where it would crowd */}
+          <div className="hidden md:block flex-shrink-0">
+            <Image
+              src="/images/tmg-logo.png"
+              alt="The Mindful Group"
+              width={320}
+              height={320}
+              className="w-[18vw] max-w-[280px] h-auto object-contain drop-shadow-2xl"
+            />
+          </div>
 
-        {/* Logos — flanking the hero, one on each side, vertically centered */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-[3%] z-10">
-          <Image
-            src="/images/tmg-logo.png"
-            alt="The Mindful Group"
-            width={240}
-            height={240}
-            className="w-[13vw] min-w-[80px] max-w-[200px] h-auto object-contain drop-shadow-2xl"
-          />
-        </div>
-        <div className="absolute top-1/2 -translate-y-1/2 right-[3%] z-10">
-          <Image
-            src="/images/tmg-logo.png"
-            alt=""
-            aria-hidden="true"
-            width={240}
-            height={240}
-            className="w-[13vw] min-w-[80px] max-w-[200px] h-auto object-contain drop-shadow-2xl"
-          />
-        </div>
+          {/* Hero image + overlay buttons */}
+          <div className="relative w-full max-w-5xl">
+            <Image
+              src="/images/tmg-hero.png"
+              alt="Permanent doors out of poverty — The Mindful Group"
+              width={1200}
+              height={628}
+              className="w-full h-auto block"
+              priority
+            />
+            <div className="absolute z-10 flex flex-wrap gap-[1.5%]" style={{ top: "70%", left: "3%" }}>
+              <Link
+                href="/book-online"
+                className="px-[2.5vw] py-[0.8vw] bg-[#C9A030] hover:bg-[#b8911f] text-black font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap shadow-lg text-[1.2vw] min-text-[11px]"
+                style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
+              >
+                Start Your Journey →
+              </Link>
+              <Link
+                href="/programs"
+                className="px-[2.5vw] py-[0.8vw] border-2 border-white/90 text-white font-bold uppercase tracking-wider rounded hover:bg-white/20 transition-colors whitespace-nowrap shadow-lg"
+                style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
+              >
+                Our Programs
+              </Link>
+            </div>
+          </div>
 
-        {/* Buttons — placed below the subtitle text in the lower-left of the image */}
-        <div className="absolute z-10 flex flex-wrap gap-[1.5%]" style={{ top: "70%", left: "3%" }}>
-          <Link
-            href="/book-online"
-            className="px-[2.5vw] py-[0.8vw] bg-[#C9A030] hover:bg-[#b8911f] text-black font-bold uppercase tracking-wider rounded transition-colors whitespace-nowrap shadow-lg text-[1.2vw] min-text-[11px]"
-            style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
-          >
-            Start Your Journey →
-          </Link>
-          <Link
-            href="/programs"
-            className="px-[2.5vw] py-[0.8vw] border-2 border-white/90 text-white font-bold uppercase tracking-wider rounded hover:bg-white/20 transition-colors whitespace-nowrap shadow-lg"
-            style={{ fontSize: "clamp(11px, 1.2vw, 15px)" }}
-          >
-            Our Programs
-          </Link>
+          {/* Right medallion */}
+          <div className="hidden md:block flex-shrink-0">
+            <Image
+              src="/images/tmg-logo.png"
+              alt=""
+              aria-hidden="true"
+              width={320}
+              height={320}
+              className="w-[18vw] max-w-[280px] h-auto object-contain drop-shadow-2xl"
+            />
+          </div>
         </div>
       </section>
 
