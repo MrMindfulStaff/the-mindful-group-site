@@ -148,8 +148,12 @@ export async function POST(req: NextRequest) {
     const recentMessages = messages.slice(-20);
 
     const response = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 500,
+      model: "claude-opus-5",
+      // Opus 5 thinks before answering and max_tokens caps thinking + answer
+      // together. At the previous 500 the visible reply would be truncated or
+      // empty. Replies stay short (2-4 sentences per the system prompt) —
+      // the extra budget is thinking headroom, not longer answers.
+      max_tokens: 4000,
       system: buildSystemPrompt(),
       messages: recentMessages,
     });
