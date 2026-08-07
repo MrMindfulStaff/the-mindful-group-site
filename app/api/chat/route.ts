@@ -158,10 +158,11 @@ export async function POST(req: NextRequest) {
       messages: recentMessages,
     });
 
-    const text =
-      response.content.length > 0 && response.content[0].type === "text"
-        ? response.content[0].text
-        : "";
+    // Find the text block rather than assuming it is first. Thinking-capable
+    // models emit thinking blocks ahead of the answer, so content[0] is not
+    // reliably the text block.
+    const textBlock = response.content.find((b) => b.type === "text");
+    const text = textBlock?.type === "text" ? textBlock.text : "";
 
     return Response.json({ message: text });
   } catch (error: unknown) {
