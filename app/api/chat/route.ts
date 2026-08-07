@@ -162,7 +162,42 @@ export async function POST(req: NextRequest) {
     return Response.json({ message: text });
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    console.error("Chat API error:", errMsg);
+
+    // Label the failure class in the logs so an outage is diagnosable at a
+    // glance instead of guesswork. Logs which env var NAME resolved — never
+    // the key value itself.
+    if (error instanceof Anthropic.APIError) {
+      const status = error.status ?? 0;
+      const keyVar = process.env.ANTHROPIC_API_KEY
+        ? "ANTHROPIC_API_KEY"
+        : process.env.anthropic_api_key
+          ? "anthropic_api_key"
+          : "NONE";
+
+      let cause: string;
+      if (status === 401) cause = "AUTH — key rejected (expired/revoked/invalid)";
+      else if (status === 403) cause = "PERMISSION — key lacks access to this model";
+      else if (status === 404) cause = "MODEL — model ID not found (likely retired)";
+      else if (status === 429) cause = "RATE LIMIT — upstream throttling";
+      else if (status >= 500) cause = "UPSTREAM — Anthropic service error";
+      else cause = `API ${status}`;
+
+      console.error(
+        `Chat API error: ${cause} | key var resolved: ${keyVar} | ${errMsg}`
+      );
+
+      // Transient upstream trouble: ask the visitor to retry rather than
+      // sending them to the phone line.
+      if (status === 429 || status >= 500) {
+        return Response.json(
+          { error: "We're getting a lot of questions right now. Please try again in a moment." },
+          { status: 503 }
+        );
+      }
+    } else {
+      console.error("Chat API error: NON-API failure |", errMsg);
+    }
+
     return Response.json(
       { error: "Something went wrong. Please call us at 833-414-MIND (6463)." },
       { status: 500 }
