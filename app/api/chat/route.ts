@@ -1,6 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
 import {
+  ORIENTATION_BOOKING_PAUSED,
+  QCNA,
   upcomingOrientationDates,
   ORIENTATION_ADDRESS,
   ORIENTATION_ROOM,
@@ -100,7 +102,13 @@ Reginald Reed Jr. (Founder/Executive Director), Regina Flores (Board Chair), Jiq
 - **Contact page:** /contact
 - **File a complaint:** /participant-complaints
 
-## BEHAVIORAL RULES
+${ORIENTATION_BOOKING_PAUSED ? `## TRAINING IS PAUSED — THIS OVERRIDES EVERYTHING ABOVE AND BELOW
+
+The Mindful Group is NOT providing training until further notice. Orientations are canceled and no new orientations are being scheduled. Do NOT offer orientation dates, do NOT tell anyone to book at /book-online, and do NOT say anyone can enroll.
+
+If someone asks about CNA/CBRF training, orientation, or enrolling, tell them training is paused until further notice and refer them to our training partner, ${QCNA.name}: phone ${QCNA.phone} (${QCNA.hours}), email ${QCNA.email}, classes and locations at ${QCNA.websiteUrl}. Always tell them to say The Mindful Group sent them. For construction training, say it is paused until further notice and they can call 833-414-MIND (6463) with questions.
+
+` : ""}## BEHAVIORAL RULES
 
 1. Always be warm and encouraging. Many people reaching out are taking a big step.
 2. **For enrollment/signup questions, ALWAYS provide the direct booking link.** Example: "You can enroll by booking an orientation here: /book-online — just pick a date and show up! No prerequisites."

@@ -7,6 +7,8 @@ import {
   ORIENTATION_ROOM,
   ORIENTATION_PARKING,
   ORIENTATION_TIME_LABEL,
+  ORIENTATION_BOOKING_PAUSED,
+  QCNA,
 } from "@/lib/orientation-dates";
 import { fetchRemainingByDate } from "@/lib/orientation-availability";
 import OrientationBookingForm from "./OrientationBookingForm";
@@ -24,7 +26,7 @@ const services = [
     id: "cna-cbrf",
     title: "CNA/CBRF Training Orientation",
     tag: "Healthcare",
-    schedule: "Every other Tuesday at 11:00 AM",
+    schedule: ORIENTATION_BOOKING_PAUSED ? "Paused until further notice" : "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
     description: "Our CNA/CBRF training orientation walks you through the program, requirements, timeline, and next steps. Leave with a clear path to certification.",
     whatToExpect: [
@@ -41,7 +43,7 @@ const services = [
     id: "construction",
     title: "Construction Training Orientation",
     tag: "Trades",
-    schedule: "Every other Tuesday at 11:00 AM",
+    schedule: ORIENTATION_BOOKING_PAUSED ? "Paused until further notice" : "Every other Tuesday at 11:00 AM",
     duration: "~1.5 hours",
     description: "Enter the construction trades with hands-on training. This orientation covers the full pre-apprenticeship program, safety certification, and direct employment pipeline.",
     whatToExpect: [
@@ -109,8 +111,8 @@ const services = [
 export default async function BookOnlinePage() {
   // Generate a wide window of upcoming biweekly Tuesdays, then keep only the
   // ones with open seats (next-available-onward), Wix-style.
-  const generated = upcomingOrientationDates(12);
-  const remainingByIso = await fetchRemainingByDate(generated.map((s) => s.iso));
+  const generated = ORIENTATION_BOOKING_PAUSED ? [] : upcomingOrientationDates(12);
+  const remainingByIso = ORIENTATION_BOOKING_PAUSED ? {} : await fetchRemainingByDate(generated.map((s) => s.iso));
 
   const withSeats = generated.map((s) => ({
     ...s,
@@ -136,7 +138,9 @@ export default async function BookOnlinePage() {
             Book an <span className="text-accent">Orientation</span>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl mb-4">
-            Every journey starts with a single step. Choose a program below and book your orientation — no prerequisites, just show up.
+            {ORIENTATION_BOOKING_PAUSED
+              ? "Training orientations are paused until further notice. See below for where to go for CNA/CBRF training."
+              : "Every journey starts with a single step. Choose a program below and book your orientation — no prerequisites, just show up."}
           </p>
           <div className="flex flex-wrap gap-6 text-white/50 text-sm">
             <div className="flex items-center gap-2">
@@ -159,8 +163,16 @@ export default async function BookOnlinePage() {
               <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             </div>
             <div>
-              <h2 className="text-text font-heading text-lg">Training Orientations: Every Other Tuesday at 11:00 AM</h2>
-              <p className="text-text-light text-sm mt-1">CNA/CBRF and Construction orientations run on the same biweekly schedule. Career Development, Mental Health, and Financial Literacy are available by appointment.</p>
+              <h2 className="text-text font-heading text-lg">
+                {ORIENTATION_BOOKING_PAUSED
+                  ? "Training Orientations: Paused Until Further Notice"
+                  : "Training Orientations: Every Other Tuesday at 11:00 AM"}
+              </h2>
+              <p className="text-text-light text-sm mt-1">
+                {ORIENTATION_BOOKING_PAUSED
+                  ? "The Mindful Group is not providing training or holding CNA/CBRF or Construction orientations until further notice."
+                  : "CNA/CBRF and Construction orientations run on the same biweekly schedule. Career Development, Mental Health, and Financial Literacy are available by appointment."}
+              </p>
             </div>
           </div>
         </div>
@@ -169,6 +181,7 @@ export default async function BookOnlinePage() {
       {/* Where & how to arrive — shown BEFORE booking so people know what
           they're signing up for. Mirrors the success-state and confirmation
           email so all three channels say the exact same thing. */}
+      {!ORIENTATION_BOOKING_PAUSED && (
       <section className="pb-8">
         <div className="max-w-3xl mx-auto px-6">
           <div className="bg-white rounded-lg border border-border-light shadow-sm p-6">
@@ -205,16 +218,20 @@ export default async function BookOnlinePage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Orientation booking form */}
       <section id="book" className="pb-16 scroll-mt-28">
         <div className="max-w-3xl mx-auto px-6">
           <div className="bg-white rounded-lg border border-border-light shadow-sm p-8">
-            <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">Reserve Your Seat</p>
-            <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">Book Your Orientation</h2>
+            <p className="text-primary text-xs uppercase tracking-[0.3em] mb-3 font-semibold">{ORIENTATION_BOOKING_PAUSED ? "Orientation Update" : "Reserve Your Seat"}</p>
+            <h2 className="text-2xl md:text-3xl font-heading text-text mb-3">{ORIENTATION_BOOKING_PAUSED ? "Orientations Are Paused" : "Book Your Orientation"}</h2>
+            {!ORIENTATION_BOOKING_PAUSED && (
             <p className="text-text-light text-sm mb-6 max-w-2xl">
               Pick a program and an upcoming Tuesday. Orientations are in-person and about 90 minutes. Career Development, Mental Health, and Financial Literacy are by appointment — tell us about your interest on the program page to get scheduled.
             </p>
+            )}
+            {!ORIENTATION_BOOKING_PAUSED && (
             <div className="mb-8 flex items-start gap-2 rounded-md bg-surface border border-border-light px-4 py-3">
               <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <p className="text-text-light text-xs">
@@ -224,7 +241,31 @@ export default async function BookOnlinePage() {
                   : " We show the next available dates with open seats."}
               </p>
             </div>
-            {orientationSlots.length === 0 ? (
+            )}
+            {ORIENTATION_BOOKING_PAUSED ? (
+              <div className="rounded-md border border-amber-300 bg-amber-50 px-5 py-4 text-sm text-amber-900 space-y-3">
+                <p className="font-semibold">Orientations are paused.</p>
+                <p>
+                  The Mindful Group will not be providing training until further notice, and we are not
+                  scheduling orientations. Any upcoming orientation has been canceled.
+                </p>
+                <p>
+                  If you are interested in pursuing CNA/CBRF training, please reach out to our training
+                  partner, <strong>{QCNA.name}</strong>, and tell them The Mindful Group sent you:
+                </p>
+                <ul className="space-y-1">
+                  <li>
+                    Phone: <a href={QCNA.phoneHref} className="font-semibold underline">{QCNA.phone}</a> ({QCNA.hours})
+                  </li>
+                  <li>
+                    Email: <a href={`mailto:${QCNA.email}`} className="font-semibold underline">{QCNA.email}</a>
+                  </li>
+                  <li>
+                    Classes and locations: <a href={QCNA.websiteUrl} className="font-semibold underline">{QCNA.website}</a>
+                  </li>
+                </ul>
+              </div>
+            ) : orientationSlots.length === 0 ? (
               <div className="rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
                 All upcoming orientations are currently full. Please call <a href="tel:8334146463" className="font-semibold underline">833-414-MIND (6463)</a> and we&apos;ll get you on the next available date.
               </div>

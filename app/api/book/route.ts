@@ -12,6 +12,8 @@ import {
   ORIENTATION_ADDRESS,
   ORIENTATION_ROOM,
   ORIENTATION_PARKING,
+  ORIENTATION_BOOKING_PAUSED,
+  QCNA,
   type OrientationProgramId,
 } from "@/lib/orientation-dates";
 import { normalizeUsPhone } from "@/lib/phone";
@@ -106,6 +108,15 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
+  if (ORIENTATION_BOOKING_PAUSED) {
+    return Response.json(
+      {
+        error:
+          `Orientations are paused: The Mindful Group is not providing training until further notice. For CNA/CBRF training, contact ${QCNA.name} at ${QCNA.phone} or ${QCNA.email} and tell them The Mindful Group sent you.`,
+      },
+      { status: 409 }
+    );
+  }
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     if (isRateLimited(ip)) {

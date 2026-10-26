@@ -7,6 +7,23 @@
 // are computed as ANCHOR + N×14 days, so if this is off by a week, every
 // offered date is wrong. Confirm with staff and update if needed.
 
+// Training wind-down (26 Oct 2026): The Mindful Group is not providing training
+// until further notice. While true, /book-online takes no bookings and points
+// CNA/CBRF interest to Quality CNA Training, /api/book refuses, and the chat
+// assistant says so. VICTORIA has its own switch (src/lib/wind-down.ts).
+export const ORIENTATION_BOOKING_PAUSED = true;
+
+// Quality CNA Training's public registration contacts (qualitycnatraining.com).
+export const QCNA = {
+  name: "Quality CNA Training",
+  phone: "(715) 902-1746",
+  phoneHref: "tel:7159021746",
+  hours: "Monday–Friday, 8:00 AM–4:30 PM",
+  email: "Registration@QualityCNAtraining.com",
+  website: "qualitycnatraining.com",
+  websiteUrl: "https://qualitycnatraining.com/locations/",
+} as const;
+
 const ANCHOR_ISO_DATE = "2026-05-26"; // a Tuesday — CONFIRM this is a real orientation date
 const ORIENTATION_HOUR = 11;
 const ORIENTATION_MINUTE = 0; // 11:00 AM Central — matches the existing Wix orientation time
